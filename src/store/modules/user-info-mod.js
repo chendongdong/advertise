@@ -9,6 +9,7 @@ const userInfo = {
     SET_USER_INFO: (state, data) => {
       state.userInfo = data
     }
+
   },
   actions: {
     getUserInfo({ commit }) {
