@@ -57,7 +57,7 @@ const devWebpackConfig = merge(baseWebpackConfig, {
       template: 'index.html',
       inject: true,
       favicon: path.resolve(__dirname, '../favicon.ico'),
-      title: '六首智教（LSIE）-Liushou Intelligence Education',
+      title: '关爱乳腺',
       path: config.dev.assetsPublicPath + config.dev.assetsSubDirectory
     }),
     // copy custom static assets
