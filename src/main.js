@@ -12,6 +12,8 @@ import router from './router'
 import store from './store'
 
 import VueVideoPlayer from 'vue-video-player'
+import VueAwesomeSwiper from 'vue-awesome-swiper'
+Vue.use(VueAwesomeSwiper)
 
 import { AlertPlugin, ToastPlugin, ConfirmPlugin, ConfigPlugin, LoadingPlugin, WechatPlugin, AjaxPlugin } from 'vux'
 
