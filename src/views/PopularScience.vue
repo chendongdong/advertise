@@ -178,7 +178,7 @@
     .swiper-container .swiper-wrapper .swiper-slide img {
       width: 100%;
       height: 100%;
-      background: red;
+      /*background: red;*/
       border-radius: 20px;
     }
     .swiper-container .swiper-wrapper .swiper-slide-prev {
@@ -203,19 +203,19 @@
     }
     .swiper-container .swiper-wrapper .swiper-slide-active {
       width: 70vw;
-      background: yellow;
+      /*background: yellow;*/
       .text-container{
         display: block;
       }
     }
     .save-img{
       position: fixed;
-      top: 0 !important;
+      top: 0;
       bottom: 0;
-      left: 0 !important;
+      left: 0;
       right: 0;
-      width: 100vw !important;
-      height: 100vh !important;
+      width: 100vw;
+      height: 100vh;
       z-index: 2;
       opacity: 0;
     }

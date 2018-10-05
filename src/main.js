@@ -16,7 +16,12 @@ import VueAwesomeSwiper from 'vue-awesome-swiper'
 Vue.use(VueAwesomeSwiper)
 
 import { AlertPlugin, ToastPlugin, ConfirmPlugin, ConfigPlugin, LoadingPlugin, WechatPlugin, AjaxPlugin } from 'vux'
-
+import AlloyFinger from 'alloyfinger/alloy_finger' // 手势库
+import AlloyFingerVue from 'alloyfinger/vue/alloy_finger.vue'
+Vue.use(AlloyFingerVue, {
+  AlloyFinger
+});
+Vue.use(AlloyFingerVue);
 Vue.use(VueVideoPlayer)
 Vue.use(AlertPlugin)
 Vue.use(ToastPlugin, {position: 'bottom'})

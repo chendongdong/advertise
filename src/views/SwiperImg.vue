@@ -1,79 +1,121 @@
 <template>
 	<div class="swiper-img" :style="swiperStyle">
-		<v-swiper-card v-for="(item,index) in swiperCardList" :width="item.width" :height="item.height" :index="index"
-		               :border-width="item.borderWidth" :border-height="item.borderHeight"
-		               :long-press-src="item.longPressSrc"
-		               :img-src="item.imgSrc" :video-src="item.videoSrc" :bgUrl="item.bgUrl" :borderSrc="item.borderSrc"
-		               :key="index" @touchResult="swiperCardTouchResult"></v-swiper-card>
-		<img v-if="index !== 0" class="left btn" src="../assets/left_btn.png" alt="<" @click="clickSwiper(-1)">
-		<img v-if="index !== 3" class="right btn" src="../assets/right_btn.png" alt=">" @click="clickSwiper(1)">
-		<img class="click btn" src="../assets/click_btn.png" alt="v" @click="clickDown">
-		<video ref="video" v-show="isVideoShow" :src="dynamicSrc" @touchend="touchEndResult"></video>
+		<div class="swiper-card" v-for="(item,index) in swiperCardList" :style="{backgroundImage:`url(${item.bgUrl})`}">
+			<div class="container"
+			     :style="{height: item.borderHeight + 'vh',top: item.borderTop + 'vh',backgroundImage: `url(${item.borderImgSrc})`,}">
+				<video :src="item.shortVideoSrc" :style="{height: item.height + 'vh',top: item.videoTop + 'vh'}"
+				       autoplay loop></video>
+				<img :src="item.longPressSrc" alt="长按查看">
+			</div>
+			<video class="big-video" :src="dynamicSrc[index]" preload="auto"></video>
+		</div>
+		<img v-if="index !== 0" :class="['left','btn',{'isTransparent':isSwipering}]" src="../assets/left_btn.png"
+		     alt="右滑">
+		<img v-if="index !== 3" :class="['right','btn',{'isTransparent':isSwipering}]" src="../assets/right_btn.png"
+		     alt="左滑">
+		<img :class="['click','btn',{'isTransparent':isSwipering || !swiperCardList[index].isSatisfied}]"
+		     src="../assets/click_btn.png" alt="查看详细">
+		<canvas :style="{opacity:isCanvasShow?1:0}" ref="canvas" :width="canvasDOM.width" :height="canvasDOM.height"
+		        v-finger:tap="tapArrow" v-finger:swipe="swiper" v-finger:long-tap="longTap"
+		        v-finger:touch-end="touchend"></canvas>
 	</div>
 </template>
 <script>
-	import SwiperCard from '../components/SwiperCard/SwiperCard'
 	import {mapGetters} from 'vuex'
 	import {XButton, XHeader} from 'vux'
 	
 	export default {
 		components: {
 			XButton, XHeader,
-			'v-swiper-card': SwiperCard
 		},
-		
 		data() {
 			return {
-				index: 0,
-				isVideoShow: false,
-				dynamicSrc: '',
+				canvasDOM: {
+					width: 0,
+					height: 0,
+				},
+				longVideoDOM: null,
+				ctx: null,
+				dynamicSrc: ['', '', '', ''],//长视屏播放地址
+				swiperMarkX: null,//标记clientX来确认左右滑
+				touchStartPoint: {
+					clientX: null,
+					clientY: null
+				},
+				index: 0,//标记用户目前正在看的图片的序列号
+				isSwipering: false,//是否正在滑动
+				isCanvasShow: false,//是否显示canvas
+				intervalTimer: null,
+				timeoutTimer: null,
+				canvasPicArr: [],//存储用来在canvas中倒放
+				frameNum: 30,//帧数 video中取图片保证每秒30帧
+				upendSpeed: 2,//倒放倍数
 				swiperCardList: [
 					{
-						width: 21,
-						height: 32.4,
-						borderWidth: 36,
-						borderHeight: 48.8,
+						height: 50.7,
+						videoTop: 8,
+						borderTop: 9.3,
+						borderHeight: 76.3,
 						bgUrl: require('../assets/bg13.png'),
-						borderSrc: require('../assets/frame_border1.png'),
-						imgSrc: require('../assets/frame1.png'),
-						videoSrc: require('../assets/frame1.mp4'),
-						longPressSrc: require('../assets/longPressBtn1.png')
+						borderImgSrc: require('../assets/frame_border1.png'),
+						shortVideoSrc: require('../assets/frame1.mp4'),
+						longPressSrc: require('../assets/longPressBtn1.png'),
+						longVideoSrc: require('../assets/animation1.mp4'),
+						isSatisfied: false,
 					},
 					{
-						width: 21,
-						height: 34.7,
-						borderWidth: 36,
-						borderHeight: 58.9,
+						height: 44.1,
+						videoTop: 9.7,
+						borderTop: 10.8,
+						borderHeight: 74.7,
 						bgUrl: require('../assets/bg24.png'),
-						borderSrc: require('../assets/frame_border2.png'),
-						imgSrc: require('../assets/frame2.png'),
-						videoSrc: require('../assets/frame2.mp4'),
-						longPressSrc: require('../assets/longPressBtn2.png')
+						borderImgSrc: require('../assets/frame_border2.png'),
+						shortVideoSrc: require('../assets/frame2.mp4'),
+						longPressSrc: require('../assets/longPressBtn2.png'),
+						longVideoSrc: require('../assets/animation2.mp4'),
+						isSatisfied: false
 					},
 					{
-						width: 21,
-						height: 24,
-						borderWidth: 36,
-						borderHeight: 52.7,
+						height: 30.5,
+						videoTop: 8.9,
+						borderTop: 18.6,
+						borderHeight: 67,
 						bgUrl: require('../assets/bg13.png'),
-						borderSrc: require('../assets/frame_border3.png'),
-						imgSrc: require('../assets/frame3.png'),
-						videoSrc: require('../assets/frame3.mp4'),
-						longPressSrc: require('../assets/longPressBtn3.png')
+						borderImgSrc: require('../assets/frame_border3.png'),
+						shortVideoSrc: require('../assets/frame3.mp4'),
+						longPressSrc: require('../assets/longPressBtn3.png'),
+						longVideoSrc: require('../assets/animation3.mp4'),
+						isSatisfied: false,
 					},
 					{
-						width: 21,
-						height: 38.6,
-						borderWidth: 36,
-						borderHeight: 64.6,
+						height: 49,
+						videoTop: 14,
+						borderTop: 3.5,
+						borderHeight: 82,
 						bgUrl: require('../assets/bg24.png'),
-						borderSrc: require('../assets/frame_border4.png'),
-						imgSrc: require('../assets/frame4.png'),
-						videoSrc: require('../assets/frame4.mp4'),
-						longPressSrc: require('../assets/longPressBtn4.png')
+						borderImgSrc: require('../assets/frame_border4.png'),
+						shortVideoSrc: require('../assets/frame4.mp4'),
+						longPressSrc: require('../assets/longPressBtn4.png'),
+						longVideoSrc: require('../assets/animation4.mp4'),
+						isSatisfied: false,
 					}
 				],
-				timer: null,
+				longTouchRange: {
+					xRange: [.162, .676],
+					yRange: [.686, .169]
+				},
+				leftArrowRange: {
+					xRange: [.016, .123],
+					yRange: [.374, .088]
+				},
+				rightArrowRange: {
+					xRange: [.861, .123],
+					yRange: [.374, .088]
+				},
+				downArrowRange: {
+					xRange: [.469, .063],
+					yRange: [.899, .016]
+				},
 			}
 		},
 		computed: {
@@ -82,55 +124,143 @@
 				'language'
 			]),
 			swiperStyle() {
-				
 				return {
 					left: `-${this.index}00%`
 				}
 			}
 		},
 		methods: {
-			jumpAnimation() {
-				this.$router.push({path: '/swiper-animation'})
+			validate(clientX, clientY, rangeXMin, rangeXMax, rangeYMin, rangeYMax) {
+				let xRatio = clientX / this.canvasDOM.width, yRatio = clientY / this.canvasDOM.height;
+				return xRatio >= rangeXMin && xRatio <= rangeXMax && yRatio >= rangeYMin && yRatio <= rangeYMax;
 			},
-			clickSwiper(num) {
-				this.index += num;
+			tapArrow(e) {
+				let client = {
+					x: e.changedTouches[0].clientX,
+					y: e.changedTouches[0].clientY
+				};
+				let arr = [this.leftArrowRange, this.rightArrowRange, this.downArrowRange],
+					rangeXMin, rangeXMax, rangeYMin, rangeYMax, tapIndex = null;
+				for (let i = 0; i < 3; i++) {
+					rangeXMin = arr[i].xRange[0];
+					rangeXMax = arr[i].xRange[0] + arr[i].xRange[1];
+					rangeYMin = arr[i].yRange[0];
+					rangeYMax = arr[i].yRange[0] + arr[i].yRange[1];
+					if (this.validate(client.x, client.y, rangeXMin, rangeXMax, rangeYMin, rangeYMax)) {
+						tapIndex = i;
+						break;
+					}
+				}
+				switch (tapIndex) {
+					case 0:
+						if (this.index !== 0) {
+							console.log(this.index);
+							this.setIndex(this.index - 1)
+						}
+						break;
+					case 1:
+						if (this.index !== 3) {
+							this.setIndex(this.index + 1)
+						}
+						break;
+					case 2:
+						if (this.swiperCardList[this.index].isSatisfied) {
+							this.$router.push({path: '/swiper-next'})
+						}
+						break;
+				}
 			},
-			swiperCardTouchResult(index) {
-				console.log(index);
-				this.isVideoShow = true;
-				this.$refs.video.play();
+			swiper(e) {
+				switch (e.direction) {
+					case 'Left':
+						if (this.index !== 3) {
+							this.setIndex(this.index + 1)
+						}
+						break;
+					case 'Right':
+						if (this.index !== 0) {
+							this.setIndex(this.index - 1)
+						}
+						break;
+				}
 			},
-			clickDown() {
-				this.$router.push({path: '/swiper-next'})
+			longTap(e) {
+				let client = {
+					x: e.changedTouches[0].clientX,
+					y: e.changedTouches[0].clientY
+				};
+				let rangeXMin = this.longTouchRange.xRange[0],
+					rangeXMax = this.longTouchRange.xRange[0] + this.longTouchRange.xRange[1],
+					rangeYMin = this.longTouchRange.yRange[0],
+					rangeYMax = this.longTouchRange.yRange[0] + this.longTouchRange.yRange[1];
+				if (this.validate(client.x, client.y, rangeXMin, rangeXMax, rangeYMin, rangeYMax)) {
+					this.canvasPicArr = [];
+					this.timeoutTimer = setTimeout(() => {
+						if (this.intervalTimer !== null) {
+							clearInterval(this.intervalTimer);
+							this.intervalTimer = null;
+						}
+					}, this.longVideoDOM[this.index].duration * 1000);
+					this.longVideoDOM[this.index].play();
+					this.ctx.drawImage(this.longVideoDOM[this.index], 0, 0, this.canvasDOM.width, this.canvasDOM.height);
+					this.isCanvasShow = true;
+					let img, i = 0;
+					this.intervalTimer = setInterval(() => {
+						this.ctx.drawImage(this.longVideoDOM[this.index], 0, 0, this.canvasDOM.width, this.canvasDOM.height);
+						if (i % this.upendSpeed === 0) {
+							img = new Image();
+							img.src = this.$refs.canvas.toDataURL("image/png");
+							this.canvasPicArr[i / this.upendSpeed] = img;
+						}
+						i++;
+					}, 1000 / this.frameNum)
+				}
 			},
-			touchEndResult() {
-				//方式1:playbackRate不能为负数
-				// this.isVideoShow = false;
-				// this.$refs.video.playbackRate = -1;
-				//方式2:currentTime不能及时相应
-				// this.$refs.video.pause();
-				// this.$refs.video.currentTime = 2;
-				// let currentTime = this.$refs.video.currentTime;//.toFixed(1)
-				// this.timer = setInterval(() => {
-				// 	currentTime -= .033;
-				// 	if(currentTime < 0.033){
-				// 		clearInterval(this.timer);
-				// 		this.timer=null;
-				// 	}else{
-				// 		this.$refs.video.currentTime = currentTime
-				// 	}
-				// }, 33.33)
-				//方式3:顺序播放时直接获取到canvas上的图片,然后setinterval倒放
-				
-				//方式4:直接给倒放的视屏
-				
-				
-			}
+			touchend() {
+				if (this.isCanvasShow) {
+					clearInterval(this.intervalTimer);
+					this.longVideoDOM[this.index].pause();
+					if (this.longVideoDOM[this.index].currentTime >= 2) {
+						this.swiperCardList[this.index].isSatisfied = true;
+					}
+					let img = new Image();
+					this.intervalTimer = setInterval(() => {
+						if (this.canvasPicArr.length === 0) {
+							clearInterval(this.intervalTimer);
+							this.intervalTimer = null;
+							this.isCanvasShow = false;
+							this.longVideoDOM[this.index].currentTime = 0;
+						} else {
+							img = this.canvasPicArr.pop();
+							this.ctx.drawImage(img, 0, 0, this.canvasDOM.width, this.canvasDOM.height);
+						}
+					}, 1000 / (this.frameNum * this.upendSpeed));
+				}
+			},
+			setIndex(num) {
+				this.index = num;
+				this.isSwipering = true;
+				if (this.timeoutTimer !== null) {
+					clearTimeout(this.timeoutTimer);
+					this.timeoutTimer = null;
+				}
+				this.timeoutTimer = setTimeout(() => {
+					this.isSwipering = false;
+					clearTimeout(this.timeoutTimer);
+					this.timeoutTimer = null;
+					if (this.dynamicSrc[this.index] === '') {
+						this.dynamicSrc[this.index] = this.swiperCardList[this.index].longVideoSrc;
+					}
+				}, 300)
+			},
 		},
 		mounted() {
-			setTimeout(() => {
-				this.dynamicSrc = require('../assets/animation1.mp4');
-			}, 0)
+			let swiperDOM = document.getElementsByClassName('swiper-img')[0];
+			this.longVideoDOM = document.getElementsByClassName('big-video');
+			this.canvasDOM.width = swiperDOM.getBoundingClientRect().width / 4;
+			this.canvasDOM.height = swiperDOM.getBoundingClientRect().height;
+			this.ctx = this.$refs.canvas.getContext('2d');
+			this.dynamicSrc[0] = require('../assets/animation1.mp4');
 		}
 	}
 </script>
@@ -144,7 +274,36 @@
 		top: 0;
 		left: 0;
 		transition: left .3s linear;
-		video {
+		.swiper-card {
+			width: 100vw;
+			height: 100vh;
+			background-size: 100% 100%;
+			position: relative;
+			.container {
+				width: 100vw;
+				position: absolute;
+				left: 0;
+				background-size: 100% 100%;
+				video {
+					position: absolute;
+					width: 58vw;
+					left: 50%;
+					object-fit: fill;
+					transform: translateX(-50%);
+				}
+				img {
+					display: block;
+					width: 67.6vw;
+					height: 16.9vh;
+					position: absolute;
+					bottom: 0;
+					margin-left: 16.2vw;
+				}
+			}
+			
+		}
+		.big-video {
+			display: none;
 			position: fixed;
 			top: 0;
 			left: 0;
@@ -163,25 +322,35 @@
 		.btn {
 			position: fixed;
 		}
+		.isTransparent {
+			opacity: 0;
+		}
 		.left {
-			width: 4.4rem;
-			height: 5.6rem;
-			left: .6rem;
-			top: 42.5%;
+			width: 12.3vw;
+			height: 8.8vh;
+			left: 1.6vw;
+			top: 42.8%;
 			transform: translateY(-50%);
 		}
 		.right {
-			width: 4.4rem;
-			height: 5.6rem;
-			right: .6rem;
-			top: 42.5%;
+			width: 12.3vw;
+			height: 8.8vh;
+			right: 1.6vw;
+			top: 42.8%;
 			transform: translateY(-50%);
 		}
 		.click {
-			width: 2.3rem;
-			height: 1rem;
+			width: 6.3vw;
+			height: 1.6vh;
 			left: 50%;
 			bottom: 8.5%;
+		}
+		canvas {
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100vw;
+			height: 100vh;
 		}
 	}
 </style>
