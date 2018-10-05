@@ -23,7 +23,7 @@
 <script>
 	import {mapGetters} from 'vuex'
 	import {XButton, XHeader} from 'vux'
-	
+
 	export default {
 		components: {
 			XButton, XHeader,
@@ -300,7 +300,7 @@
 					margin-left: 16.2vw;
 				}
 			}
-			
+
 		}
 		.big-video {
 			display: none;
@@ -344,6 +344,7 @@
 			height: 1.6vh;
 			left: 50%;
 			bottom: 8.5%;
+      transform: translateX(-50%);
 		}
 		canvas {
 			position: fixed;

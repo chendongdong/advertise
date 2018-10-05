@@ -1,17 +1,5 @@
 <template>
   <div class="popular-science">
-    <!--<save-img class="save-html" v-if="!dataUrl"></save-img>-->
-    <!--<img v-if="dataUrl" :src="dataUrl" class="save-image"/>-->
-    <!--<div class="content">-->
-    <!--<div class="title">爱自己 更要分享给你爱的人</div>-->
-    <!--</div>-->
-    <!--<div class="arrow-top"  @click="jump2Next"></div>-->
-    <!--<swiper :options="swiperOption">-->
-    <!--　　<swiper-slide v-for="items in imageUrls" :key="items">-->
-    <!--　　　　<img :src="getPath(items)" alt="">-->
-    <!--　　</swiper-slide>-->
-    <!--　　<div class="swiper-pagination" slot="pagination"></div>-->
-    <!--</swiper>-->
     <div class="swiper-container">
       <div class="swiper-wrapper">
         <div class="swiper-slide" v-for="(item,index) in swiperData" :key="index">
@@ -19,9 +7,9 @@
           <div class="text-container">
             <div class="swiper-title">{{item.title}}</div>
             <div class="swiper-desc" v-html="item.desc"></div>
-            <div class="swiper-desc" v-if="index==2">
+            <div class="swiper-desc" v-if="index==2" style="font-size: 11px; margin-top: 10px">
               <span class="desc-circle"></span>
-              用户姓名(变动长度) 愿成为特殊摄影展的传播人
+              <div class="desc-circle-text">用户姓名(变动长度) 愿成为特殊摄影展的传播人</div>
             </div>
           </div>
         </div>
@@ -129,9 +117,8 @@
     background: url("../assets/icon_science_bcg.png") no-repeat center;
     background-size: 100%;
     width:100vw;
-    height:100vh;
+    height:100%;
     position: relative;
-    padding-top: 10px;
 
     .text-container {
       padding-top: 20px;
@@ -144,68 +131,78 @@
         letter-spacing: 1px;
       }
       .swiper-desc {
-        margin-top: 5px;
+        margin-top: 2px;
         font-family: SourceHanSansCN-Normal;
         font-size: 10px;
         color: #565656;
         letter-spacing: 2px;
+        position: relative;
       }
-      .swiperr-circle {
+      .desc-circle {
         background: #565656;
-        border: 2px solid #FFFFFF;
-        width: 18px;
-        height: 18px;
+        border: 1px solid #FFFFFF;
+        width: 12px;
+        height: 12px;
+        display: inline-block;
+        margin-top: 1.5px;
         border-radius: 50%;
+      }
+      .desc-circle-text{
+        position: absolute;
+        left: 18px;
+        top: 0;
       }
     }
 
     .swiper-container {
       position: fixed;
       width: 100vw;
-      height: 220px;
+      height: 70vh; // 220px
+      box-sizing: border-box;
       padding: 10px 0;
       overflow: visible !important;
       z-index: 3;
-    }
-    .swiper-container .swiper-wrapper .swiper-slide {
-      width: 70vw;
-      height: 100%;
-      border-radius: 20px;
-      .text-container{
-        display: block;
-      }
-    }
-    .swiper-container .swiper-wrapper .swiper-slide img {
-      width: 100%;
-      height: 100%;
-      /*background: red;*/
-      border-radius: 20px;
-    }
-    .swiper-container .swiper-wrapper .swiper-slide-prev {
-      margin-top: 18px;
-      height: 90% !important;
-      .text-container{
-        display: none;
-      }
-    }
-    .swiper-container .swiper-wrapper .swiper-slide-prev img {
-      height: 100% !important;
-    }
-    .swiper-container .swiper-wrapper .swiper-slide-next {
-      margin-top: 18px;
-      height: 90% !important;
-      .text-container{
-        display: none;
-      }
-    }
-    .swiper-container .swiper-wrapper .swiper-slide-next img {
-      height: 100% !important;
-    }
-    .swiper-container .swiper-wrapper .swiper-slide-active {
-      width: 70vw;
-      /*background: yellow;*/
-      .text-container{
-        display: block;
+
+      .swiper-wrapper{
+        .swiper-slide {
+          width: 70vw;
+          height: 80%;
+          .text-container{
+            display: block;
+          }
+          img {
+            width: 100%;
+            height: 100%;
+            /*background: red;*/
+          }
+        }
+        .swiper-slide-prev {
+          margin-top: 18px;
+          height: 70% !important;
+          .text-container{
+            display: none;
+          }
+          img {
+            height: 100% !important;
+          }
+        }
+        .swiper-slide-next {
+          margin-top: 18px;
+          height: 70% !important;
+          .text-container{
+            display: none;
+          }
+          img {
+            height: 100% !important;
+          }
+        }
+        .swiper-slide-active {
+          width: 70vw;
+          /*background: yellow;*/
+          .text-container{
+            display: block;
+          }
+        }
       }
     }
     .save-img{
@@ -225,7 +222,7 @@
       height: 30px;
       left: 50%;
       transform: translateX(-50%);
-      bottom: 100px;
+      bottom: 14%;
       z-index: 1;
     }
     .btn-next{
@@ -234,7 +231,7 @@
       height: 12px;
       left: 50%;
       transform: translateX(-50%);
-      bottom: 42px;
+      bottom: 5%;
       z-index: 3;
     }
   }

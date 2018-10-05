@@ -33,13 +33,13 @@
       jump2Next() {
         setTimeout(() => {
           this.$router.push({path: '/swiper-img'})
-        }, 2000)
+        }, 5000)
       },
       addText(timer=1000) {
         setTimeout(() => {
           if (!this.showOne) {
             this.showOne = true
-            this.addText(1500)
+            this.addText(3000)
           } else if (!this.showTwo) {
             this.showTwo = true
             this.jump2Next()
