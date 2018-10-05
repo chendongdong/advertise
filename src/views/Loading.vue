@@ -33,7 +33,7 @@
       jump2Next() {
         setTimeout(() => {
           this.$router.push({path: '/swiper-img'})
-        }, 5000)
+        }, 4000)
       },
       addText(timer=1000) {
         setTimeout(() => {

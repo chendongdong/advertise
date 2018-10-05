@@ -7,34 +7,24 @@
           <div class="text-container">
             <div class="swiper-title">{{item.title}}</div>
             <div class="swiper-desc" v-html="item.desc"></div>
-            <div class="swiper-desc" v-if="index==2" style="font-size: 11px; margin-top: 10px">
-              <span class="desc-circle"></span>
-              <div class="desc-circle-text">用户姓名(变动长度) 愿成为特殊摄影展的传播人</div>
-            </div>
           </div>
         </div>
       </div>
     </div>
     <img class="btn-save" src="../assets/icon_science_save.png" alt="长按保存">
     <img class="btn-next" src="../assets/click_btn.png" alt="下一页" @click="jump2Next">
-    <!--<div class="save-img"-->
-         <!--v-show="showSaveImg" @touchend="showSaveImg=false"></div>-->
     <img class="save-img" :src="getPath(swiperData[currentIndex].saveImg)">
+    <div @touchstart="touchStart" @touchend="touchEnd" class="slideUp"></div>
   </div>
 </template>
 <script>
   import { mapGetters } from 'vuex'
-  import { XButton, XHeader } from 'vux'
-  import SaveImg from './SaveImg.vue'
   import html2canvas from 'html2canvas'
-
+  import TouchUtils from '../utils/touchUtils'
   import Swiper from 'swiper';
   import 'swiper/dist/css/swiper.min.css';
 
   export default {
-    components: {
-      XButton, XHeader, SaveImg
-    },
     computed: {
       ...mapGetters([
         'userInfo'
@@ -45,7 +35,7 @@
         showSaveImg: false,
         mySwiper: null,
         dataUrl: null,
-        currentIndex:0,
+        currentIndex: 0,
         swiperData: [
           {
             url: 'icon_science_1.png',
@@ -71,11 +61,46 @@
             title: '坚如磐石  也有让其顷刻崩塌的裂痕',
             desc: '男性一生中患乳腺癌的风险大约为1/1000'
           }
-        ]
+        ],
+        startx: null,
+        starty: null,
+        endx: null,
+        endy: null
       }
     },
     methods: {
+      touchStart(e) {
+        console.log('touchStart---')
+        this.startx = e.touches[0].pageX;
+        this.starty = e.touches[0].pageY;
+      },
+      touchEnd(e) {
+        console.log('touchEnd---')
+        this.endx = e.changedTouches[0].pageX;
+        this.endy = e.changedTouches[0].pageY;
+        var direction = TouchUtils.getDirection(this.startx, this.starty, this.endx, this.endy)
+        switch (direction) {
+          case 0:
+            console.log("未滑动！");
+            break;
+          case 1:
+            console.log("向上！")
+            this.$router.push({path: '/ending'})
+            break;
+          case 2:
+            console.log("向下！")
+            break;
+          case 3:
+            console.log("向左！")
+            break;
+          case 4:
+            console.log("向右！")
+            break;
+          default:
+        }
+      },
       jump2Next() {
+        console.log('点击了--')
         this.$router.push({path: '/ending'})
       },
       getPath(name) {
@@ -88,17 +113,12 @@
         this.mySwiper = new Swiper('.swiper-container', {
           direction: 'horizontal',
           loop: true,
-//          autoplay: 5000,
           slidesPerView: "auto",
           centeredSlides: true,
-          spaceBetween: 20,
-          // 如果需要分页器
-          pagination: '.swiper-pagination',
+          spaceBetween: 0, // 两张图片的间距
           on: {
-
             slideChange: function () {
               _myThis.currentIndex = this.activeIndex % 4;
-              console.log('滑动了---：index: ' + _myThis.currentIndex );
             },
           },
         })
@@ -116,14 +136,14 @@
   .popular-science {
     background: url("../assets/icon_science_bcg.png") no-repeat center;
     background-size: 100%;
-    width:100vw;
-    height:100%;
+    width: 100vw;
+    height: 100%;
     position: relative;
 
     .text-container {
-      padding-top: 20px;
-      width: 70vw;
-      margin: 0 auto;
+      width: 63vw;
+      height: 30%;
+      margin: -15% auto 0;
       .swiper-title {
         font-family: SourceHanSansCN-Medium;
         font-size: 16px;
@@ -147,7 +167,7 @@
         margin-top: 1.5px;
         border-radius: 50%;
       }
-      .desc-circle-text{
+      .desc-circle-text {
         position: absolute;
         left: 18px;
         top: 0;
@@ -157,29 +177,30 @@
     .swiper-container {
       position: fixed;
       width: 100vw;
-      height: 70vh; // 220px
+      height: calc(86% - 30px); // 220px
       box-sizing: border-box;
-      padding: 10px 0;
+      padding-top: 5%;
       overflow: visible !important;
       z-index: 3;
+      touch-action: none;
 
-      .swiper-wrapper{
+      .swiper-wrapper {
         .swiper-slide {
-          width: 70vw;
-          height: 80%;
-          .text-container{
+          width: 75vw;
+          height: 85%;
+
+          .text-container {
             display: block;
           }
           img {
             width: 100%;
             height: 100%;
-            /*background: red;*/
           }
         }
         .swiper-slide-prev {
-          margin-top: 18px;
-          height: 70% !important;
-          .text-container{
+          margin-top: 3%;
+          height: 80% !important;
+          .text-container {
             display: none;
           }
           img {
@@ -187,9 +208,9 @@
           }
         }
         .swiper-slide-next {
-          margin-top: 18px;
-          height: 70% !important;
-          .text-container{
+          margin-top: 3%;
+          height: 80% !important;
+          .text-container {
             display: none;
           }
           img {
@@ -197,15 +218,14 @@
           }
         }
         .swiper-slide-active {
-          width: 70vw;
-          /*background: yellow;*/
-          .text-container{
+          width: 75vw;
+          .text-container {
             display: block;
           }
         }
       }
     }
-    .save-img{
+    .save-img {
       position: fixed;
       top: 0;
       bottom: 0;
@@ -216,7 +236,7 @@
       z-index: 2;
       opacity: 0;
     }
-    .btn-save{
+    .btn-save {
       position: absolute;
       width: 80px;
       height: 30px;
@@ -225,7 +245,7 @@
       bottom: 14%;
       z-index: 1;
     }
-    .btn-next{
+    .btn-next {
       position: absolute;
       width: 21px;
       height: 12px;
@@ -233,6 +253,13 @@
       transform: translateX(-50%);
       bottom: 5%;
       z-index: 3;
+    }
+    .slideUp{
+      position: fixed;
+      bottom: 0;
+      width: 100vw;
+      height: 14%;
+      z-index: 4;
     }
   }
 </style>

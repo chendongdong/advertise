@@ -13,17 +13,18 @@
 		     alt="右滑">
 		<img v-if="index !== 3" :class="['right','btn',{'isTransparent':isSwipering}]" src="../assets/right_btn.png"
 		     alt="左滑">
-		<img :class="['click','btn',{'isTransparent':isSwipering || !swiperCardList[index].isSatisfied}]"
+    <!--isSwipering || !swiperCardList[index].isSatisfied-->
+		<img :class="['click','btn',{'isTransparent': false}]"
 		     src="../assets/click_btn.png" alt="查看详细">
 		<canvas :style="{opacity:isCanvasShow?1:0}" ref="canvas" :width="canvasDOM.width" :height="canvasDOM.height"
 		        v-finger:tap="tapArrow" v-finger:swipe="swiper" v-finger:long-tap="longTap"
-		        v-finger:touch-end="touchend"></canvas>
+		        v-finger:touch-end="touchend" @touchstart="touchStart" @touchend="touchEnd"></canvas>
 	</div>
 </template>
 <script>
 	import {mapGetters} from 'vuex'
 	import {XButton, XHeader} from 'vux'
-
+  import TouchUtils from '../utils/touchUtils'
 	export default {
 		components: {
 			XButton, XHeader,
@@ -116,6 +117,10 @@
 					xRange: [.469, .063],
 					yRange: [.899, .016]
 				},
+        startx: null,
+        starty: null,
+        endx: null,
+        endy: null
 			}
 		},
 		computed: {
@@ -130,6 +135,36 @@
 			}
 		},
 		methods: {
+      touchStart(e) {
+        console.log('touchStart---')
+        this.startx = e.touches[0].pageX;
+        this.starty = e.touches[0].pageY;
+      },
+      touchEnd(e) {
+        console.log('touchEnd---')
+        this.endx = e.changedTouches[0].pageX;
+        this.endy = e.changedTouches[0].pageY;
+        var direction = TouchUtils.getDirection(this.startx, this.starty, this.endx, this.endy)
+        switch (direction) {
+          case 0:
+            console.log("未滑动！");
+            break;
+          case 1:
+            console.log("向上！")
+            this.$router.push({path: '/swiper-next'})
+            break;
+          case 2:
+            console.log("向下！")
+            break;
+          case 3:
+            console.log("向左！")
+            break;
+          case 4:
+            console.log("向右！")
+            break;
+          default:
+        }
+      },
 			validate(clientX, clientY, rangeXMin, rangeXMax, rangeYMin, rangeYMax) {
 				let xRatio = clientX / this.canvasDOM.width, yRatio = clientY / this.canvasDOM.height;
 				return xRatio >= rangeXMin && xRatio <= rangeXMax && yRatio >= rangeYMin && yRatio <= rangeYMax;
@@ -164,9 +199,10 @@
 						}
 						break;
 					case 2:
-						if (this.swiperCardList[this.index].isSatisfied) {
+					   console.log('tap 点击了')
+//						if (this.swiperCardList[this.index].isSatisfied) {
 							this.$router.push({path: '/swiper-next'})
-						}
+//						}
 						break;
 				}
 			},
@@ -293,11 +329,12 @@
 				}
 				img {
 					display: block;
-					width: 67.6vw;
-					height: 16.9vh;
+					width: 160px;
+					height: 68px;
 					position: absolute;
-					bottom: 0;
-					margin-left: 16.2vw;
+					bottom: 3%;
+          left: 50%;
+          transform: translateX(-50%);
 				}
 			}
 

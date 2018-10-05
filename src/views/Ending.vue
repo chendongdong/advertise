@@ -13,7 +13,7 @@
 <script>
 	import {mapGetters} from 'vuex'
 	import {XButton, XHeader} from 'vux'
-	
+
 	export default {
 		components: {
 			XButton, XHeader
@@ -41,11 +41,11 @@
 		},
 		methods: {
 			browse(){
-				// window.location.href='http://www.baidu.com';
+				 window.location.href = 'http://bcra.appclaw.com/';
 			}
 		},
 		mounted() {
-		
+
 		}
 	}
 </script>
