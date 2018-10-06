@@ -3,7 +3,7 @@
 		<div class="swiper-card" v-for="(item,index) in swiperCardList" :style="{backgroundImage:`url(${item.bgUrl})`}">
 			<div class="container"
 			     :style="{height: item.borderHeight + 'vh',top: item.borderTop + 'vh',backgroundImage: `url(${item.borderImgSrc})`}">
-				<img class="image" :src="getPath()" :style="{height: item.height + 'vh',top: item.videoTop + 'vh'}">
+				<img class="image" :src="getPath(index)" :style="{height: item.height + 'vh',top: item.videoTop + 'vh'}">
 				<img class="longTap" :src="item.longPressSrc" alt="长按查看">
 			</div>
 			<video class="big-video" :src="dynamicSrc[index]" preload="auto"></video>
@@ -140,10 +140,12 @@
 				return {
 					left: `-${this.index}00%`
 				}
-			},
-      getPath() {
+			}
+		},
+		methods: {
+      getPath(index) {
         let imgIndxFormat = this.imgIndx
-        if (this.index == 0) {
+        if (index == 0) {
           if (imgIndxFormat < 10) {
             imgIndxFormat = '0' + imgIndxFormat
           }
@@ -154,10 +156,8 @@
             imgIndxFormat = '0' + imgIndxFormat
           }
         }
-        return require('../assets/image/' + this.swiperCardList[this.index].direct + imgIndxFormat + '.jpg')
+        return require('../assets/image/' + this.swiperCardList[index].direct + imgIndxFormat + '.jpg')
       },
-		},
-		methods: {
       touchStart(e) {
         console.log('touchStart---')
         this.startx = e.touches[0].pageX;
@@ -316,7 +316,7 @@
 					}
 				}, 300)
 			},
-      changeImgIndx(timer=50) {
+      changeImgIndx(timer=100) {
         setTimeout(() => {
           if (this.imgIndx < this.swiperCardList[this.index].len) {
             this.imgIndx++
