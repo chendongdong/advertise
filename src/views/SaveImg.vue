@@ -1,30 +1,76 @@
 <template>
-  <div  class="save-content" id="captureId">
-    <div class="name">{{userInfo.name}}</div>
-    <div class="img"></div>
-    <div class="text1">世界爱乳日，关爱你的乳房</div>
-    <div class="text2">世界爱乳日，关爱你的乳房</div>
-    <div class="text3">世界爱乳日，关爱你的乳房</div>
-    <div class="text4">世界爱乳日，关爱你的乳房</div>
-    <div class="text5">世界爱乳日，关爱你的乳房</div>
+  <div  class="save-content">
+    <XButton text="上一页" type="primary" @click.native="last"></XButton>
+    <XButton text="下一页" type="primary" @click.native="next"></XButton>
+    <img :src="getPath()" style="width: 55vw;height: 45vh;position: absolute;left:50%;top: 50%;transform: translate(-50%,-50%)">
   </div>
 </template>
 <script>
   import { mapGetters } from 'vuex'
+  import {XButton} from 'vux'
   export default {
+    components: {
+      XButton
+    },
     computed: {
       ...mapGetters([
         'userInfo'
       ])
     },
     data() {
-      return {}
+      return {
+        direct: ['01/01_微动', '02/02_微动', '03/03_微动', '04/04_微动'],
+        imgIndx: 0,
+        dirIdx: 0,
+        len: [90, 100, 100, 100]
+      }
     },
     methods: {
+      last() {
+        if (this.dirIdx > 0) {
+          this.dirIdx--
+          this.imgIndx = 0
+        }
+      },
+      next() {
+        if (this.dirIdx < 3) {
+          this.dirIdx++
+          this.imgIndx = 0
+        }
+      },
+      geturl() {
+        return require('../assets/image/01/01_微动00.jpg')
+      },
+      getPath() {
+        let index = this.imgIndx
+        if (this.dirIdx == 0) {
+          if (index < 10) {
+            index = '0' + index
+          }
+        } else {
+          if (index < 10) {
+            index = '00' + index
+          } else if (index < 100) {
+            index = '0' + index
+          }
+        }
+        console.log('path=' + this.direct[this.dirIdx]+index+'.jpg')
+        return require('../assets/image/' + this.direct[this.dirIdx] + index + '.jpg')
+      },
+      changeIndx(timer=50) {
+        setTimeout(() => {
+          if (this.imgIndx < this.len[this.dirIdx]) {
+            this.imgIndx++
+          } else {
+            this.imgIndx = 0
+          }
+          this.changeIndx()
+        }, timer)
+      }
     },
     mounted() {
       this.$nextTick(function () {
-
+        this.changeIndx()
       })
     }
   }
@@ -32,10 +78,10 @@
 <style lang="scss">
 
   .save-content{
-    background: white;
+    /*background: url("../assets/image/01/01_微动00.jpg") no-repeat center;*/
     width: 100vw;
     height: 100vh;
-    background: red;
+    /*background: red;*/
     top: 0;
     position: fixed;
     text-align: center;

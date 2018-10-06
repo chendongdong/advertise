@@ -2,10 +2,9 @@
 	<div class="swiper-img" :style="swiperStyle">
 		<div class="swiper-card" v-for="(item,index) in swiperCardList" :style="{backgroundImage:`url(${item.bgUrl})`}">
 			<div class="container"
-			     :style="{height: item.borderHeight + 'vh',top: item.borderTop + 'vh',backgroundImage: `url(${item.borderImgSrc})`,}">
-				<video :src="item.shortVideoSrc" :style="{height: item.height + 'vh',top: item.videoTop + 'vh'}"
-				       autoplay loop></video>
-				<img :src="item.longPressSrc" alt="长按查看">
+			     :style="{height: item.borderHeight + 'vh',top: item.borderTop + 'vh',backgroundImage: `url(${item.borderImgSrc})`}">
+				<img class="image" :src="getPath()" :style="{height: item.height + 'vh',top: item.videoTop + 'vh'}">
+				<img class="longTap" :src="item.longPressSrc" alt="长按查看">
 			</div>
 			<video class="big-video" :src="dynamicSrc[index]" preload="auto"></video>
 		</div>
@@ -51,12 +50,15 @@
 				canvasPicArr: [],//存储用来在canvas中倒放
 				frameNum: 30,//帧数 video中取图片保证每秒30帧
 				upendSpeed: 2,//倒放倍数
+        imgIndx: 0,
 				swiperCardList: [
 					{
 						height: 50.7,
 						videoTop: 8,
 						borderTop: 9.3,
 						borderHeight: 76.3,
+						len: 90,
+            direct: '01/01_微动',
 						bgUrl: require('../assets/bg13.png'),
 						borderImgSrc: require('../assets/frame_border1.png'),
 						shortVideoSrc: require('../assets/frame1.mp4'),
@@ -69,6 +71,8 @@
 						videoTop: 9.7,
 						borderTop: 10.8,
 						borderHeight: 74.7,
+            len: 100,
+            direct: '02/02_微动',
 						bgUrl: require('../assets/bg24.png'),
 						borderImgSrc: require('../assets/frame_border2.png'),
 						shortVideoSrc: require('../assets/frame2.mp4'),
@@ -81,6 +85,8 @@
 						videoTop: 8.9,
 						borderTop: 18.6,
 						borderHeight: 67,
+            len: 100,
+            direct: '03/03_微动',
 						bgUrl: require('../assets/bg13.png'),
 						borderImgSrc: require('../assets/frame_border3.png'),
 						shortVideoSrc: require('../assets/frame3.mp4'),
@@ -93,6 +99,8 @@
 						videoTop: 14,
 						borderTop: 3.5,
 						borderHeight: 82,
+            len: 100,
+            direct: '04/04_微动',
 						bgUrl: require('../assets/bg24.png'),
 						borderImgSrc: require('../assets/frame_border4.png'),
 						shortVideoSrc: require('../assets/frame4.mp4'),
@@ -132,7 +140,22 @@
 				return {
 					left: `-${this.index}00%`
 				}
-			}
+			},
+      getPath() {
+        let imgIndxFormat = this.imgIndx
+        if (this.index == 0) {
+          if (imgIndxFormat < 10) {
+            imgIndxFormat = '0' + imgIndxFormat
+          }
+        } else {
+          if (imgIndxFormat < 10) {
+            imgIndxFormat = '00' + imgIndxFormat
+          } else if (imgIndxFormat < 100) {
+            imgIndxFormat = '0' + imgIndxFormat
+          }
+        }
+        return require('../assets/image/' + this.swiperCardList[this.index].direct + imgIndxFormat + '.jpg')
+      },
 		},
 		methods: {
       touchStart(e) {
@@ -191,11 +214,13 @@
 						if (this.index !== 0) {
 							console.log(this.index);
 							this.setIndex(this.index - 1)
+              this.imgIndx = 0
 						}
 						break;
 					case 1:
 						if (this.index !== 3) {
 							this.setIndex(this.index + 1)
+              this.imgIndx = 0
 						}
 						break;
 					case 2:
@@ -211,11 +236,13 @@
 					case 'Left':
 						if (this.index !== 3) {
 							this.setIndex(this.index + 1)
-						}
+              this.imgIndx = 0
+            }
 						break;
 					case 'Right':
 						if (this.index !== 0) {
 							this.setIndex(this.index - 1)
+              this.imgIndx = 0
 						}
 						break;
 				}
@@ -289,14 +316,27 @@
 					}
 				}, 300)
 			},
+      changeImgIndx(timer=50) {
+        setTimeout(() => {
+          if (this.imgIndx < this.swiperCardList[this.index].len) {
+            this.imgIndx++
+          } else {
+            this.imgIndx = 0
+          }
+          this.changeImgIndx()
+        }, timer)
+      }
 		},
 		mounted() {
-			let swiperDOM = document.getElementsByClassName('swiper-img')[0];
-			this.longVideoDOM = document.getElementsByClassName('big-video');
-			this.canvasDOM.width = swiperDOM.getBoundingClientRect().width / 4;
-			this.canvasDOM.height = swiperDOM.getBoundingClientRect().height;
-			this.ctx = this.$refs.canvas.getContext('2d');
-			this.dynamicSrc[0] = require('../assets/animation1.mp4');
+		  this.$nextTick(function () {
+        this.changeImgIndx()
+        let swiperDOM = document.getElementsByClassName('swiper-img')[0];
+        this.longVideoDOM = document.getElementsByClassName('big-video');
+        this.canvasDOM.width = swiperDOM.getBoundingClientRect().width / 4;
+        this.canvasDOM.height = swiperDOM.getBoundingClientRect().height;
+        this.ctx = this.$refs.canvas.getContext('2d');
+        this.dynamicSrc[0] = require('../assets/animation1.mp4');
+      })
 		}
 	}
 </script>
@@ -320,14 +360,14 @@
 				position: absolute;
 				left: 0;
 				background-size: 100% 100%;
-				video {
+				.image,video {
 					position: absolute;
 					width: 58vw;
 					left: 50%;
 					object-fit: fill;
 					transform: translateX(-50%);
 				}
-				img {
+				.longTap {
 					display: block;
 					width: 160px;
 					height: 68px;
