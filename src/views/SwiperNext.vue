@@ -46,6 +46,9 @@
     mounted() {
       this.$nextTick(function () {
         this.addText()
+        document.addEventListener('touchmove', function(e) {
+          e.preventDefault();
+        }, false);
       })
     }
   }

@@ -122,12 +122,6 @@
             },
           },
         })
-//        html2canvas(document.querySelector('#captureId')).then(canvas => {
-//          let imgUrl = canvas.toDataURL('image/png')
-//          this.dataUrl = imgUrl
-//          console.log('生成图片成功')
-//        })
-
       })
     }
   }

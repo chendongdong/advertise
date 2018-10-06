@@ -21,16 +21,6 @@ export const constantRouterMap = [
     name: 'SwiperImg'
   },
   {
-    path: '/swiper-animation',
-    component: _import('SwiperAnimation'),
-    name: 'SwiperAnimation'
-  },
-  {
-    path: '/swiper-info',
-    component: _import('SwiperInfo'),
-    name: 'SwiperInfo'
-  },
-  {
     path: '/swiper-next',
     component: _import('SwiperNext'),
     name: 'SwiperNext'
