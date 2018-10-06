@@ -3,15 +3,15 @@ import Router from 'vue-router'
 
 // const _import = name => require('@/views/' + name + '.vue').default
 
-const Loading = r => require.ensure([], () => r(require('@/views/Loading')), 'Loading')
-const SwiperImg = r => require.ensure([], () => r(require('@/views/SwiperImg')), 'SwiperImg')
-const SwiperNext = r => require.ensure([], () => r(require('@/views/SwiperNext')), 'SwiperNext')
-const PopularScience = r => require.ensure([], () => r(require('@/views/PopularScience')), 'PopularScience')
-const Ending = r => require.ensure([], () => r(require('@/views/Ending')), 'Ending')
+var Loading = r => require.ensure([], () => r(require('@/views/Loading')), 'Loading')
+var SwiperImg = r => require.ensure([], () => r(require('@/views/SwiperImg')), 'SwiperImg')
+var SwiperNext = r => require.ensure([], () => r(require('@/views/SwiperNext')), 'SwiperNext')
+var PopularScience = r => require.ensure([], () => r(require('@/views/PopularScience')), 'PopularScience')
+var Ending = r => require.ensure([], () => r(require('@/views/Ending')), 'Ending')
 
 Vue.use(Router)
 
-export const constantRouterMap = [
+export var constantRouterMap = [
   {
     path: '*',
     redirect: '/'
@@ -43,7 +43,7 @@ export const constantRouterMap = [
   }
 ]
 
-const router = new Router({
+var router = new Router({
   mode: 'history', // require service support
   scrollBehavior: () => ({ y: 0 }),
   routes: constantRouterMap

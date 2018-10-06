@@ -19,7 +19,6 @@
 </template>
 <script>
   import { mapGetters } from 'vuex'
-  import html2canvas from 'html2canvas'
   import TouchUtils from '../utils/touchUtils'
   import Swiper from 'swiper';
   import 'swiper/dist/css/swiper.min.css';

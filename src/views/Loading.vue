@@ -41,7 +41,7 @@
 //          this.$router.push({path: '/swiper-img'})
         }, 4000)
       },
-      addText(timer=1000) {
+      addText(timer=0) {
         setTimeout(() => {
           if (!this.showOne) {
             this.showOne = true
@@ -55,11 +55,14 @@
     },
     mounted() {
       this.$nextTick(function () {
-        this.addText()
+//        this.addText()
         document.addEventListener('touchmove', function(e) {
           e.preventDefault();
         }, false);
       })
+    },
+    created() {
+      window.onload = this.addText
     }
   }
 </script>

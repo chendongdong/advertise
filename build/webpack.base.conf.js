@@ -50,7 +50,28 @@ const webpackConfig = {
       {
         test: /\.js$/,
         loader: 'babel-loader',
-        include: [resolve('src'), resolve('test'), resolve('node_modules/webpack-dev-server/client')]
+        include: [
+          resolve('src'),
+          resolve('test'),
+          resolve('node_modules/webpack-dev-server/client'),
+          // swiper 兼容ios<11 http://www.manongjc.com/article/10294.html
+          resolve('node_modules/swiper'),
+          resolve('node_modules/dom7'),
+          resolve('node_modules/ssr-window')
+        ]
+      },
+      {
+        test: /\.es5$/,
+        loader: 'babel-loader',
+        include: [
+          resolve('src')
+        ],
+        options: {
+          "presets": [
+            ["es2015"],
+            "stage-2"
+          ]
+        }
       },
       {
         test: /\.svg$/,

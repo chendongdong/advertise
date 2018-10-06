@@ -120,8 +120,8 @@
           yRange: [.374, .088]
         },
         downArrowRange: {
-          xRange: [.469, .063],
-          yRange: [.899, .016]
+          xRange: [0, 1],
+          yRange: [.686, .314]
         },
       }
     },
@@ -174,30 +174,32 @@
       swiper(e) {
         switch (e.direction) {
           case 'Left':
-            if (this.index !== 3) {
+            if (this.index !== 3 && !this.isCanvasShow) {
               this.setIndex(this.index + 1)
             }
             break;
           case 'Right':
-            if (this.index !== 0) {
+            if (this.index !== 0 && !this.isCanvasShow) {
               this.setIndex(this.index - 1)
             }
             break;
           case 'Up':
-            let client = {
-              x: e.changedTouches[0].clientX,
-              y: e.changedTouches[0].clientY
-            };
-            let rangeXMin = this.downArrowRange.xRange[0],
-              rangeXMax = this.downArrowRange.xRange[0] + this.downArrowRange.xRange[1],
-              rangeYMin = this.downArrowRange.yRange[0],
-              rangeYMax = this.downArrowRange.yRange[0] + this.downArrowRange.yRange[1];
-            if (this.isSatisfied) {
-              this.$router.push({path: '/swiper-next'})
+            if(this.isSatisfied && !this.isCanvasShow){
+              let client = {
+                x: e.changedTouches[0].clientX,
+                y: e.changedTouches[0].clientY
+              };
+              let rangeXMin = this.downArrowRange.xRange[0],
+                rangeXMax = this.downArrowRange.xRange[0] + this.downArrowRange.xRange[1],
+                rangeYMin = this.downArrowRange.yRange[0],
+                rangeYMax = this.downArrowRange.yRange[0] + this.downArrowRange.yRange[1];
+              console.log(client.x, client.y, rangeXMin, rangeXMax, rangeYMin, rangeYMax);
+              if (this.validate(client.x, client.y, rangeXMin, rangeXMax, rangeYMin, rangeYMax)) {
+                this.$router.push({path: '/swiper-next'})
+              }
             }
+
         }
-
-
       },
       shortVideoPlay(index) {
         if (this.intervalTimer) {
@@ -305,9 +307,9 @@
       document.oncontextmenu = function (e) {
         e.preventDefault();
       };
-//      document.addEventListener('touchmove', function(e) {
-//        e.preventDefault();
-//      }, false);
+      document.addEventListener('touchmove', function (e) {
+        e.preventDefault();
+      }, false);
     }
   }
 </script>
@@ -339,10 +341,10 @@
         }
         img {
           display: block;
-          width: 160px;
-          height: 68px;
+          width: 67.6vw;
+          height: 16.9vh;
           position: absolute;
-          bottom: 3%;
+          bottom: 0;
           left: 50%;
           transform: translateX(-50%);
         }
