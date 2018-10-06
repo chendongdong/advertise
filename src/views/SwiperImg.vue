@@ -192,9 +192,9 @@
               rangeXMax = this.downArrowRange.xRange[0] + this.downArrowRange.xRange[1],
               rangeYMin = this.downArrowRange.yRange[0],
               rangeYMax = this.downArrowRange.yRange[0] + this.downArrowRange.yRange[1];
-//            if (this.validate(client.x, client.y, rangeXMin, rangeXMax, rangeYMin, rangeYMax) && this.isSatisfied) {
+            if (this.isSatisfied) {
               this.$router.push({path: '/swiper-next'})
-//            }
+            }
         }
 
 
@@ -305,9 +305,9 @@
       document.oncontextmenu = function (e) {
         e.preventDefault();
       };
-      document.addEventListener('touchmove', function(e) {
-        e.preventDefault();
-      }, false);
+//      document.addEventListener('touchmove', function(e) {
+//        e.preventDefault();
+//      }, false);
     }
   }
 </script>

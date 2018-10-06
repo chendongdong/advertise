@@ -1,20 +1,24 @@
 <template>
-  <div class="swiper-next">
-    <div class="text">
-      <transition-group name="fade">
-        <div class="line" v-show="showIndex > -1" :key="0"></div>
-        <p v-for="(item, index) in text" :key="index+1" v-show="showIndex > index" :style="{'margin-top': index==0?'25px':'0'}">{{item}}</p >
-        <a  :key="text.length+1" v-show="showIndex > text.length" class="btn-more" @click.prevent="jump2Next">了解更多</a>
-      </transition-group>
+  <div>
+    <popular-science :style="{opacity: showNextPage?1:0}"></popular-science>
+    <div class="swiper-next" v-show="!showNextPage">
+      <div class="text">
+        <transition-group name="fade">
+          <div class="line" v-show="showIndex > -1" :key="0"></div>
+          <p v-for="(item, index) in text" :key="index+1" v-show="showIndex > index" :style="{'margin-top': index==0?'25px':'0'}">{{item}}</p >
+          <a  :key="text.length+1" v-show="showIndex > text.length" class="btn-more" @click.prevent="jump2Next">了解更多</a>
+        </transition-group>
+      </div>
     </div>
   </div>
 </template>
 <script>
   import { mapGetters } from 'vuex'
   import {XButton} from 'vux'
+  import PopularScience from './PopularScience.vue'
   export default {
     components: {
-      XButton
+      XButton, PopularScience
     },
     computed: {
       ...mapGetters([
@@ -24,6 +28,7 @@
     },
     data() {
       return {
+        showNextPage: false,
         showIndex: -1,
         text: ['看似美好的事物背后都隐藏着风险', '我国是乳腺癌发病率',
           '增长最快的国家之一', '每10000人里面', '就有4人确诊患乳腺癌',
@@ -32,7 +37,8 @@
     },
     methods: {
       jump2Next() {
-        this.$router.push({path: '/popular-science'})
+//        this.$router.push({path: '/popular-science'})
+        this.showNextPage = true
       },
       addText(timer=1000) {
         setTimeout(() => {
@@ -59,7 +65,9 @@
     background: #000;
     width: 100vw;
     height: 100vh;
-    position: relative;
+    position: absolute;
+    top: 0;
+    left: 0;
     .btn-more{
       font-family: SourceHanSansCN-Medium;
       font-size: 40px;

@@ -1,38 +1,44 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
-const _import = name => require('@/views/' + name + '.vue').default
+// const _import = name => require('@/views/' + name + '.vue').default
+
+const Loading = r => require.ensure([], () => r(require('@/views/Loading')), 'Loading')
+const SwiperImg = r => require.ensure([], () => r(require('@/views/SwiperImg')), 'SwiperImg')
+const SwiperNext = r => require.ensure([], () => r(require('@/views/SwiperNext')), 'SwiperNext')
+const PopularScience = r => require.ensure([], () => r(require('@/views/PopularScience')), 'PopularScience')
+const Ending = r => require.ensure([], () => r(require('@/views/Ending')), 'Ending')
 
 Vue.use(Router)
 
 export const constantRouterMap = [
   {
-    path: '/',
-    component: _import('Loading'),
-    name: 'Loading'
-  },
-  {
     path: '*',
     redirect: '/'
   },
   {
+    path: '/',
+    component: Loading,
+    name: 'Loading'
+  },
+  {
     path: '/swiper-img',
-    component: _import('SwiperImg'),
+    component: SwiperImg,
     name: 'SwiperImg'
   },
   {
     path: '/swiper-next',
-    component: _import('SwiperNext'),
+    component: SwiperNext,
     name: 'SwiperNext'
   },
   {
     path: '/popular-science',
-    component: _import('PopularScience'),
+    component: PopularScience,
     name: 'PopularScience'
   },
   {
     path: '/ending',
-    component: _import('Ending'),
+    component: Ending,
     name: 'Ending'
   }
 ]

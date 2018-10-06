@@ -131,7 +131,7 @@
     background: url("../assets/icon_science_bcg.png") no-repeat center;
     background-size: 100%;
     width: 100vw;
-    height: 100%;
+    height: 100vh;
     position: relative;
 
     .text-container {
@@ -231,7 +231,7 @@
       opacity: 0;
     }
     .btn-save {
-      position: absolute;
+      position: fixed;
       width: 80px;
       height: 30px;
       left: 50%;
@@ -240,7 +240,7 @@
       z-index: 1;
     }
     .btn-next {
-      position: absolute;
+      position: fixed;
       width: 23px;
       height: 12px;
       left: 50%;

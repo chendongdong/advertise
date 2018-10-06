@@ -1,21 +1,25 @@
 <template>
-  <div class="loading">
-    <div class="text">
-      <transition-group name="fade">
-        <p :key="1" v-show="showOne">你将看到一组特殊的影视作品</p >
-        <p :key="2" v-show="showTwo">它们来自一群「特别」的作者</p >
-      </transition-group>
+  <div>
+    <swiper-img class="components-swiper" :style="{opacity: showSwiper?1:0}"></swiper-img>
+    <div class="loading" v-show="!showSwiper">
+      <div class="text">
+        <transition-group name="fade">
+          <p :key="1" v-show="showOne">你将看到一组特殊的影视作品</p >
+          <p :key="2" v-show="showTwo">它们来自一群「特别」的作者</p >
+        </transition-group>
+      </div>
+      <div class="gif-img"></div>
     </div>
-    <div class="gif-img"></div>
-    <!--<XButton text="查看" type="primary" @click.native="jump2Next"></XButton>-->
   </div>
 </template>
 <script>
   import { mapGetters } from 'vuex'
   import {XButton} from 'vux'
+  import SwiperImg from './SwiperImg.vue'
+
   export default {
     components: {
-      XButton
+      XButton, SwiperImg
     },
     computed: {
       ...mapGetters([
@@ -26,13 +30,15 @@
     data() {
       return {
         showOne: false,
-        showTwo: false
+        showTwo: false,
+        showSwiper: false
       }
     },
     methods: {
       jump2Next() {
         setTimeout(() => {
-          this.$router.push({path: '/swiper-img'})
+          this.showSwiper = true
+//          this.$router.push({path: '/swiper-img'})
         }, 4000)
       },
       addText(timer=1000) {
