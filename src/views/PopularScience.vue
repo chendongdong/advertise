@@ -1,5 +1,7 @@
 <template>
-  <div class="popular-science">
+  <div>
+    <ending :style="{opacity: showEnding?1:0}"></ending>
+  <div class="popular-science" id="content" v-show="!showEnding">
     <div class="swiper-container">
       <div class="swiper-wrapper">
         <div class="swiper-slide" v-for="(item,index) in swiperData" :key="index">
@@ -16,14 +18,19 @@
     <img class="save-img" :src="getPath(swiperData[currentIndex].saveImg)">
     <div @touchstart="touchStart" @touchend="touchEnd" class="slideUp"></div>
   </div>
+  </div>
 </template>
 <script>
   import { mapGetters } from 'vuex'
   import TouchUtils from '../utils/touchUtils'
   import Swiper from 'swiper';
   import 'swiper/dist/css/swiper.min.css';
+  import Ending from './Ending.vue'
 
   export default {
+    components: {
+      Ending
+    },
     computed: {
       ...mapGetters([
         'userInfo'
@@ -31,6 +38,7 @@
     },
     data() {
       return {
+        showEnding: false,
         showSaveImg: false,
         mySwiper: null,
         dataUrl: null,
@@ -84,7 +92,8 @@
             break;
           case 1:
             console.log("向上！")
-            this.$router.push({path: '/ending'})
+            this.showEnding = true
+//            this.$router.push({path: '/ending'})
             break;
           case 2:
             console.log("向下！")
@@ -108,6 +117,18 @@
     },
     mounted() {
       this.$nextTick(function () {
+        let height = document.body.clientHeight
+        let width = document.body.clientWidth
+        let ele = document.getElementById('content')
+        let eleHeight = ele.getBoundingClientRect().height
+        ele.style.height = height +'px'
+        ele.style.backgroundImage = "url(" + require('../assets/icon_science_bcg.png') +")";
+        ele.style.backgroundRepeat = "no-repeat";
+        ele.style.backgroundPosition = "center";
+        ele.style.backgroundSize = width + 'px ' + height + 'px';
+        console.log('eleHeight=' + eleHeight)
+        console.log('height=' + height)
+
         let _myThis = this;
         this.mySwiper = new Swiper('.swiper-container', {
           direction: 'horizontal',
@@ -127,8 +148,6 @@
 </script>
 <style lang="scss">
   .popular-science {
-    background: url("../assets/icon_science_bcg.png") no-repeat center;
-    background-size: 100%;
     width: 100vw;
     height: 100vh;
     position: relative;
@@ -170,7 +189,7 @@
     .swiper-container {
       position: fixed;
       width: 100vw;
-      height: calc(86% - 30px); // 220px
+      height: calc(83% - 30px);
       box-sizing: border-box;
       padding-top: 5%;
       overflow: visible !important;
@@ -235,7 +254,7 @@
       height: 30px;
       left: 50%;
       transform: translateX(-50%);
-      bottom: 14%;
+      bottom: 17%;
       z-index: 1;
     }
     .btn-next {

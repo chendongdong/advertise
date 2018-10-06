@@ -1,5 +1,7 @@
 <template>
-  <div class="swiper-img" :style="swiperStyle">
+  <div>
+    <swiper-next :style="{opacity: showSwiperNext?1:0}" ref="next"></swiper-next>
+  <div class="swiper-img" :style="swiperStyle" v-show="!showSwiperNext">
     <div class="swiper-card" v-for="(item,index) in swiperCardList" :style="{backgroundImage:`url(${item.bgUrl})`}">
       <div class="container"
            :style="{height: item.borderHeight + 'vh',top: item.borderTop + 'vh',backgroundImage: `url(${item.borderImgSrc})`,}">
@@ -23,17 +25,20 @@
             v-finger:long-tap="longTap"
             v-finger:touch-end="touchend"></canvas>
   </div>
+  </div>
 </template>
 <script>
   import {mapGetters} from 'vuex'
   import {XButton, XHeader} from 'vux'
+  import SwiperNext from './SwiperNext.vue'
 
   export default {
     components: {
-      XButton, XHeader,
+      XButton, XHeader, SwiperNext
     },
     data() {
       return {
+        showSwiperNext: false,
         pageSize: {
           width: 0,
           height: 0,
@@ -195,7 +200,9 @@
                 rangeYMax = this.downArrowRange.yRange[0] + this.downArrowRange.yRange[1];
               console.log(client.x, client.y, rangeXMin, rangeXMax, rangeYMin, rangeYMax);
               if (this.validate(client.x, client.y, rangeXMin, rangeXMax, rangeYMin, rangeYMax)) {
-                this.$router.push({path: '/swiper-next'})
+//                this.$router.push({path: '/swiper-next'})
+                this.showSwiperNext = true
+                this.$refs.next.addText()
               }
             }
 

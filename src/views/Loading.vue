@@ -1,6 +1,6 @@
 <template>
   <div>
-    <swiper-img class="components-swiper" :style="{opacity: showSwiper?1:0}"></swiper-img>
+    <swiper-img :style="{opacity: showSwiper?1:0}"></swiper-img>
     <div class="loading" v-show="!showSwiper">
       <div class="text">
         <transition-group name="fade">
@@ -73,7 +73,9 @@
     background-size: cover;
     width: 100vw;
     height: 100vh;
-    position: relative;
+    position: fixed;
+    left: 0;
+    top: 0;
     .gif-img{
       position: absolute;
       bottom: 30px;
