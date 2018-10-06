@@ -247,7 +247,7 @@
     }
     .btn-next {
       position: absolute;
-      width: 21px;
+      width: 23px;
       height: 12px;
       left: 50%;
       transform: translateX(-50%);

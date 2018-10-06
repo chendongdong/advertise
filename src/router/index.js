@@ -41,11 +41,6 @@ export const constantRouterMap = [
     name: 'PopularScience'
   },
   {
-    path: '/save-img',
-    component: _import('SaveImg'),
-    name: 'SaveImg'
-  },
-  {
     path: '/ending',
     component: _import('Ending'),
     name: 'Ending'
