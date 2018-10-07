@@ -13,18 +13,10 @@
   </div>
 </template>
 <script>
-  import { mapGetters } from 'vuex'
-  import {XButton} from 'vux'
   import PopularScience from './PopularScience.vue'
   export default {
     components: {
-      XButton, PopularScience
-    },
-    computed: {
-      ...mapGetters([
-        'sidebar',
-        'language'
-      ])
+      PopularScience
     },
     data() {
       return {
@@ -44,7 +36,7 @@
         setTimeout(() => {
           if (this.showIndex <= this.text.length) {
             this.showIndex++
-            this.addText(200)
+            this.addText(600)
           }
         }, timer)
       },
@@ -97,7 +89,7 @@
       background-size: 100%;
     }
     .fade-enter-active, .fade-leave-active {
-      transition: opacity .3s;
+      transition: opacity .8s;
     }
   }
 </style>

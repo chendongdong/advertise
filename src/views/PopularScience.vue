@@ -29,7 +29,6 @@
   </div>
 </template>
 <script>
-  import { mapGetters } from 'vuex'
   import TouchUtils from '../utils/touchUtils'
   import Swiper from 'swiper';
   import 'swiper/dist/css/swiper.min.css';
@@ -38,11 +37,6 @@
   export default {
     components: {
       Ending
-    },
-    computed: {
-      ...mapGetters([
-        'userInfo'
-      ])
     },
     data() {
       return {

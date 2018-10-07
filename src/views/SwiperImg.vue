@@ -58,13 +58,11 @@
   </div>
 </template>
 <script>
-  import {mapGetters} from 'vuex'
-  import {XButton, XHeader} from 'vux'
   import SwiperNext from './SwiperNext.vue'
 
   export default {
     components: {
-      XButton, XHeader, SwiperNext
+      SwiperNext
     },
     data() {
       return {
@@ -234,10 +232,6 @@
       }
     },
     computed: {
-      ...mapGetters([
-        'sidebar',
-        'language'
-      ]),
       swiperStyle() {
         return {
           left: `-${this.index}00%`

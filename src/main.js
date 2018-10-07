@@ -9,13 +9,11 @@ import * as filters from './filters' // global filters
 
 import App from './App'
 import router from './router'
-import store from './store'
 
 import VueVideoPlayer from 'vue-video-player'
 import VueAwesomeSwiper from 'vue-awesome-swiper'
 Vue.use(VueAwesomeSwiper)
 
-// import { AlertPlugin, ToastPlugin, ConfirmPlugin, ConfigPlugin, LoadingPlugin, WechatPlugin, AjaxPlugin } from 'vux'
 import AlloyFinger from 'alloyfinger/alloy_finger' // 手势库
 import AlloyFingerVue from 'alloyfinger/vue/alloy_finger.vue'
 Vue.use(AlloyFingerVue, {
@@ -23,15 +21,6 @@ Vue.use(AlloyFingerVue, {
 });
 Vue.use(AlloyFingerVue);
 Vue.use(VueVideoPlayer)
-// Vue.use(AlertPlugin)
-// Vue.use(ToastPlugin, {position: 'bottom'})
-// Vue.use(ConfirmPlugin)
-// Vue.use(LoadingPlugin)
-// Vue.use(WechatPlugin)
-// Vue.use(AjaxPlugin)
-// Vue.use(ConfigPlugin, {
-//   $layout: 'VIEW_BOX'
-// })
 
 // register global utility filters.
 Object.keys(filters).forEach(key => {
@@ -50,7 +39,6 @@ eruda.init()
 new Vue({
   el: '#app',
   router,
-  store,
   components: { App },
   template: '<App/>'
 })

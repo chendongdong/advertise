@@ -12,19 +12,7 @@
 	</div>
 </template>
 <script>
-	import {mapGetters} from 'vuex'
-	import {XButton, XHeader} from 'vux'
-
 	export default {
-		components: {
-			XButton, XHeader
-		},
-		computed: {
-			...mapGetters([
-				'sidebar',
-				'language'
-			])
-		},
 		data() {
 			return {
 				iconList: [

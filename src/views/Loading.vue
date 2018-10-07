@@ -13,19 +13,11 @@
   </div>
 </template>
 <script>
-  import { mapGetters } from 'vuex'
-  import {XButton} from 'vux'
   import SwiperImg from './SwiperImg.vue'
 
   export default {
     components: {
-      XButton, SwiperImg
-    },
-    computed: {
-      ...mapGetters([
-        'sidebar',
-        'language'
-      ])
+      SwiperImg
     },
     data() {
       return {
