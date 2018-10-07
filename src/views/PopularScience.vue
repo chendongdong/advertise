@@ -129,11 +129,11 @@
         let eleHeight = ele.getBoundingClientRect().height
         if (height < eleHeight) {
           ele.style.height = height +'px'
-          ele.style.backgroundImage = "url(" + require('../assets/icon_science_bcg.png') +")";
-          ele.style.backgroundRepeat = "no-repeat";
-          ele.style.backgroundPosition = "center";
-          ele.style.backgroundSize = width + 'px ' + height + 'px';
         }
+        ele.style.backgroundImage = "url(" + require('../assets/icon_science_bcg.png') +")";
+        ele.style.backgroundRepeat = "no-repeat";
+        ele.style.backgroundPosition = "center";
+        ele.style.backgroundSize = width + 'px ' + height + 'px';
 
         let _myThis = this;
         this.mySwiper = new Swiper('.swiper-container', {
@@ -157,8 +157,8 @@
 </script>
 <style lang="scss">
   .popular-science {
-    background: url("../assets/icon_science_bcg.png") no-repeat center;
-    background-size: 100%;
+    /*background: url("../assets/icon_science_bcg.png") no-repeat center;*/
+    /*background-size: 100%;*/
     width: 100vw;
     height: 100vh;
     position: fixed;

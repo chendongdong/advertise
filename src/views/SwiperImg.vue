@@ -19,6 +19,7 @@
       <img v-if="index !== 3" :class="['right','btn',{'isTransparent':isSwipering}]" src="../assets/right_btn.png"
            alt="左滑">
       <img :class="['click','btn',{'isTransparent':isSwipering || !isSatisfied}]"
+           :style="{top:offsetY<0 ?(171.18+offsetY/pageSize.width*100+'vw'):(171.18+'vw')}"
            src="../assets/click_btn.png" alt="查看详细">
       <canvas class="longCanvas" :style="{opacity:isCanvasShow?1:0}"
               :width="pageSize.width"
@@ -29,15 +30,15 @@
               v-finger:touch-end="touchend"></canvas>
       <img class="longVideoWordPic pic1" :src="swiperCardList[this.index].longVideoWordPicList[0]"
            v-show="longVideoCount >= 170"
-           :style="{top:offsetY<0 ? 7.25-offsetY/pageSize.width+'vw': 7.25+'vw'}" alt="">
+           :style="{top:offsetY<0 ? 7.25-offsetY/pageSize.width*100+'vw': 7.25+'vw'}" alt="">
       <img class="longVideoWordPic pic2" :src="swiperCardList[this.index].longVideoWordPicList[1]"
            v-show="longVideoCount >= 170"
-           :style="{top:offsetY<0 ? 7.25-offsetY/pageSize.width+'vw': 7.25+'vw'}" alt="">
+           :style="{top:offsetY<0 ? 7.25-offsetY/pageSize.width*100+'vw': 7.25+'vw'}" alt="">
       <img class="longVideoWordPic pic3" :src="swiperCardList[this.index].longVideoWordPicList[2]"
            v-show="longVideoCount > 200"
            :style="{
 			     opacity:longVideoCount > 230 ? 1:(longVideoCount-200)/30,
-				 top:offsetY<0?28.5-offsetY/pageSize.width+'vw':28.5+'vw',
+				 top:offsetY<0?28.5-offsetY/pageSize.width*100+'vw':28.5+'vw',
 				 width:swiperCardList[index].thirdPicSize.width+'vw',
 				 height:swiperCardList[index].thirdPicSize.height+'vw'
 				 }" alt="">
@@ -45,14 +46,14 @@
            v-show="longVideoCount > 240"
            :style="{
 			     opacity:longVideoCount > 260 ? 1:(longVideoCount-240)/20,
-			     top:offsetY<0?swiperCardList[index].fourthPicSize.top-offsetY/pageSize.width+'vw':swiperCardList[index].fourthPicSize.top+'vw',
+			     top:offsetY<0?swiperCardList[index].fourthPicSize.top-offsetY/pageSize.width*100+'vw':swiperCardList[index].fourthPicSize.top+'vw',
 			     left:swiperCardList[index].fourthPicSize.left+'vw',
 			     width:swiperCardList[index].fourthPicSize.width+'vw',
 			     height:swiperCardList[index].fourthPicSize.height+'vw',
 			     }" alt="">
       <img class="longVideoWordPic pic5" :src="swiperCardList[this.index].longVideoWordPicList[4]"
            v-show="longVideoCount >= 170"
-           :style="{bottom:offsetY<0?12.88-offsetY/pageSize.width+'vw':12.88+'vw'}" alt="">
+           :style="{bottom:offsetY<0?12.88-offsetY/pageSize.width*100+'vw':12.88+'vw'}" alt="">
     </div>
   </div>
 </template>
@@ -72,7 +73,6 @@
           width: 0,
           height: 0,
         },
-
         longVideoArr0: [],
         longVideoArr1: [],
         longVideoArr2: [],
@@ -81,7 +81,7 @@
         shortVideoArr1: [],
         shortVideoArr2: [],
         shortVideoArr3: [],
-        shortVideoNumList: [90, 100, 100, 100],
+        shortVideoNumList: [91, 101, 101, 101],
         shortCanvasDOM: null,
         longCanvasDOM: null,
         longCtx: null,
@@ -119,14 +119,14 @@
               require('../assets/swiperCardList/1-2_指纹Icon.png'),
             ],
             thirdPicSize: {
-              width: 595/12.42,
-              height:304/12.42
+              width: 595 / 12.42,
+              height: 304 / 12.42
             },
             fourthPicSize: {
-              width: 238/12.42,
-              height: 95/12.42,
-              left: 560/ 12.42,
-              top: 852/ 12.42
+              width: 238 / 12.42,
+              height: 95 / 12.42,
+              left: 560 / 12.42,
+              top: 852 / 12.42
             }
           },
           {
@@ -146,12 +146,12 @@
               require('../assets/swiperCardList/1-2_指纹Icon.png'),
             ],
             thirdPicSize: {
-              width: 520/12.42,
-              height:226/12.42
+              width: 520 / 12.42,
+              height: 226 / 12.42
             },
             fourthPicSize: {
-              width: 539/12.42,
-              height: 107/12.42,
+              width: 539 / 12.42,
+              height: 107 / 12.42,
               left: 321 / 12.42,
               top: 889 / 12.42
             }
@@ -400,9 +400,8 @@
         wordLen = this.shortVideoNumList[i] < 100 ? 2 : 3;
         for (let j = 0; j < this.shortVideoNumList[i]; j++) {
           this['shortVideoArr' + i][j] = new Image();
-          this['shortVideoArr' + i][j].src = i === 0
-            ? require(`../assets/shortVideo/0${i + 1}/0${i + 1}_微动${j.toString().padStart(wordLen, '0')}.jpg`)
-            : require(`../assets/shortVideo/0${i + 1}/0${i + 1}_微动${j.toString().padStart(wordLen, '0')}.jpg`);
+          this['shortVideoArr' + i][j].src = require(`../assets/shortVideo/0${i + 1}/0${i + 1}_微动${j.toString().padStart(wordLen, '0')}.jpg`)
+
         }
         for (let j = 0; j < 305; j++) {
           this['longVideoArr' + i][j] = new Image();
@@ -418,7 +417,7 @@
       this.pageSize.width = swiperDOM.getBoundingClientRect().width;
       this.pageSize.height = swiperDOM.getBoundingClientRect().height;
       this.offsetY = (this.pageSize.height - this.pageSize.width * 1.9034) / 2;
-      console.log(this.offsetY);
+      this.downArrowRange.yRange[0]=this.offsetY<0 ?(this.downArrowRange.yRange[0]+this.offsetY/this.pageSize.width*100):(this.downArrowRange.yRange[0]);
       this.longCtx = this.longCanvasDOM.getContext('2d');
       for (let i = 0; i < 4; i++) {
         this.shortCtx[i] = this.shortCanvasDOM[i].getContext('2d');
@@ -429,9 +428,9 @@
       document.oncontextmenu = function (e) {
         e.preventDefault();
       };
-//      document.addEventListener('touchmove', function (e) {
-//        e.preventDefault();
-//      }, false);
+      document.addEventListener('touchmove', function (e) {
+        e.preventDefault();
+      }, false);
     }
   }
 </script>
@@ -517,7 +516,7 @@
         width: 6.28vw;
         height: 3.06vw;
         left: 46.86vw;
-        top: 171.18vw;
+        bottom: 16.10vw;
       }
       .longCanvas {
         position: absolute;
@@ -529,7 +528,7 @@
       }
       .longVideoWordPic {
         position: absolute;
-        z-index:900;
+        z-index: 900;
       }
       .pic1 {
         width: 25.28vw;
