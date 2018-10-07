@@ -7,10 +7,10 @@
              :style="{backgroundImage:`url(${item.bgUrl})`}">
           <div class="container"
                :style="{height: item.borderHeight + 'vw',top: item.borderTop + 'vw',backgroundImage: `url(${item.borderImgSrc})`,}">
-            <canvas class="shortCanvas" :width="pageSize.width * .58"
-                    :height="item.height * .01 * pageSize.height"
-                    :style="{top: item.videoTop + 'vw',height:item.height + 'vw'}"></canvas>
           </div>
+          <canvas class="shortCanvas" :width="pageSize.width * .58"
+                  :height="item.height * .01 * pageSize.height"
+                  :style="{top: item.videoTop+item.borderTop + 'vw',height:item.height + 'vw'}"></canvas>
           <img :src="item.longPressSrc" alt="长按查看">
         </div>
       </div>
@@ -95,7 +95,7 @@
         intervalTimer: null,
         timeoutTimer: null,
         frameNum: 30,//帧数 video中取图片保证每秒30帧
-        upendSpeed: 4,//倒放倍数
+        upendSpeed: 3,//倒放倍数
         longVideoCount: 0,
         isSatisfied: false,
         picWordList: ['冰面', '星空', '海洋', '岩石'],
@@ -357,7 +357,7 @@
           this.intervalTimer = setInterval(() => {
             this.longVideoCount++;
             if (this.longVideoCount < 305) {
-              if (this.longVideoCount >= 60) {
+              if (this.longVideoCount >= 30) {
                 this.isSatisfied = true;
               }
               this.longCtx.drawImage(this['longVideoArr' + this.index][this.longVideoCount], 0, 0, this.pageSize.width, this.pageSize.height);
@@ -402,7 +402,6 @@
           this['longVideoArr' + i][j].src = require(`../assets/longVideo/0${i + 1}/0${i + 1}_${this.picWordList[i] + j.toString().padStart(3, '0')}.jpg`);
         }
       }
-
     },
     mounted() {
       this.shortCanvasDOM = document.getElementsByClassName('shortCanvas');
@@ -411,7 +410,7 @@
       this.pageSize.width = swiperDOM.getBoundingClientRect().width;
       this.pageSize.height = swiperDOM.getBoundingClientRect().height;
       this.offsetY = (this.pageSize.height - this.pageSize.width * 1.9034) / 2;
-      this.downArrowRange.yRange[0]=this.offsetY<0 ?(this.downArrowRange.yRange[0]+this.offsetY/this.pageSize.width*100):(this.downArrowRange.yRange[0]);
+      this.downArrowRange.yRange[0] = this.offsetY < 0 ? (this.downArrowRange.yRange[0] + this.offsetY / this.pageSize.width * 100) : (this.downArrowRange.yRange[0]);
       this.longCtx = this.longCanvasDOM.getContext('2d');
       for (let i = 0; i < 4; i++) {
         this.shortCtx[i] = this.shortCanvasDOM[i].getContext('2d');
@@ -464,17 +463,18 @@
           .container {
             width: 100vw;
             position: absolute;
-            z-index: 12;
+            z-index: 13;
             left: 0;
             background-repeat: no-repeat;
             background-size: cover;
-            .shortCanvas {
-              position: absolute;
-              z-index: 13;
-              width: 58vw;
-              left: 50%;
-              transform: translateX(-50%);
-            }
+          }
+          .shortCanvas {
+            position: absolute;
+            display: block;
+            z-index: 12;
+            width: 57.97vw;
+            left: 50%;
+            transform: translateX(-50%);
           }
           img {
             display: block;

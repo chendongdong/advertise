@@ -6,7 +6,7 @@
         <transition-group name="fade">
           <div class="line" v-show="showIndex > -1" :key="0"></div>
           <p v-for="(item, index) in text" :key="index+1" v-show="showIndex > index" :style="{'margin-top': index==0?'25px':'0'}">{{item}}</p >
-          <a  :key="text.length+1" v-show="showIndex > text.length" class="btn-more" @click.prevent="jump2Next">了解乳腺癌</a>
+          <div  :key="text.length+1" v-show="showIndex > text.length" class="btn-more" @click="jump2Next">了解乳腺癌</div>
         </transition-group>
       </div>
     </div>
@@ -36,7 +36,7 @@
         setTimeout(() => {
           if (this.showIndex <= this.text.length) {
             this.showIndex++
-            this.addText(600)
+            this.addText(1000)
           }
         }, timer)
       },
@@ -89,7 +89,7 @@
       background-size: 100%;
     }
     .fade-enter-active, .fade-leave-active {
-      transition: opacity .8s;
+      transition: opacity .7s;
     }
   }
 </style>

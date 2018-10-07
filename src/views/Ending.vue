@@ -1,6 +1,6 @@
 <template>
 	<div class="end">
-		<video class="top" src="../assets/ending.mp4" controls></video>
+		<video class="top" src="../assets/ending.mp4" controls poster="../assets/icon_poster.jpg"></video>
 		<div class="bottom">
 			<span v-for="item in wordList">{{item}}}</span>
 			<div class="browse" @click.stop.prevent="browse">访问网页</div>
@@ -108,11 +108,11 @@
         position: absolute;
         left: 50%;
         transform: translateX(-50%);
-        bottom: calc(13% + 2.3vh);
+        bottom: calc(20% + 2.3vh);
       }
 			.iconList {
 				position: absolute;
-				bottom: 10%;
+				bottom: 17%;
 				left: 50%;
         transform: translateX(-50%);
 				width: 67.2vw;

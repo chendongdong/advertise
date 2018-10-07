@@ -5,7 +5,7 @@
     <div class="swiper-container">
       <div class="swiper-wrapper">
         <div class="swiper-slide" v-for="(item,index) in swiperData" :key="index">
-          <img :src="getPath(item.url)">
+          <div :style="{'background-image': `url(${getPath(item.url)})`}" class="swiper-img"></div>
           <!--<transition name="fade">-->
            <!--<div class="text-container" v-show="currentIndex==index">-->
               <!--<div class="swiper-title">{{item.title}}</div>-->
@@ -145,6 +145,9 @@
             },
           },
         })
+        document.oncontextmenu = function (e) {
+          e.preventDefault();
+        };
       })
     }
   }
@@ -167,7 +170,7 @@
       /*background: red;*/
       left: 50%;
       transform: translateX(-50%);
-      top: calc((83% - 30px)*0.78);
+      top: calc((83% - 30px)*0.8);
       /*bottom: calc(20% + 30px);*/
       .swiper-title {
         font-family: SourceHanSansCN-Medium;
@@ -217,29 +220,31 @@
           .text-container {
             display: block;
           }
-          img {
+          .swiper-img {
             width: 100%;
             height: 100%;
+            background: url("../assets/icon_science_1.png") no-repeat center;
+            background-size: 100%;
           }
         }
         .swiper-slide-prev {
-          margin-top: 3%;
-          height: 80% !important;
+          margin-top: 12.5%;
+          height: 75% !important;
           .text-container {
             display: none;
           }
-          img {
-            height: 100% !important;
+          .swiper-img {
+            height: 75% !important;
           }
         }
         .swiper-slide-next {
-          margin-top: 3%;
-          height: 80% !important;
+          margin-top: 12.5%;
+          height: 75% !important;
           .text-container {
             display: none;
           }
-          img {
-            height: 100% !important;
+          .swiper-img {
+            height: 75% !important;
           }
         }
         .swiper-slide-active {
