@@ -83,9 +83,12 @@
       transform: translateX(-50%);
       background: url("../assets/Loading.gif") no-repeat center;
       background-size: 100%;
-      width: 80px;
+      width: 70px;
       height: 20px;
       opacity: 0.8;
+    }
+    .text{
+      top: 40%;
     }
 	}
 </style>

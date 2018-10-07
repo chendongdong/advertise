@@ -6,7 +6,7 @@
         <transition-group name="fade">
           <div class="line" v-show="showIndex > -1" :key="0"></div>
           <p v-for="(item, index) in text" :key="index+1" v-show="showIndex > index" :style="{'margin-top': index==0?'25px':'0'}">{{item}}</p >
-          <a  :key="text.length+1" v-show="showIndex > text.length" class="btn-more" @click.prevent="jump2Next">了解更多</a>
+          <a  :key="text.length+1" v-show="showIndex > text.length" class="btn-more" @click.prevent="jump2Next">了解乳腺癌</a>
         </transition-group>
       </div>
     </div>
@@ -40,11 +40,11 @@
 //        this.$router.push({path: '/popular-science'})
         this.showNextPage = true
       },
-      addText(timer=1000) {
+      addText(timer=0) {
         setTimeout(() => {
           if (this.showIndex <= this.text.length) {
             this.showIndex++
-            this.addText(2000)
+            this.addText(200)
           }
         }, timer)
       },
@@ -73,14 +73,14 @@
       font-size: 40px;
       color: #000000;
       letter-spacing: 0;
-      background: url("../assets/icon_jump.png") no-repeat center;
+      background: url("../assets/icon_more.png") no-repeat center;
       background-size: 100%;
-      font-size: 10px;
+      font-size: 12px;
       text-align: center;
-      margin-top: 30px;
-      width: 95px;
-      height: 33px;
-      line-height: 33px;
+      margin-top: 20px;
+      width: 100px;
+      height: 34px;
+      line-height: 35px;
       display: inline-block;
     }
     .text{
@@ -95,8 +95,8 @@
       background: url("../assets/icon_topLine.png") no-repeat center;
       background-size: 100%;
     }
-    /*.line + p:first-child{*/
-      /*margin-top: 50px;*/
-    /*}*/
+    .fade-enter-active, .fade-leave-active {
+      transition: opacity .3s;
+    }
   }
 </style>

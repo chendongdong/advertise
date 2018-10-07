@@ -99,14 +99,13 @@
 				top: 38.5vh;
 				left: 50%;
 				transform: translateX(-50%);
-				width: 24.5vw;
-				height: 4.2vh;
-				background: #FFFFFF;
-				border: 1px solid #4A4A4A;
-				border-radius: 2.1vh;
-				line-height: 4.2vh;
+				width: 100px;
+				height: 34px;
+        background: url("../assets/icon_jump.png") no-repeat center;
+        background-size: 100%;
+				line-height: 34px;
 				font-family: SourceHanSansCN-Medium;
-				font-size: 1.7vh;
+				font-size: 12px;
 				color: #4A4A4A;
 				letter-spacing: 0;
 				text-align: center;
@@ -114,24 +113,25 @@
 			.iconList {
 				position: absolute;
 				bottom: 6.3vh;
-				margin-left: 16.4vw;
-				left: 0;
+				left: 50%;
+        transform: translateX(-50%);
 				width: 67.2vw;
 				height: 2.3vh;
 				display: flex;
 				align-items: center;
-				justify-content: space-between;
+				justify-content: center;
 				img:nth-child(1) {
-					width: 27.9vw;
-					height: 1.9vh;
+					width: 110px;
+					height: 14px;
 				}
 				img:nth-child(2) {
-					width: 14.5vw;
-					height: 2.3vh;
+					width: 60px;
+					height: 18px;
+          margin: 0 10px;
 				}
 				img:nth-child(3) {
-					width: 18.4vw;
-					height: 2vh;
+					width: 72px;
+					height: 15px;
 				}
 			}
 		}

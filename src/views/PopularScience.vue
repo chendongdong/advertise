@@ -6,10 +6,13 @@
       <div class="swiper-wrapper">
         <div class="swiper-slide" v-for="(item,index) in swiperData" :key="index">
           <img :src="getPath(item.url)">
-          <div class="text-container">
-            <div class="swiper-title">{{item.title}}</div>
-            <div class="swiper-desc" v-html="item.desc"></div>
-          </div>
+          <!--currentIndex={{currentIndex}}-->
+          <transition name="fade">
+           <div class="text-container">
+              <div class="swiper-title">{{item.title}}</div>
+              <div class="swiper-desc" v-html="item.desc"></div>
+            </div>
+          </transition>
         </div>
       </div>
     </div>
@@ -135,10 +138,16 @@
           loop: true,
           slidesPerView: "auto",
           centeredSlides: true,
+//          observer:true,//修改swiper自己或子元素时，自动初始化swiper
+//          observeParents:true,
           spaceBetween: 0, // 两张图片的间距
           on: {
             slideChange: function () {
-              _myThis.currentIndex = this.activeIndex % 4;
+              if (!isNaN(this.realIndex)) {
+                _myThis.currentIndex = this.realIndex;
+              }
+              console.log('currentIndex=', _myThis.currentIndex)
+//              _myThis.$forceUpdate();
             },
           },
         })
@@ -154,7 +163,7 @@
 
     .text-container {
       width: 63vw;
-      height: 30%;
+      /*height: 30%;*/
       margin: -15% auto 0;
       .swiper-title {
         font-family: SourceHanSansCN-Medium;
@@ -270,8 +279,19 @@
       position: fixed;
       bottom: 0;
       width: 100vw;
-      height: 14%;
+      height: 17%;
       z-index: 4;
+    }
+    .fade-enter-active{
+      transition: opacity 1.5s;
+    }
+    .fade-leave-active {
+      transition: opacity .2s;
+    }
+
+    .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */
+    {
+      opacity: 0;
     }
   }
 </style>

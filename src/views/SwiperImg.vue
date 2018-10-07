@@ -1,30 +1,33 @@
 <template>
-  <div>
+  <div class="swiper-img">
     <swiper-next :style="{opacity: showSwiperNext?1:0}" ref="next"></swiper-next>
-  <div class="swiper-img" :style="swiperStyle" v-show="!showSwiperNext">
-    <div class="swiper-card" v-for="(item,index) in swiperCardList" :style="{backgroundImage:`url(${item.bgUrl})`}">
-      <div class="container"
-           :style="{height: item.borderHeight + 'vh',top: item.borderTop + 'vh',backgroundImage: `url(${item.borderImgSrc})`,}">
-        <canvas class="shortCanvas" :width="pageSize.width * .58"
-                :height="item.height * .01 * pageSize.height"
-                :style="{top: item.videoTop + 'vh',height:item.height + 'vh'}"></canvas>
-        <img :src="item.longPressSrc" alt="长按查看">
+    <div class="swiper-fixed" v-show="!showSwiperNext">
+      <div class="swiper-container" :style="swiperStyle">
+        <div class="swiper-card" v-for="(item,index) in swiperCardList"
+             :style="{backgroundImage:`url(${item.bgUrl})`}">
+          <div class="container"
+               :style="{height: item.borderHeight + 'vw',top: item.borderTop + 'vw',backgroundImage: `url(${item.borderImgSrc})`,}">
+            <canvas class="shortCanvas" :width="pageSize.width * .58"
+                    :height="item.height * .01 * pageSize.height"
+                    :style="{top: item.videoTop + 'vw',height:item.height + 'vw'}"></canvas>
+          </div>
+          <img :src="item.longPressSrc" alt="长按查看">
+        </div>
       </div>
+      <img v-if="index !== 0" :class="['left','btn',{'isTransparent':isSwipering}]" src="../assets/left_btn.png"
+           alt="右滑">
+      <img v-if="index !== 3" :class="['right','btn',{'isTransparent':isSwipering}]" src="../assets/right_btn.png"
+           alt="左滑">
+      <img :class="['click','btn',{'isTransparent':isSwipering || !isSatisfied}]"
+           src="../assets/click_btn.png" alt="查看详细">
+      <canvas class="longCanvas" :style="{opacity:isCanvasShow?1:0}"
+              :width="pageSize.width"
+              :height="pageSize.height"
+              v-finger:tap="tapArrow"
+              v-finger:swipe="swiper"
+              v-finger:long-tap="longTap"
+              v-finger:touch-end="touchend"></canvas>
     </div>
-    <img v-if="index !== 0" :class="['left','btn',{'isTransparent':isSwipering}]" src="../assets/left_btn.png"
-         alt="右滑">
-    <img v-if="index !== 3" :class="['right','btn',{'isTransparent':isSwipering}]" src="../assets/right_btn.png"
-         alt="左滑">
-    <img :class="['click','btn',{'isTransparent':isSwipering || !isSatisfied}]"
-         src="../assets/click_btn.png" alt="查看详细">
-    <canvas class="longCanvas" :style="{opacity:isCanvasShow?1:0}"
-            :width="pageSize.width"
-            :height="pageSize.height"
-            v-finger:tap="tapArrow"
-            v-finger:swipe="swiper"
-            v-finger:long-tap="longTap"
-            v-finger:touch-end="touchend"></canvas>
-  </div>
   </div>
 </template>
 <script>
@@ -43,6 +46,7 @@
           width: 0,
           height: 0,
         },
+
         longVideoArr0: [],
         longVideoArr1: [],
         longVideoArr2: [],
@@ -60,52 +64,53 @@
           clientX: null,
           clientY: null
         },
+        offsetY:null,
         index: 0,//标记用户目前正在看的图片的序列号
         isSwipering: false,//是否正在滑动
         isCanvasShow: false,//是否显示canvas
         intervalTimer: null,
         timeoutTimer: null,
         frameNum: 30,//帧数 video中取图片保证每秒30帧
-        upendSpeed: 3,//倒放倍数
+        upendSpeed: 4,//倒放倍数
         longVideoCount: 0,
         isSatisfied: false,
         picWordList: ['冰面', '星空', '海洋', '岩石'],
         swiperCardList: [
           {
-            height: 50.7,
-            videoTop: 8,
-            borderTop: 9.3,
-            borderHeight: 76.3,
+            height: 96.46,
+            videoTop: 15.3,
+            borderTop: 17.63,
+            borderHeight: 145.17,
             bgUrl: require('../assets/bg13.png'),
             postSrc: require('../assets/frame1.png'),
             borderImgSrc: require('../assets/frame_border1.png'),
             longPressSrc: require('../assets/longPressBtn1.png'),
           },
           {
-            height: 44.1,
-            videoTop: 9.7,
-            borderTop: 10.8,
-            borderHeight: 74.7,
+            height: 83.9,
+            videoTop: 18.52,
+            borderTop: 20.61,
+            borderHeight: 142.27,
             bgUrl: require('../assets/bg24.png'),
             postSrc: require('../assets/frame2.png'),
             borderImgSrc: require('../assets/frame_border2.png'),
             longPressSrc: require('../assets/longPressBtn2.png'),
           },
           {
-            height: 30.5,
-            videoTop: 8.9,
-            borderTop: 18.6,
-            borderHeight: 67,
+            height: 57.97,
+            videoTop: 16.91,
+            borderTop: 35.43,
+            borderHeight: 127.456,
             bgUrl: require('../assets/bg13.png'),
             postSrc: require('../assets/frame3.png'),
             borderImgSrc: require('../assets/frame_border3.png'),
             longPressSrc: require('../assets/longPressBtn3.png'),
           },
           {
-            height: 49,
-            videoTop: 14,
-            borderTop: 3.5,
-            borderHeight: 82,
+            height: 93.24,
+            videoTop: 26.73,
+            borderTop: 6.68,
+            borderHeight: 156.12,
             bgUrl: require('../assets/bg24.png'),
             postSrc: require('../assets/frame4.png'),
             borderImgSrc: require('../assets/frame_border4.png'),
@@ -113,20 +118,20 @@
           }
         ],
         longTouchRange: {
-          xRange: [.162, .676],
-          yRange: [.686, .169]
+          xRange: [16.2, 67.6],
+          yRange: [130.6, 32.21]
         },
         leftArrowRange: {
-          xRange: [.016, .123],
-          yRange: [.374, .088]
+          xRange: [1.6, 12.32],
+          yRange: [71.1, 16.75]
         },
         rightArrowRange: {
-          xRange: [.861, .123],
-          yRange: [.374, .088]
+          xRange: [86.07, 12.32],
+          yRange: [71.1, 16.75]
         },
         downArrowRange: {
-          xRange: [0, 1],
-          yRange: [.686, .314]
+          xRange: [0, 100],
+          yRange: [162.8, 27.54]
         },
       }
     },
@@ -143,10 +148,12 @@
     },
     methods: {
       validate(clientX, clientY, rangeXMin, rangeXMax, rangeYMin, rangeYMax) {
-        let xRatio = clientX / this.pageSize.width, yRatio = clientY / this.pageSize.height;
+
+        let xRatio = clientX / this.pageSize.width * 100, yRatio = (clientY - this.offsetY) / this.pageSize.width * 100;
         return xRatio >= rangeXMin && xRatio <= rangeXMax && yRatio >= rangeYMin && yRatio <= rangeYMax;
       },
       tapArrow(e) {
+        console.log(e.changedTouches[0]);
         let client = {
           x: e.changedTouches[0].clientX,
           y: e.changedTouches[0].clientY
@@ -189,7 +196,7 @@
             }
             break;
           case 'Up':
-            if(this.isSatisfied && !this.isCanvasShow){
+            if (this.isSatisfied && !this.isCanvasShow) {
               let client = {
                 x: e.changedTouches[0].clientX,
                 y: e.changedTouches[0].clientY
@@ -198,14 +205,12 @@
                 rangeXMax = this.downArrowRange.xRange[0] + this.downArrowRange.xRange[1],
                 rangeYMin = this.downArrowRange.yRange[0],
                 rangeYMax = this.downArrowRange.yRange[0] + this.downArrowRange.yRange[1];
-              console.log(client.x, client.y, rangeXMin, rangeXMax, rangeYMin, rangeYMax);
               if (this.validate(client.x, client.y, rangeXMin, rangeXMax, rangeYMin, rangeYMax)) {
-//                this.$router.push({path: '/swiper-next'})
-                this.showSwiperNext = true
+                // this.$router.push({path: '/swiper-next'})
+                this.showSwiperNext = true;
                 this.$refs.next.addText()
               }
             }
-
         }
       },
       shortVideoPlay(index) {
@@ -259,19 +264,23 @@
               }
               this.longCtx.drawImage(this['longVideoArr' + this.index][this.longVideoCount], 0, 0, this.pageSize.width, this.pageSize.height);
             } else {
+              this.longVideoCount --;
               clearInterval(this.intervalTimer);
             }
           }, 1000 / this.frameNum);
         }
       },
       touchend() {
+        console.log('touchend');
         if (this.isCanvasShow) {
           clearInterval(this.intervalTimer);
           this.intervalTimer = setInterval(() => {
+            console.log(this.longVideoCount,this.upendSpeed);
             if (this.longVideoCount < this.upendSpeed) {
               this.longCtx.drawImage(this['longVideoArr' + this.index][this.longVideoCount], 0, 0, this.pageSize.width, this.pageSize.height);
               this.longVideoCount = 0;
               this.isCanvasShow = false;
+              clearInterval(this.intervalTimer);
               this.shortVideoPlay(this.index);
             } else {
               this.longCtx.drawImage(this['longVideoArr' + this.index][this.longVideoCount], 0, 0, this.pageSize.width, this.pageSize.height);
@@ -302,8 +311,9 @@
       this.shortCanvasDOM = document.getElementsByClassName('shortCanvas');
       this.longCanvasDOM = document.getElementsByClassName('longCanvas')[0];
       let swiperDOM = document.getElementsByClassName('swiper-img')[0];
-      this.pageSize.width = swiperDOM.getBoundingClientRect().width / 4;
+      this.pageSize.width = swiperDOM.getBoundingClientRect().width;
       this.pageSize.height = swiperDOM.getBoundingClientRect().height;
+      this.offsetY = (this.pageSize.height - this.pageSize.width * 1.9034)/2;
       this.longCtx = this.longCanvasDOM.getContext('2d');
       for (let i = 0; i < 4; i++) {
         this.shortCtx[i] = this.shortCanvasDOM[i].getContext('2d');
@@ -321,84 +331,94 @@
   }
 </script>
 <style lang="scss">
-  .swiper-img {
-    width: 400vw;
-    height: 100vh;
-    display: flex;
+  .swiper-img{
+    width:100vw;
+    height:100vh;
+    position: relative;
     overflow: hidden;
-    position: absolute;
-    top: 0;
-    left: 0;
-    transition: left .3s linear;
-    .swiper-card {
+    .swiper-fixed{
       width: 100vw;
-      height: 100vh;
-      background-size: 100% 100%;
-      position: relative;
-      .container {
-        width: 100vw;
+      height: 190.338vw;
+      position: absolute;
+      left:0;
+      top:50%;
+      transform: translateY(-50%);
+      z-index:10;
+      .swiper-container {
+        width: 400vw;
+        height: 190.338vw;
+        display: flex;
+        overflow: hidden;
         position: absolute;
+        z-index: 11;
+        top: 0;
         left: 0;
-        background-size: 100% 100%;
-        .shortCanvas {
-          position: absolute;
-          width: 58vw;
-          left: 50%;
-          transform: translateX(-50%);
-        }
-        img {
-          display: block;
-          width: 67.6vw;
-          height: 16.9vh;
-          position: absolute;
-          bottom: 0;
-          left: 50%;
-          transform: translateX(-50%);
+        transition: left .3s linear;
+        .swiper-card {
+          width: 100vw;
+          height: 190.338vw;
+          background-repeat: no-repeat;
+          background-size: cover;
+          position: relative;
+          .container {
+            width: 100vw;
+            position: absolute;
+            z-index: 12;
+            left: 0;
+            background-repeat: no-repeat;
+            background-size: cover;
+            .shortCanvas {
+              position: absolute;
+              z-index: 13;
+              width: 58vw;
+              left: 50%;
+              transform: translateX(-50%);
+            }
+          }
+          img {
+            display: block;
+            width: 49.92vw;
+            height: 22.54vw;
+            position: absolute;
+            top: 136.23vw;
+            left: 50%;
+            transform: translateX(-50%);
+          }
         }
       }
-
-    }
-    .border {
-      position: fixed;
-      top: 90%;
-      left: 0;
-      width: 100%;
-      height: 0;
-      border-top: 1px solid red;
-    }
-    .btn {
-      position: fixed;
-    }
-    .isTransparent {
-      opacity: 0;
-    }
-    .left {
-      width: 12.3vw;
-      height: 8.8vh;
-      left: 1.6vw;
-      top: 42.8%;
-      transform: translateY(-50%);
-    }
-    .right {
-      width: 12.3vw;
-      height: 8.8vh;
-      right: 1.6vw;
-      top: 42.8%;
-      transform: translateY(-50%);
-    }
-    .click {
-      width: 23px;
-      height: 12px;
-      left: 50%;
-      bottom: 8.5%;
-      transform: translateX(-50%);
-    }
-    .longCanvas {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
+      .btn {
+        position: absolute;
+        z-index: 20;
+      }
+      .isTransparent {
+        opacity: 0;
+      }
+      .left {
+        width: 12.32vw;
+        height: 16.75vw;
+        left: 1.61vw;
+        top: 70.1vw;
+      }
+      .right {
+        width: 12.32vw;
+        height: 16.75vw;
+        left:86.07vw;
+        top: 70.1vw;
+      }
+      .click {
+        width: 6.28vw;
+        height: 3.06vw;
+        left: 46.86vw;
+        top: 171.18vw;
+      }
+      .longCanvas {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 190.338vw;
+        z-index:999;
+      }
     }
   }
 </style>
