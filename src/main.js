@@ -1,7 +1,7 @@
 import Vue from 'vue'
 
 import 'normalize.css/normalize.css'
-import 'vux/src/styles/index.less'
+// import 'vux/src/styles/index.less'
 
 import '@/styles/index.scss' // global css
 import '@/styles/fonts/font.scss'
@@ -15,7 +15,7 @@ import VueVideoPlayer from 'vue-video-player'
 import VueAwesomeSwiper from 'vue-awesome-swiper'
 Vue.use(VueAwesomeSwiper)
 
-import { AlertPlugin, ToastPlugin, ConfirmPlugin, ConfigPlugin, LoadingPlugin, WechatPlugin, AjaxPlugin } from 'vux'
+// import { AlertPlugin, ToastPlugin, ConfirmPlugin, ConfigPlugin, LoadingPlugin, WechatPlugin, AjaxPlugin } from 'vux'
 import AlloyFinger from 'alloyfinger/alloy_finger' // 手势库
 import AlloyFingerVue from 'alloyfinger/vue/alloy_finger.vue'
 Vue.use(AlloyFingerVue, {
@@ -23,15 +23,15 @@ Vue.use(AlloyFingerVue, {
 });
 Vue.use(AlloyFingerVue);
 Vue.use(VueVideoPlayer)
-Vue.use(AlertPlugin)
-Vue.use(ToastPlugin, {position: 'bottom'})
-Vue.use(ConfirmPlugin)
-Vue.use(LoadingPlugin)
-Vue.use(WechatPlugin)
-Vue.use(AjaxPlugin)
-Vue.use(ConfigPlugin, {
-  $layout: 'VIEW_BOX'
-})
+// Vue.use(AlertPlugin)
+// Vue.use(ToastPlugin, {position: 'bottom'})
+// Vue.use(ConfirmPlugin)
+// Vue.use(LoadingPlugin)
+// Vue.use(WechatPlugin)
+// Vue.use(AjaxPlugin)
+// Vue.use(ConfigPlugin, {
+//   $layout: 'VIEW_BOX'
+// })
 
 // register global utility filters.
 Object.keys(filters).forEach(key => {

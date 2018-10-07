@@ -153,14 +153,14 @@
         return xRatio >= rangeXMin && xRatio <= rangeXMax && yRatio >= rangeYMin && yRatio <= rangeYMax;
       },
       tapArrow(e) {
-        console.log(e.changedTouches[0]);
+        console.log('tapArrow=', e.changedTouches[0]);
         let client = {
           x: e.changedTouches[0].clientX,
           y: e.changedTouches[0].clientY
         };
-        let arr = [this.leftArrowRange, this.rightArrowRange],
+        let arr = [this.leftArrowRange, this.rightArrowRange, this.downArrowRange],
           rangeXMin, rangeXMax, rangeYMin, rangeYMax, tapIndex = null;
-        for (let i = 0; i < 2; i++) {
+        for (let i = 0; i < arr.length; i++) {
           rangeXMin = arr[i].xRange[0];
           rangeXMax = arr[i].xRange[0] + arr[i].xRange[1];
           rangeYMin = arr[i].yRange[0];
@@ -170,16 +170,21 @@
             break;
           }
         }
+        console.log('tapIndex=', tapIndex)
         switch (tapIndex) {
-          case 0:
+          case 0: // 点击左箭头
             if (this.index !== 0) {
               this.setIndex(this.index - 1)
             }
             break;
-          case 1:
+          case 1: // 点击右箭头
             if (this.index !== 3) {
               this.setIndex(this.index + 1)
             }
+            break;
+          case 2: // 点击下箭头
+            this.showSwiperNext = true;
+            this.$refs.next.addText()
             break;
         }
       },
