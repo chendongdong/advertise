@@ -27,6 +27,32 @@
               v-finger:swipe="swiper"
               v-finger:long-tap="longTap"
               v-finger:touch-end="touchend"></canvas>
+      <img class="longVideoWordPic pic1" :src="swiperCardList[this.index].longVideoWordPicList[0]"
+           v-show="longVideoCount >= 170"
+           :style="{top:offsetY<0 ? 7.25-offsetY/pageSize.width+'vw': 7.25+'vw'}" alt="">
+      <img class="longVideoWordPic pic2" :src="swiperCardList[this.index].longVideoWordPicList[1]"
+           v-show="longVideoCount >= 170"
+           :style="{top:offsetY<0 ? 7.25-offsetY/pageSize.width+'vw': 7.25+'vw'}" alt="">
+      <img class="longVideoWordPic pic3" :src="swiperCardList[this.index].longVideoWordPicList[2]"
+           v-show="longVideoCount > 200"
+           :style="{
+			     opacity:longVideoCount > 230 ? 1:(longVideoCount-200)/30,
+				 top:offsetY<0?28.5-offsetY/pageSize.width+'vw':28.5+'vw',
+				 width:swiperCardList[index].thirdPicSize.width+'vw',
+				 height:swiperCardList[index].thirdPicSize.height+'vw'
+				 }" alt="">
+      <img class="longVideoWordPic pic4" :src="swiperCardList[this.index].longVideoWordPicList[3]"
+           v-show="longVideoCount > 240"
+           :style="{
+			     opacity:longVideoCount > 260 ? 1:(longVideoCount-240)/20,
+			     top:offsetY<0?swiperCardList[index].fourthPicSize.top-offsetY/pageSize.width+'vw':swiperCardList[index].fourthPicSize.top+'vw',
+			     left:swiperCardList[index].fourthPicSize.left+'vw',
+			     width:swiperCardList[index].fourthPicSize.width+'vw',
+			     height:swiperCardList[index].fourthPicSize.height+'vw',
+			     }" alt="">
+      <img class="longVideoWordPic pic5" :src="swiperCardList[this.index].longVideoWordPicList[4]"
+           v-show="longVideoCount >= 170"
+           :style="{bottom:offsetY<0?12.88-offsetY/pageSize.width+'vw':12.88+'vw'}" alt="">
     </div>
   </div>
 </template>
@@ -64,7 +90,7 @@
           clientX: null,
           clientY: null
         },
-        offsetY:null,
+        offsetY: 0,
         index: 0,//标记用户目前正在看的图片的序列号
         isSwipering: false,//是否正在滑动
         isCanvasShow: false,//是否显示canvas
@@ -85,6 +111,23 @@
             postSrc: require('../assets/frame1.png'),
             borderImgSrc: require('../assets/frame_border1.png'),
             longPressSrc: require('../assets/longPressBtn1.png'),
+            longVideoWordPicList: [
+              require('../assets/swiperCardList/1-2_01_X光左上信息.png'),
+              require('../assets/swiperCardList/1-2_01_X光右上信息.png'),
+              require('../assets/swiperCardList/1-2_01_患者信息.png'),
+              require('../assets/swiperCardList/1-2_01_手写体.png'),
+              require('../assets/swiperCardList/1-2_指纹Icon.png'),
+            ],
+            thirdPicSize: {
+              width: 595/12.42,
+              height:304/12.42
+            },
+            fourthPicSize: {
+              width: 238/12.42,
+              height: 95/12.42,
+              left: 560/ 12.42,
+              top: 852/ 12.42
+            }
           },
           {
             height: 83.9,
@@ -95,6 +138,23 @@
             postSrc: require('../assets/frame2.png'),
             borderImgSrc: require('../assets/frame_border2.png'),
             longPressSrc: require('../assets/longPressBtn2.png'),
+            longVideoWordPicList: [
+              require('../assets/swiperCardList/1-2_02_X光左上信息.png'),
+              require('../assets/swiperCardList/1-2_02_X光右上信息.png'),
+              require('../assets/swiperCardList/1-2_02_患者信息.png'),
+              require('../assets/swiperCardList/1-2_02_手写体.png'),
+              require('../assets/swiperCardList/1-2_指纹Icon.png'),
+            ],
+            thirdPicSize: {
+              width: 520/12.42,
+              height:226/12.42
+            },
+            fourthPicSize: {
+              width: 539/12.42,
+              height: 107/12.42,
+              left: 321 / 12.42,
+              top: 889 / 12.42
+            }
           },
           {
             height: 57.97,
@@ -105,6 +165,23 @@
             postSrc: require('../assets/frame3.png'),
             borderImgSrc: require('../assets/frame_border3.png'),
             longPressSrc: require('../assets/longPressBtn3.png'),
+            longVideoWordPicList: [
+              require('../assets/swiperCardList/1-2_03_X光左上信息.png'),
+              require('../assets/swiperCardList/1-2_03_X光右上信息.png'),
+              require('../assets/swiperCardList/1-2_03_患者信息.png'),
+              require('../assets/swiperCardList/1-2_03_手写体.png'),
+              require('../assets/swiperCardList/1-2_指纹Icon.png'),
+            ],
+            thirdPicSize: {
+              width: 503 / 12.42,
+              height: 311 / 12.42
+            },
+            fourthPicSize: {
+              width: 242 / 12.42,
+              height: 96 / 12.42,
+              left: 663 / 12.42,
+              top: 1024 / 12.42
+            }
           },
           {
             height: 93.24,
@@ -115,6 +192,23 @@
             postSrc: require('../assets/frame4.png'),
             borderImgSrc: require('../assets/frame_border4.png'),
             longPressSrc: require('../assets/longPressBtn4.png'),
+            longVideoWordPicList: [
+              require('../assets/swiperCardList/1-2_04_X光左上信息.png'),
+              require('../assets/swiperCardList/1-2_04_X光右上信息.png'),
+              require('../assets/swiperCardList/1-2_04_患者信息.png'),
+              require('../assets/swiperCardList/1-2_04_手写体.png'),
+              require('../assets/swiperCardList/1-2_指纹Icon.png'),
+            ],
+            thirdPicSize: {
+              width: 595 / 12.42,
+              height: 304 / 12.42
+            },
+            fourthPicSize: {
+              width: 528 / 12.42,
+              height: 125 / 12.42,
+              left: 272 / 12.42,
+              top: 964 / 12.42
+            }
           }
         ],
         longTouchRange: {
@@ -130,8 +224,12 @@
           yRange: [71.1, 16.75]
         },
         downArrowRange: {
+          xRange: [46.86, 6.28],
+          yRange: [171.18, 3.06]
+        },
+        swiperDownRange: {
           xRange: [0, 100],
-          yRange: [162.8, 27.54]
+          yRange: [129, 39, 60.95]
         },
       }
     },
@@ -148,44 +246,45 @@
     },
     methods: {
       validate(clientX, clientY, rangeXMin, rangeXMax, rangeYMin, rangeYMax) {
-
-        let xRatio = clientX / this.pageSize.width * 100, yRatio = (clientY - this.offsetY) / this.pageSize.width * 100;
+        let xRatio = clientX / this.pageSize.width * 100,
+          yRatio = (clientY - this.offsetY) / this.pageSize.width * 100;
         return xRatio >= rangeXMin && xRatio <= rangeXMax && yRatio >= rangeYMin && yRatio <= rangeYMax;
       },
       tapArrow(e) {
-        console.log('tapArrow=', e.changedTouches[0]);
-        let client = {
-          x: e.changedTouches[0].clientX,
-          y: e.changedTouches[0].clientY
-        };
-        let arr = [this.leftArrowRange, this.rightArrowRange, this.downArrowRange],
-          rangeXMin, rangeXMax, rangeYMin, rangeYMax, tapIndex = null;
-        for (let i = 0; i < arr.length; i++) {
-          rangeXMin = arr[i].xRange[0];
-          rangeXMax = arr[i].xRange[0] + arr[i].xRange[1];
-          rangeYMin = arr[i].yRange[0];
-          rangeYMax = arr[i].yRange[0] + arr[i].yRange[1];
-          if (this.validate(client.x, client.y, rangeXMin, rangeXMax, rangeYMin, rangeYMax)) {
-            tapIndex = i;
-            break;
+        if (this.isCanvasShow === false) {
+          let client = {
+            x: e.changedTouches[0].clientX,
+            y: e.changedTouches[0].clientY
+          };
+          let arr = [this.leftArrowRange, this.rightArrowRange, this.downArrowRange],
+            rangeXMin, rangeXMax, rangeYMin, rangeYMax, tapIndex = null;
+          for (let i = 0; i < arr.length; i++) {
+            rangeXMin = arr[i].xRange[0];
+            rangeXMax = arr[i].xRange[0] + arr[i].xRange[1];
+            rangeYMin = arr[i].yRange[0];
+            rangeYMax = arr[i].yRange[0] + arr[i].yRange[1];
+            if (this.validate(client.x, client.y, rangeXMin, rangeXMax, rangeYMin, rangeYMax)) {
+              tapIndex = i;
+              break;
+            }
           }
-        }
-        console.log('tapIndex=', tapIndex)
-        switch (tapIndex) {
-          case 0: // 点击左箭头
-            if (this.index !== 0) {
-              this.setIndex(this.index - 1)
-            }
-            break;
-          case 1: // 点击右箭头
-            if (this.index !== 3) {
-              this.setIndex(this.index + 1)
-            }
-            break;
-          case 2: // 点击下箭头
-            this.showSwiperNext = true;
-            this.$refs.next.addText()
-            break;
+          console.log(tapIndex);
+          switch (tapIndex) {
+            case 0: // 点击左箭头
+              if (this.index !== 0) {
+                this.setIndex(this.index - 1);
+              }
+              break;
+            case 1: // 点击右箭头
+              if (this.index !== 3) {
+                this.setIndex(this.index + 1);
+              }
+              break;
+            case 2: // 点击下箭头
+              this.showSwiperNext = true;
+              this.$refs.next.addText();
+              break;
+          }
         }
       },
       swiper(e) {
@@ -206,12 +305,11 @@
                 x: e.changedTouches[0].clientX,
                 y: e.changedTouches[0].clientY
               };
-              let rangeXMin = this.downArrowRange.xRange[0],
-                rangeXMax = this.downArrowRange.xRange[0] + this.downArrowRange.xRange[1],
-                rangeYMin = this.downArrowRange.yRange[0],
-                rangeYMax = this.downArrowRange.yRange[0] + this.downArrowRange.yRange[1];
+              let rangeXMin = this.swiperDownRange.xRange[0],
+                rangeXMax = this.swiperDownRange.xRange[0] + this.swiperDownRange.xRange[1],
+                rangeYMin = this.swiperDownRange.yRange[0],
+                rangeYMax = this.swiperDownRange.yRange[0] + this.swiperDownRange.yRange[1];
               if (this.validate(client.x, client.y, rangeXMin, rangeXMax, rangeYMin, rangeYMax)) {
-                // this.$router.push({path: '/swiper-next'})
                 this.showSwiperNext = true;
                 this.$refs.next.addText()
               }
@@ -248,6 +346,7 @@
         }, 500)
       },
       longTap(e) {
+        console.log('longTap');
         let client = {
           x: e.changedTouches[0].clientX,
           y: e.changedTouches[0].clientY
@@ -269,7 +368,7 @@
               }
               this.longCtx.drawImage(this['longVideoArr' + this.index][this.longVideoCount], 0, 0, this.pageSize.width, this.pageSize.height);
             } else {
-              this.longVideoCount --;
+              this.longVideoCount--;
               clearInterval(this.intervalTimer);
             }
           }, 1000 / this.frameNum);
@@ -280,7 +379,7 @@
         if (this.isCanvasShow) {
           clearInterval(this.intervalTimer);
           this.intervalTimer = setInterval(() => {
-            console.log(this.longVideoCount,this.upendSpeed);
+            console.log(this.longVideoCount, this.upendSpeed);
             if (this.longVideoCount < this.upendSpeed) {
               this.longCtx.drawImage(this['longVideoArr' + this.index][this.longVideoCount], 0, 0, this.pageSize.width, this.pageSize.height);
               this.longVideoCount = 0;
@@ -318,7 +417,8 @@
       let swiperDOM = document.getElementsByClassName('swiper-img')[0];
       this.pageSize.width = swiperDOM.getBoundingClientRect().width;
       this.pageSize.height = swiperDOM.getBoundingClientRect().height;
-      this.offsetY = (this.pageSize.height - this.pageSize.width * 1.9034)/2;
+      this.offsetY = (this.pageSize.height - this.pageSize.width * 1.9034) / 2;
+      console.log(this.offsetY);
       this.longCtx = this.longCanvasDOM.getContext('2d');
       for (let i = 0; i < 4; i++) {
         this.shortCtx[i] = this.shortCanvasDOM[i].getContext('2d');
@@ -329,26 +429,29 @@
       document.oncontextmenu = function (e) {
         e.preventDefault();
       };
-      document.addEventListener('touchmove', function (e) {
-        e.preventDefault();
-      }, false);
+//      document.addEventListener('touchmove', function (e) {
+//        e.preventDefault();
+//      }, false);
     }
   }
 </script>
 <style lang="scss">
-  .swiper-img{
-    width:100vw;
-    height:100vh;
-    position: relative;
+  .swiper-img {
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
     overflow: hidden;
-    .swiper-fixed{
+    top: 0;
+    left: 0;
+    bottom: 0;
+    .swiper-fixed {
       width: 100vw;
       height: 190.338vw;
       position: absolute;
-      left:0;
-      top:50%;
+      left: 0;
+      top: 50%;
       transform: translateY(-50%);
-      z-index:10;
+      z-index: 10;
       .swiper-container {
         width: 400vw;
         height: 190.338vw;
@@ -407,7 +510,7 @@
       .right {
         width: 12.32vw;
         height: 16.75vw;
-        left:86.07vw;
+        left: 86.07vw;
         top: 70.1vw;
       }
       .click {
@@ -422,7 +525,29 @@
         left: 0;
         width: 100vw;
         height: 190.338vw;
-        z-index:999;
+        z-index: 500;
+      }
+      .longVideoWordPic {
+        position: absolute;
+        z-index:900;
+      }
+      .pic1 {
+        width: 25.28vw;
+        height: 6.76vw;
+        left: 5.64vw;
+      }
+      .pic2 {
+        width: 19.4vw;
+        height: 10.71vw;
+        left: 70.96vw;
+      }
+      .pic3 {
+        left: 5.64vw;
+      }
+      .pic5 {
+        width: 17.71vw;
+        height: 17.71vw;
+        left: 41.14vw;
       }
     }
   }

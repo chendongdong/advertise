@@ -6,21 +6,25 @@
       <div class="swiper-wrapper">
         <div class="swiper-slide" v-for="(item,index) in swiperData" :key="index">
           <img :src="getPath(item.url)">
-          <!--currentIndex={{currentIndex}}-->
-          <transition name="fade">
-           <div class="text-container">
-              <div class="swiper-title">{{item.title}}</div>
-              <div class="swiper-desc" v-html="item.desc"></div>
-            </div>
-          </transition>
+          <!--<transition name="fade">-->
+           <!--<div class="text-container" v-show="currentIndex==index">-->
+              <!--<div class="swiper-title">{{item.title}}</div>-->
+              <!--&lt;!&ndash;<div class="swiper-desc" v-html="item.desc"></div>&ndash;&gt;-->
+            <!--</div>-->
+          <!--</transition>-->
         </div>
       </div>
     </div>
+    <transition-group name="fade">
+      <div class="text-container"  v-for="(item,index) in swiperData" :key="index" v-show="currentIndex==index">
+        <div class="swiper-title">{{item.title}}</div>
+        <div class="swiper-desc" v-html="item.desc"></div>
+      </div>
+    </transition-group>
     <img class="btn-save" src="../assets/icon_science_save.png" alt="长按保存">
     <img class="btn-next" src="../assets/click_btn.png" alt="下一页" @click="jump2Next">
     <img class="save-img" :src="getPath(swiperData[currentIndex].saveImg)">
-    <div @touchstart="touchStart" @touchend="touchEnd" class="slideUp" @click="showEnding=true">
-    </div>
+    <div @touchstart="touchStart" @touchend="touchEnd" class="slideUp" @click="showEnding=true"></div>
   </div>
   </div>
 </template>
@@ -81,12 +85,10 @@
     },
     methods: {
       touchStart(e) {
-        console.log('touchStart---')
         this.startx = e.touches[0].pageX;
         this.starty = e.touches[0].pageY;
       },
       touchEnd(e) {
-        console.log('touchEnd---')
         this.endx = e.changedTouches[0].pageX;
         this.endy = e.changedTouches[0].pageY;
         var direction = TouchUtils.getDirection(this.startx, this.starty, this.endx, this.endy)
@@ -125,13 +127,13 @@
         let width = document.body.clientWidth
         let ele = document.getElementById('content')
         let eleHeight = ele.getBoundingClientRect().height
-        ele.style.height = height +'px'
-        ele.style.backgroundImage = "url(" + require('../assets/icon_science_bcg.png') +")";
-        ele.style.backgroundRepeat = "no-repeat";
-        ele.style.backgroundPosition = "center";
-        ele.style.backgroundSize = width + 'px ' + height + 'px';
-        console.log('eleHeight=' + eleHeight)
-        console.log('height=' + height)
+        if (height < eleHeight) {
+          ele.style.height = height +'px'
+          ele.style.backgroundImage = "url(" + require('../assets/icon_science_bcg.png') +")";
+          ele.style.backgroundRepeat = "no-repeat";
+          ele.style.backgroundPosition = "center";
+          ele.style.backgroundSize = width + 'px ' + height + 'px';
+        }
 
         let _myThis = this;
         this.mySwiper = new Swiper('.swiper-container', {
@@ -139,8 +141,6 @@
           loop: true,
           slidesPerView: "auto",
           centeredSlides: true,
-//          observer:true,//修改swiper自己或子元素时，自动初始化swiper
-//          observeParents:true,
           spaceBetween: 0, // 两张图片的间距
           on: {
             slideChange: function () {
@@ -148,7 +148,6 @@
                 _myThis.currentIndex = this.realIndex;
               }
               console.log('currentIndex=', _myThis.currentIndex)
-//              _myThis.$forceUpdate();
             },
           },
         })
@@ -158,14 +157,24 @@
 </script>
 <style lang="scss">
   .popular-science {
+    background: url("../assets/icon_science_bcg.png") no-repeat center;
+    background-size: 100%;
     width: 100vw;
     height: 100vh;
-    position: relative;
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    overflow: hidden;
 
     .text-container {
       width: 63vw;
-      /*height: 30%;*/
-      margin: -15% auto 0;
+      position: fixed;
+      /*background: red;*/
+      left: 50%;
+      transform: translateX(-50%);
+      top: calc((83% - 30px)*0.78);
+      /*bottom: calc(20% + 30px);*/
       .swiper-title {
         font-family: SourceHanSansCN-Medium;
         font-size: 16px;
@@ -280,9 +289,9 @@
       position: fixed;
       bottom: 0;
       width: 100vw;
-      height: 17%;
+      height: 10%;
       z-index: 4;
-      padding: 4% 30% 0;
+      padding: 0 30%;
       box-sizing: border-box;
     }
     .fade-enter-active{

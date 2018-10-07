@@ -1,9 +1,10 @@
 <template>
 	<div class="end">
-		<video class="top" src="" autoplay loop></video>
+		<video class="top" src="../assets/ending.mp4" controls></video>
 		<div class="bottom">
 			<span v-for="item in wordList">{{item}}}</span>
 			<div class="browse" @click.stop.prevent="browse">访问网页</div>
+      <img src="../assets/icon_ending.png" alt="" class="ending">
 			<div class="iconList">
 				<img v-for="item in iconList" :src="item" alt="">
 			</div>
@@ -27,7 +28,7 @@
 		data() {
 			return {
 				iconList: [
-					require('../assets/tencent.png'),
+//					require('../assets/tencent.png'),
 					require('../assets/liying.png'),
 					require('../assets/CDC.png')
 				],
@@ -45,9 +46,11 @@
 			}
 		},
 		mounted() {
-      document.addEventListener('touchmove', function(e) {
-        e.preventDefault();
-      }, false);
+      this.$nextTick(function () {
+        document.addEventListener('touchmove', function(e) {
+          e.preventDefault();
+        }, false);
+      })
 		}
 	}
 </script>
@@ -58,10 +61,11 @@
     position: fixed;
     left: 0;
     top: 0;
+    bottom: 0;
 		.top {
 			display: block;
 			width: 100vw;
-			height: 29.6vh;
+			/*height: 29.6vh;*/
 			object-fit: fill;
 		}
 		.bottom {
@@ -110,9 +114,17 @@
 				letter-spacing: 0;
 				text-align: center;
 			}
+      .ending{
+        width: 180px;
+        height: 36px;
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        bottom: calc(13% + 2.3vh);
+      }
 			.iconList {
 				position: absolute;
-				bottom: 6.3vh;
+				bottom: 10%;
 				left: 50%;
         transform: translateX(-50%);
 				width: 67.2vw;
@@ -121,17 +133,13 @@
 				align-items: center;
 				justify-content: center;
 				img:nth-child(1) {
-					width: 110px;
-					height: 14px;
+          width: 50px;
+          height: 15px;
+          margin-right: 10px;
 				}
 				img:nth-child(2) {
-					width: 60px;
-					height: 18px;
-          margin: 0 10px;
-				}
-				img:nth-child(3) {
-          width: 18.4vw;
-          height: 2vh;
+          width: 15vw;
+          height: 1.7vh;
 				}
 			}
 		}

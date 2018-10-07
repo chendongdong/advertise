@@ -65,9 +65,10 @@
     background: #000;
     width: 100vw;
     height: 100vh;
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
+    bottom: 0;
     .btn-more{
       font-family: SourceHanSansCN-Medium;
       font-size: 40px;
