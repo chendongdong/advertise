@@ -130,8 +130,8 @@
           margin: 0 10px;
 				}
 				img:nth-child(3) {
-					width: 72px;
-					height: 15px;
+          width: 18.4vw;
+          height: 2vh;
 				}
 			}
 		}

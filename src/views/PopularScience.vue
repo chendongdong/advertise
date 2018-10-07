@@ -19,7 +19,8 @@
     <img class="btn-save" src="../assets/icon_science_save.png" alt="长按保存">
     <img class="btn-next" src="../assets/click_btn.png" alt="下一页" @click="jump2Next">
     <img class="save-img" :src="getPath(swiperData[currentIndex].saveImg)">
-    <div @touchstart="touchStart" @touchend="touchEnd" class="slideUp"></div>
+    <div @touchstart="touchStart" @touchend="touchEnd" class="slideUp" @click="showEnding=true">
+    </div>
   </div>
   </div>
 </template>
@@ -281,6 +282,8 @@
       width: 100vw;
       height: 17%;
       z-index: 4;
+      padding: 4% 30% 0;
+      box-sizing: border-box;
     }
     .fade-enter-active{
       transition: opacity 1.5s;
