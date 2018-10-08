@@ -2,8 +2,8 @@
 	<div class="end">
 		<video class="top" src="../assets/ending.mp4" controls poster="../assets/icon_poster.jpg"></video>
 		<div class="bottom">
-			<span v-for="item in wordList">{{item}}}</span>
-			<div class="browse" @click.stop.prevent="browse">访问网页</div>
+			<span v-for="item in wordList">{{item}}</span>
+			<div class="browse" @click.stop.prevent="browse">乳腺癌风险评估</div>
       <img src="../assets/icon_ending.png" alt="" class="ending">
 			<div class="iconList">
 				<img v-for="item in iconList" :src="item" alt="">
@@ -50,6 +50,7 @@
     left: 0;
     top: 0;
     bottom: 0;
+    background: #fff;
 		.top {
 			display: block;
 			width: 100vw;
@@ -68,7 +69,7 @@
 				font-size: 2vh;
 				line-height: 2vh;
 				color: #9B9B9B;
-				letter-spacing: 4px;
+        letter-spacing: 0.5vw;
 				text-align: center;
 			}
 			span:nth-child(1) {
@@ -88,31 +89,32 @@
 			}
 			.browse {
 				position: absolute;
-				top: 38.5vh;
+				top: 34vh;
 				left: 50%;
 				transform: translateX(-50%);
-				width: 100px;
-				height: 34px;
+				min-width: 28vw;
+        padding: 0 2vw;
+				height: 8vh;
         background: url("../assets/icon_jump.png") no-repeat center;
         background-size: 100%;
-				line-height: 34px;
+				line-height: 8vh;
 				font-family: SourceHanSansCN-Medium;
-				font-size: 12px;
+				font-size: 1.8vh;
 				color: #4A4A4A;
 				letter-spacing: 0;
 				text-align: center;
 			}
       .ending{
-        width: 180px;
-        height: 36px;
+        width: 50.9vw;
+        height: 5vh;
         position: absolute;
         left: 50%;
         transform: translateX(-50%);
-        bottom: calc(20% + 2.3vh);
+        bottom: 15.5vh;
       }
 			.iconList {
 				position: absolute;
-				bottom: 17%;
+				bottom: 12vh;
 				left: 50%;
         transform: translateX(-50%);
 				width: 67.2vw;
@@ -121,13 +123,13 @@
 				align-items: center;
 				justify-content: center;
 				img:nth-child(1) {
-          width: 50px;
-          height: 15px;
+          width: 15.5vw;
+          height: 2vh;
           margin-right: 10px;
 				}
 				img:nth-child(2) {
-          width: 15vw;
-          height: 1.7vh;
+          width: 13.2vw;
+          height: 1.4vh;
 				}
 			}
 		}

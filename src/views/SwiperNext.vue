@@ -3,9 +3,9 @@
     <popular-science :style="{opacity: showNextPage?1:0}"></popular-science>
     <div class="swiper-next" v-show="!showNextPage">
       <div class="text">
-        <transition-group name="fade">
+        <transition-group name="fade" class="group-text">
           <div class="line" v-show="showIndex > -1" :key="0"></div>
-          <p v-for="(item, index) in text" :key="index+1" v-show="showIndex > index" :style="{'margin-top': index==0?'25px':'0'}">{{item}}</p >
+          <p v-for="(item, index) in text" :key="index+1" v-show="showIndex > index" :style="{'margin-top': index==0?'3vh':'0'}">{{item}}</p >
           <div  :key="text.length+1" v-show="showIndex > text.length" class="btn-more" @click="jump2Next">了解乳腺癌</div>
         </transition-group>
       </div>
@@ -63,33 +63,34 @@
     bottom: 0;
     .btn-more{
       font-family: SourceHanSansCN-Medium;
-      font-size: 40px;
       color: #000000;
       letter-spacing: 0;
       background: url("../assets/icon_more.png") no-repeat center;
       background-size: 100%;
-      font-size: 12px;
+      /*background: #FFFFFF;*/
+      /*box-shadow: 0 0 20px 0 rgba(255,255,255,0.50);*/
+      /*border-radius: 50%;*/
+      font-size: 2vh;
       text-align: center;
-      margin-top: 20px;
-      width: 100px;
-      height: 34px;
-      line-height: 35px;
+      margin-top: 1vh;
+      width: 36.6vw;
+      height: 6.5vh;
+      line-height: 6.5vh;
       display: inline-block;
     }
     .text{
-      letter-spacing: 4px;
-      line-height: 2.5;
-      height: calc(20em + 97px);
+      line-height: 2;
+      height: calc(16em + 14.5vh);
     }
     .line{
       margin: 0 auto;
-      width: 60px;
-      height: 1px;
+      width: 13vw;
+      height: 0.1vh;
       background: url("../assets/icon_topLine.png") no-repeat center;
       background-size: 100%;
     }
     .fade-enter-active, .fade-leave-active {
-      transition: opacity .7s;
+      transition: opacity 1s;
     }
   }
 </style>

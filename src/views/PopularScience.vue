@@ -5,7 +5,8 @@
     <div class="swiper-container">
       <div class="swiper-wrapper">
         <div class="swiper-slide" v-for="(item,index) in swiperData" :key="index">
-          <div :style="{'background-image': `url(${getPath(item.url)})`}" class="swiper-img"></div>
+          <img :src="getPath(item.url)" @touchstart="toucheImg">
+          <div class="swiper-fixed"></div>
           <!--<transition name="fade">-->
            <!--<div class="text-container" v-show="currentIndex==index">-->
               <!--<div class="swiper-title">{{item.title}}</div>-->
@@ -78,6 +79,15 @@
       }
     },
     methods: {
+      toucheImg(e) {
+        console.log('取消了---')
+        if (e&&e.preventDefault){
+          e.preventDefault()
+        } else {
+          window.event.returnValue = false
+        }
+        return false
+      },
       touchStart(e) {
         this.startx = e.touches[0].pageX;
         this.starty = e.touches[0].pageY;
@@ -165,49 +175,33 @@
     overflow: hidden;
 
     .text-container {
-      width: 63vw;
+      width: 62vw;
       position: fixed;
-      /*background: red;*/
       left: 50%;
       transform: translateX(-50%);
-      top: calc((83% - 30px)*0.8);
-      /*bottom: calc(20% + 30px);*/
+      top: 64vh;
       .swiper-title {
         font-family: SourceHanSansCN-Medium;
-        font-size: 16px;
+        font-size: 2.4vh;
         color: #000;
-        letter-spacing: 1px;
+        letter-spacing: 0.2vw;
       }
       .swiper-desc {
-        margin-top: 2px;
+        margin-top: 0.3vh;
         font-family: SourceHanSansCN-Normal;
-        font-size: 10px;
+        font-size: 1.6vh;
         color: #565656;
-        letter-spacing: 2px;
+        letter-spacing: 0.5vw;
         position: relative;
-      }
-      .desc-circle {
-        background: #565656;
-        border: 1px solid #FFFFFF;
-        width: 12px;
-        height: 12px;
-        display: inline-block;
-        margin-top: 1.5px;
-        border-radius: 50%;
-      }
-      .desc-circle-text {
-        position: absolute;
-        left: 18px;
-        top: 0;
       }
     }
 
     .swiper-container {
       position: fixed;
       width: 100vw;
-      height: calc(83% - 30px);
+      height: 75.4vh;
       box-sizing: border-box;
-      padding-top: 5%;
+      padding-top: 10.02vh;
       overflow: visible !important;
       z-index: 3;
       touch-action: none;
@@ -215,36 +209,46 @@
       .swiper-wrapper {
         .swiper-slide {
           width: 75vw;
-          height: 85%;
+          height: 59.2vh;
 
           .text-container {
             display: block;
           }
-          .swiper-img {
+          img {
             width: 100%;
             height: 100%;
-            background: url("../assets/icon_science_1.png") no-repeat center;
-            background-size: 100%;
+            pointer-event:none;
+            -webkit-user-select:none;
+            -moz-user-select:none;
+            user-select:none;
+          }
+          .swiper-fixed{
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 10;
           }
         }
         .swiper-slide-prev {
-          margin-top: 12.5%;
-          height: 75% !important;
+          margin-top: 2.1vh;
+          height: 55vh !important;
           .text-container {
             display: none;
           }
-          .swiper-img {
-            height: 75% !important;
+          img {
+            height: 100% !important;
           }
         }
         .swiper-slide-next {
-          margin-top: 12.5%;
-          height: 75% !important;
+          margin-top: 2.1vh;
+          height: 55vh !important;
           .text-container {
             display: none;
           }
-          .swiper-img {
-            height: 75% !important;
+          img {
+            height: 100% !important;
           }
         }
         .swiper-slide-active {
@@ -268,29 +272,29 @@
     }
     .btn-save {
       position: fixed;
-      width: 80px;
-      height: 30px;
+      width: 22.9vw;
+      height: 4.7vh;
       left: 50%;
       transform: translateX(-50%);
-      bottom: 17%;
+      bottom: 19.9vh;
       z-index: 1;
     }
     .btn-next {
       position: fixed;
-      width: 23px;
-      height: 12px;
+      width: 6vw;
+      height: 1.6vh;
       left: 50%;
       transform: translateX(-50%);
-      bottom: 5%;
+      bottom: 5vh;
       z-index: 3;
     }
     .slideUp{
       position: fixed;
       bottom: 0;
       width: 100vw;
-      height: 10%;
+      height: 19.9vh;
       z-index: 4;
-      padding: 0 30%;
+      padding: 3vh 30vw 0;
       box-sizing: border-box;
     }
     .fade-enter-active{

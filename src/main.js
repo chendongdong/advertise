@@ -32,8 +32,8 @@ FastClick.attach(document.body)
 
 Vue.config.productionTip = false
 
-// import eruda from 'eruda'
-// eruda.init()
+import eruda from 'eruda'
+eruda.init()
 
 /* eslint-disable no-new */
 new Vue({
