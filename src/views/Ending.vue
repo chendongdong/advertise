@@ -106,14 +106,14 @@
 			}
       .ending{
         width: 50.9vw;
-        height: 5vh;
-        position: absolute;
+        /*height: 5vh;*/
+        position: fixed;
         left: 50%;
         transform: translateX(-50%);
         bottom: 15.5vh;
       }
 			.iconList {
-				position: absolute;
+				position: fixed;
 				bottom: 12vh;
 				left: 50%;
         transform: translateX(-50%);
@@ -124,12 +124,12 @@
 				justify-content: center;
 				img:nth-child(1) {
           width: 15.5vw;
-          height: 2vh;
+          /*height: 2vh;*/
           margin-right: 10px;
 				}
 				img:nth-child(2) {
           width: 13.2vw;
-          height: 1.4vh;
+          /*height: 1.4vh;*/
 				}
 			}
 		}

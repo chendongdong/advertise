@@ -80,7 +80,7 @@
     }
     .text{
       line-height: 2;
-      height: calc(16em + 14.5vh);
+      height: calc(16em + 10.5vh);
     }
     .line{
       margin: 0 auto;

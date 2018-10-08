@@ -273,7 +273,7 @@
     .btn-save {
       position: fixed;
       width: 22.9vw;
-      height: 4.7vh;
+      /*height: 4.7vh;*/
       left: 50%;
       transform: translateX(-50%);
       bottom: 19.9vh;
@@ -282,7 +282,7 @@
     .btn-next {
       position: fixed;
       width: 6vw;
-      height: 1.6vh;
+      /*height: 1.6vh;*/
       left: 50%;
       transform: translateX(-50%);
       bottom: 5vh;

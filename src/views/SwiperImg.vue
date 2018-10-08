@@ -238,6 +238,11 @@
         }
       }
     },
+    watch: {
+      index(val) {
+        this.$emit('play-audio', val+1)
+      }
+    },
     methods: {
       validate(clientX, clientY, rangeXMin, rangeXMax, rangeYMin, rangeYMax) {
         let xRatio = clientX / this.pageSize.width * 100,
@@ -275,11 +280,15 @@
               }
               break;
             case 2: // 点击下箭头
-              this.showSwiperNext = true;
-              this.$refs.next.addText();
+              this.showNextPage()
               break;
           }
         }
+      },
+      showNextPage() {
+        this.$emit('pause-audio')
+        this.showSwiperNext = true;
+        this.$refs.next.addText();
       },
       swiper(e) {
         switch (e.direction) {
@@ -304,8 +313,7 @@
                 rangeYMin = this.swiperDownRange.yRange[0],
                 rangeYMax = this.swiperDownRange.yRange[0] + this.swiperDownRange.yRange[1];
               if (this.validate(client.x, client.y, rangeXMin, rangeXMax, rangeYMin, rangeYMax)) {
-                this.showSwiperNext = true;
-                this.$refs.next.addText()
+                this.showNextPage()
               }
             }
         }
@@ -340,6 +348,7 @@
         }, 500)
       },
       longTap(e) {
+        this.$emit('pause-audio')
         console.log('longTap');
         let client = {
           x: e.changedTouches[0].clientX,
@@ -380,6 +389,7 @@
               this.isCanvasShow = false;
               clearInterval(this.intervalTimer);
               this.shortVideoPlay(this.index);
+              this.$emit('play-audio', this.index+1)
             } else {
               this.longCtx.drawImage(this['longVideoArr' + this.index][this.longVideoCount], 0, 0, this.pageSize.width, this.pageSize.height);
               this.longVideoCount -= this.upendSpeed
