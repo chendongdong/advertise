@@ -44,17 +44,19 @@
         // 切换视频，先关掉之前的
         this.$refs.myAudio.pause()
         this.isPlayAudio = true
-        this.audioIdx = idx
-        this.$refs.myAudio.src = this.getAudioPath()
-        this.$refs.myAudio.loop = 'loop'
+        setTimeout(()=>{
+          this.audioIdx = idx
+          this.$refs.myAudio.src = this.getAudioPath()
+          this.$refs.myAudio.loop = 'loop'
+        }, 500)
       },
       pauseAudio() {
         this.isPlayAudio = false
         this.$refs.myAudio.pause()
       },
       jump2Next() {
+        this.loadSwiper = true
         setTimeout(() => {
-          this.loadSwiper = true
           console.log('开始加载组件----')
           this.$nextTick(function () {
             console.log('加载完毕----')
@@ -72,6 +74,7 @@
         }, 4000)
       },
       addText(timer=0) {
+        this.loadSwiper = true
         setTimeout(() => {
           if (!this.showOne) {
             this.showOne = true

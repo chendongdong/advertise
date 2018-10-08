@@ -110,11 +110,11 @@
         position: fixed;
         left: 50%;
         transform: translateX(-50%);
-        bottom: 15.5vh;
+        bottom: 10.5vh;
       }
 			.iconList {
 				position: fixed;
-				bottom: 12vh;
+				bottom: 6vh;
 				left: 50%;
         transform: translateX(-50%);
 				width: 67.2vw;

@@ -79,8 +79,8 @@
       display: inline-block;
     }
     .text{
-      line-height: 2;
-      height: calc(16em + 10.5vh);
+      line-height: 1.5;
+      height: calc(12em + 10.5vh);
     }
     .line{
       margin: 0 auto;
