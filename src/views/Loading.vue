@@ -1,5 +1,9 @@
 <template>
   <div>
+    <audio controls ref="bcgAudio" hidden loop>
+      <source src="../assets/audio/bcg-music.mp3" type="audio/mpeg">
+      您的浏览器不支持
+    </audio>
     <audio controls ref="myAudio" hidden>
       <source :src="getAudioPath()" type="audio/mpeg">
       您的浏览器不支持
@@ -33,24 +37,34 @@
         showText: true,
         audioIdx: 0,
         isPlayAudio: false,
-        audioList: ['turn_on_light', '01_循环_冰面', '02_循环_宇宙', '03_循环_海浪', '04_循环_岩石']
+        audioList: ['turn_on_light', '01_循环_冰面', '02_循环_宇宙', '03_循环_海浪', '04_循环_岩石', 'long_tap']
       }
     },
     methods: {
       getAudioPath() {
         return require('../assets/audio/' + this.audioList[this.audioIdx] + '.mp3')
       },
+      // 播放短视频的音效
       playAudio(idx) {
-        // 切换视频，先关掉之前的
         this.isPlayAudio = true
         this.audioIdx = idx
+        if (idx == 0 || idx == -1) {
+          this.$refs.myAudio.loop = false
+        } else {
+          this.$refs.myAudio.loop = true
+        }
+        if (idx == -1) {
+          this.audioIdx = this.audioList.length - 1
+        }
+        console.log('idx=', idx)
         this.$refs.myAudio.src = this.getAudioPath()
-        this.$refs.myAudio.loop = 'loop'
-        this.$refs.myAudio.load()
-        this.$refs.myAudio.pause()
-        this.$refs.myAudio.currentTime = 0
+        if (this.isIOS()) {
+          this.$refs.myAudio.load()
+          this.$refs.myAudio.pause()
+          this.$refs.myAudio.currentTime = 0
+        }
         this.$refs.myAudio.play()
-        console.log('设备音频属性了--开始播放 idx=', idx);
+//        console.log('设备音频属性了--开始播放 idx=', idx);
       },
       pauseAudio() {
         this.isPlayAudio = false
@@ -61,7 +75,7 @@
         setTimeout(() => {
 //          console.log('开始加载组件----')
 //          this.$nextTick(function () {
-            console.log('加载完毕----')
+//            console.log('加载完毕----')
             this.showText = false
             setTimeout(()=>{
               this.showSwiper = true
@@ -87,6 +101,13 @@
           }
         }, timer)
       },
+      //判断是否是安卓还是ios
+      isIOS(){
+        let u = navigator.userAgent, app = navigator.appVersion;
+        let isAndroid = u.indexOf('Android') > -1 || u.indexOf('Linux') > -1; //android终端或者uc浏览器
+        let isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+        return isiOS
+      }
     },
     mounted() {
       this.$nextTick(function () {
@@ -95,13 +116,22 @@
         }, false);
         let _this = this
         this.$refs.myAudio.addEventListener('canplay', function () {
-          console.log('音频准备就绪')
+//          console.log('音频准备就绪')
           if (_this.isPlayAudio) {
-            console.log('播放了---');
-            this.pause()
-            this.currentTime = 0
+            if (_this.isIOS()) {
+              this.pause()
+              this.currentTime = 0
+            }
             this.play()
           }
+        }, false)
+        this.$refs.bcgAudio.addEventListener('canplay', function () {
+//          console.log('bcgAudio 音频准备就绪')
+          if (_this.isIOS()) {
+            this.pause()
+            this.currentTime = 0
+          }
+          this.play()
         }, false)
         this.$refs.myAudio.addEventListener('error', function (e) {
           console.log('音频出错了--e=')
@@ -112,29 +142,47 @@
         document.addEventListener("WeixinJSBridgeReady", function () {
           console.log('WeixinJSBridgeReady---')
           if (_this.isPlayAudio) {
-            console.log('微信可以播放了---')
-//            _this.$refs.myAudio.load()
-            _this.$refs.myAudio.pause()
-            _this.$refs.myAudio.currentTime = 0
+            if (_this.isIOS()) {
+              _this.$refs.myAudio.pause()
+              _this.$refs.myAudio.currentTime = 0
+            }
             _this.$refs.myAudio.play()
           } else {
-            console.log('微信不能播放---')
-//            _this.$refs.myAudio.load()
-            _this.$refs.myAudio.play()
-            _this.$refs.myAudio.pause()
+            if (_this.isIOS()) {
+              _this.$refs.myAudio.play()
+              _this.$refs.myAudio.pause()
+            }
+          }
+          // 背景音乐，直接播放
+          if (_this.isIOS()) {
+            _this.$refs.bcgAudio.pause()
+            _this.$refs.bcgAudio.currentTime = 0
+            _this.$refs.bcgAudio.play()
+          } else {
+            _this.$refs.bcgAudio.play()
           }
         }, false);
         document.addEventListener('YixinJSBridgeReady', function() {
-          console.log('YixinJSBridgeReady---')
+//          console.log('YixinJSBridgeReady---')
           if (_this.isPlayAudio) {
-//            _this.$refs.myAudio.load()
-            _this.$refs.myAudio.pause()
-            _this.$refs.myAudio.currentTime = 0
+            if (_this.isIOS()) {
+              _this.$refs.myAudio.pause()
+              _this.$refs.myAudio.currentTime = 0
+            }
             _this.$refs.myAudio.play()
           } else {
-//            _this.$refs.myAudio.load()
-            _this.$refs.myAudio.play()
-            _this.$refs.myAudio.pause()
+            if (_this.isIOS()) {
+              _this.$refs.myAudio.play()
+              _this.$refs.myAudio.pause()
+            }
+          }
+          // 背景音乐，直接播放
+          if (_this.isIOS()) {
+            _this.$refs.bcgAudio.pause()
+            _this.$refs.bcgAudio.currentTime = 0
+            _this.$refs.bcgAudio.play()
+          } else {
+            _this.$refs.bcgAudio.play()
           }
         }, false);
       })

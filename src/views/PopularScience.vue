@@ -124,7 +124,7 @@
       getPath(name) {
         return require('../assets/' + name)
       }
-    },
+  },
     mounted() {
       this.$nextTick(function () {
         let height = document.body.clientHeight

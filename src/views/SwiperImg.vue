@@ -349,8 +349,9 @@
 				}, 500)
 			},
 			longTap(e) {
+			  // 暂停短视频的音效
 				this.$emit('pause-audio')
-//				console.log('longTap');
+				console.log('longTap');
 				let client = {
 					x: e.changedTouches[0].clientX,
 					y: e.changedTouches[0].clientY
@@ -366,6 +367,9 @@
 					clearInterval(this.intervalTimer);
 					this.intervalTimer = setInterval(() => {
 						this.longVideoCount++;
+						if (this.longVideoCount == 88) {
+              this.$emit('play-audio', -1)
+            }
 						if (this.longVideoCount <= 93) {
 							if (this.longVideoCount >= this.frameNum) {
 								this.isSatisfied = true;
@@ -397,6 +401,7 @@
 							clearInterval(this.intervalTimer);
 							// this.intervalTimer = null;
 							this.shortVideoPlay(this.index);
+              this.$emit('pause-audio')
 							this.$emit('play-audio', this.index + 1)
 						}
 					}, 1000 / this.frameNum / this.upendSpeed);
