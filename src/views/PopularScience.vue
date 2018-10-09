@@ -179,7 +179,7 @@
       position: fixed;
       left: 50%;
       transform: translateX(-50%);
-      top: 64vh;
+      top: 59vh;
       .swiper-title {
         font-family: SourceHanSansCN-Medium;
         font-size: 2.4vh;
@@ -199,9 +199,9 @@
     .swiper-container {
       position: fixed;
       width: 100vw;
-      height: 75.4vh;
+      height: 70.4vh;
       box-sizing: border-box;
-      padding-top: 10.02vh;
+      padding-top: 5.02vh;
       overflow: visible !important;
       z-index: 3;
       touch-action: none;
@@ -226,8 +226,9 @@
             position: absolute;
             top: 0;
             left: 0;
-            width: 100%;
-            height: 100%;
+            right: 0;
+            width: 100vw;
+            height: 65.4vh;
             z-index: 10;
           }
         }
@@ -276,7 +277,7 @@
       /*height: 4.7vh;*/
       left: 50%;
       transform: translateX(-50%);
-      bottom: 19.9vh;
+      top: 72vh;
       z-index: 1;
     }
     .btn-next {
@@ -292,9 +293,9 @@
       position: fixed;
       bottom: 0;
       width: 100vw;
-      height: 19.9vh;
+      height: 9vh;
       z-index: 4;
-      padding: 3vh 30vw 0;
+      padding: 0 40vw;
       box-sizing: border-box;
     }
     .fade-enter-active{
