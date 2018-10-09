@@ -148,8 +148,8 @@
           spaceBetween: 0, // 两张图片的间距
           on: {
             slideChange: function () {
-              if (!isNaN(this.realIndex)) {
-                _myThis.currentIndex = this.realIndex;
+              if (parseFloat(this.realIndex).toString() != "NaN") {
+                _myThis.currentIndex = this.realIndex%_myThis.swiperData.length;
               }
               console.log('currentIndex=', _myThis.currentIndex)
             },

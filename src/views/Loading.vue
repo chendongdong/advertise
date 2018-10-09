@@ -1,10 +1,10 @@
 <template>
   <div>
-    <audio controls ref="myAudio" hidden>
+    <audio controls ref="myAudio" style="position: fixed;top: 10vh;z-index: 100" hidden>
       <source :src="getAudioPath()" type="audio/mpeg">
       您的浏览器不支持
     </audio>
-    <swiper-img :style="{opacity: showSwiper?1:0}" v-if="loadSwiper" @play-audio="playAudio" @pause-audio="pauseAudio"></swiper-img>
+    <swiper-img :style="{opacity: showSwiper?1:0}" @play-audio="playAudio" @pause-audio="pauseAudio"></swiper-img>
     <transition name="light">
       <div class="loading" v-show="!showSwiper">
         <div class="text" v-show="showText">
@@ -42,23 +42,22 @@
       },
       playAudio(idx) {
         // 切换视频，先关掉之前的
-        this.$refs.myAudio.pause()
         this.isPlayAudio = true
-        setTimeout(()=>{
-          this.audioIdx = idx
-          this.$refs.myAudio.src = this.getAudioPath()
-          this.$refs.myAudio.loop = 'loop'
-        }, 500)
+        this.audioIdx = idx
+        this.$refs.myAudio.src = this.getAudioPath()
+        this.$refs.myAudio.loop = 'loop'
+        this.$refs.myAudio.play()
+        console.log('设备音频属性了--开始播放 idx=', idx);
       },
       pauseAudio() {
         this.isPlayAudio = false
         this.$refs.myAudio.pause()
       },
       jump2Next() {
-        this.loadSwiper = true
+//        this.loadSwiper = true
         setTimeout(() => {
-          console.log('开始加载组件----')
-          this.$nextTick(function () {
+//          console.log('开始加载组件----')
+//          this.$nextTick(function () {
             console.log('加载完毕----')
             this.showText = false
             setTimeout(()=>{
@@ -69,7 +68,7 @@
                 this.playAudio(1)
               }, 3000)
             }, 1000)
-          })
+//          })
 //          this.$router.push({path: '/swiper-img'})
         }, 4000)
       },
@@ -93,12 +92,32 @@
           e.preventDefault();
         }, false);
         let _this = this
+
         this.$refs.myAudio.addEventListener('canplay', function () {
           console.log('音频准备就绪')
           if (_this.isPlayAudio) {
+            console.log('播放了---');
             this.play()
           }
         }, false)
+        this.$refs.myAudio.addEventListener('error', function (e) {
+          console.log('音频出错了--e=', e)
+        }, false)
+        this.$refs.myAudio.addEventListener('onload', function (e) {
+          console.log('音频 onload --e=', e)
+        }, false)
+        document.addEventListener("WeixinJSBridgeReady", function () {
+          console.log('WeixinJSBridgeReady---')
+          if (_this.isPlayAudio) {
+            this.$refs.myAudio.play()
+          }
+        }, false);
+        document.addEventListener('YixinJSBridgeReady', function() {
+          console.log('YixinJSBridgeReady---')
+          if (_this.isPlayAudio) {
+            this.$refs.myAudio.play()
+          }
+        }, false);
       })
     },
     created() {
@@ -133,7 +152,7 @@
       background: url("../assets/Loading.gif") no-repeat center;
       background-size: 100%;
       width: 14vw;
-      height: 3vh;
+      height: 3.2vh;
     }
     .text{
       top: 40%;

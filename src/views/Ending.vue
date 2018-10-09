@@ -1,6 +1,6 @@
 <template>
 	<div class="end">
-		<video class="top" src="../assets/ending.mp4" controls poster="../assets/icon_poster.jpg"></video>
+		<video class="top" src="https://v.qq.com/x/page/m0737ouias8.html" controls poster="../assets/icon_poster.jpg"></video>
 		<div class="bottom">
 			<span v-for="item in wordList">{{item}}</span>
 			<div class="browse" @click.stop.prevent="browse">乳腺癌风险评估</div>
