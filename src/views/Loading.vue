@@ -1,6 +1,6 @@
 <template>
   <div>
-    <audio controls ref="myAudio" style="position: fixed;top: 10vh;z-index: 100" hidden>
+    <audio controls ref="myAudio" hidden>
       <source :src="getAudioPath()" type="audio/mpeg">
       您的浏览器不支持
     </audio>
@@ -46,6 +46,9 @@
         this.audioIdx = idx
         this.$refs.myAudio.src = this.getAudioPath()
         this.$refs.myAudio.loop = 'loop'
+        this.$refs.myAudio.load()
+        this.$refs.myAudio.pause()
+        this.$refs.myAudio.currentTime = 0
         this.$refs.myAudio.play()
         console.log('设备音频属性了--开始播放 idx=', idx);
       },
@@ -87,35 +90,51 @@
     },
     mounted() {
       this.$nextTick(function () {
-//        this.addText()
         document.addEventListener('touchmove', function(e) {
           e.preventDefault();
         }, false);
         let _this = this
-
         this.$refs.myAudio.addEventListener('canplay', function () {
           console.log('音频准备就绪')
           if (_this.isPlayAudio) {
             console.log('播放了---');
+            this.pause()
+            this.currentTime = 0
             this.play()
           }
         }, false)
         this.$refs.myAudio.addEventListener('error', function (e) {
-          console.log('音频出错了--e=', e)
+          console.log('音频出错了--e=')
         }, false)
         this.$refs.myAudio.addEventListener('onload', function (e) {
-          console.log('音频 onload --e=', e)
+          console.log('音频 onload --e=')
         }, false)
         document.addEventListener("WeixinJSBridgeReady", function () {
           console.log('WeixinJSBridgeReady---')
           if (_this.isPlayAudio) {
-            this.$refs.myAudio.play()
+            console.log('微信可以播放了---')
+//            _this.$refs.myAudio.load()
+            _this.$refs.myAudio.pause()
+            _this.$refs.myAudio.currentTime = 0
+            _this.$refs.myAudio.play()
+          } else {
+            console.log('微信不能播放---')
+//            _this.$refs.myAudio.load()
+            _this.$refs.myAudio.play()
+            _this.$refs.myAudio.pause()
           }
         }, false);
         document.addEventListener('YixinJSBridgeReady', function() {
           console.log('YixinJSBridgeReady---')
           if (_this.isPlayAudio) {
-            this.$refs.myAudio.play()
+//            _this.$refs.myAudio.load()
+            _this.$refs.myAudio.pause()
+            _this.$refs.myAudio.currentTime = 0
+            _this.$refs.myAudio.play()
+          } else {
+//            _this.$refs.myAudio.load()
+            _this.$refs.myAudio.play()
+            _this.$refs.myAudio.pause()
           }
         }, false);
       })

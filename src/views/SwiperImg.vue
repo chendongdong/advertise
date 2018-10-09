@@ -59,7 +59,7 @@
 </template>
 <script>
 	import SwiperNext from './SwiperNext.vue'
-	
+
 	export default {
 		components: {
 			SwiperNext
@@ -268,7 +268,7 @@
 							break;
 						}
 					}
-					console.log(tapIndex);
+//					console.log(tapIndex);
 					switch (tapIndex) {
 						case 0: // 点击左箭头
 							if (this.index !== 0) {
@@ -350,7 +350,7 @@
 			},
 			longTap(e) {
 				this.$emit('pause-audio')
-				console.log('longTap');
+//				console.log('longTap');
 				let client = {
 					x: e.changedTouches[0].clientX,
 					y: e.changedTouches[0].clientY
@@ -387,7 +387,7 @@
 						this.longVideoCount = 10;
 					}
 					this.intervalTimer = setInterval(() => {
-						console.log(this.isCanvasShow);
+//						console.log(this.isCanvasShow);
 						if (this.longVideoCount >= 0) {
 							this.longCtx.drawImage(this['longVideoArr' + this.index][this.longVideoCount], 0, 0, this.pageSize.width, this.pageSize.height);
 							this.longVideoCount--;
@@ -409,14 +409,14 @@
 				for (let j = 0; j <= this.shortVideoNumList[i]; j++) {
 					this['shortVideoArr' + i][j] = new Image();
 					this['shortVideoArr' + i][j].src = require(`../assets/shortVideo/0${i + 1}/0${i + 1}_微动${j.toString().padStart(2, '0')}.jpg`)
-					
+
 				}
-				console.log(this['shortVideoArr' + i]);
+//				console.log(this['shortVideoArr' + i]);
 				for (let j = 0; j <= 93; j++) {
 					this['longVideoArr' + i][j] = new Image();
 					this['longVideoArr' + i][j].src = require(`../assets/longVideo/0${i + 1}/0${i + 1}_${this.picWordList[i] + j.toString().padStart(3, '0')}.jpg`);
 				}
-				console.log(this['longVideoArr' + i]);
+//				console.log(this['longVideoArr' + i]);
 			}
 		},
 		mounted() {
