@@ -1,32 +1,37 @@
 <template>
   <div>
     <audio controls ref="bcgAudio" hidden loop>
-      <source src="../assets/audio/bcg-music.mp3" type="audio/mpeg">
+      <source src="../assets/audio/BGM_1.mp3" type="audio/mpeg">
       您的浏览器不支持
     </audio>
     <audio controls ref="myAudio" hidden>
       <source :src="getAudioPath()" type="audio/mpeg">
       您的浏览器不支持
     </audio>
-    <swiper-img :style="{opacity: showSwiper?1:0}" @play-audio="playAudio" @pause-audio="pauseAudio"></swiper-img>
+    <!-- :style="{opacity: showSwiper?1:0}" -->
+    <swiper-img :style="{opacity: showSwiper?1:0}" @play-audio="playAudio" @pause-audio="pauseAudio" @close-bgm1="closeBgm1"></swiper-img>
     <transition name="light">
       <div class="loading" v-show="!showSwiper">
         <div class="text" v-show="showText">
           <transition-group name="fade">
-            <p :key="1" v-show="showOne">你将看到一组特殊的影视作品</p >
+            <p :key="1" v-show="showOne">你将看到一组特殊的影像作品</p >
             <p :key="2" v-show="showTwo">它们来自一群「特别」的作者</p >
           </transition-group>
         </div>
         <div class="gif-img" v-show="showText"></div>
       </div>
     </transition>
+    <div class="play-contanier" @click="turnPlay" v-show="showSwiper">
+      <div  class="play-gif"></div>
+    </div>
   </div>
 </template>
 <script>
-  import SwiperImg from './SwiperImg.vue'
+  // import SwiperImg from './SwiperImg.vue'
   export default {
     components: {
-      SwiperImg
+      // SwiperImg: () => import('./SwiperImg.vue')
+      SwiperImg: r => require.ensure([], () => r(require('@/views/SwiperImg')), 'SwiperImg')
     },
     data() {
       return {
@@ -37,10 +42,20 @@
         showText: true,
         audioIdx: 0,
         isPlayAudio: false,
-        audioList: ['turn_on_light', '01_循环_冰面', '02_循环_宇宙', '03_循环_海浪', '04_循环_岩石', 'long_tap']
+        isPlayBcg: false,
+        audioList: ['Loading_end', '01_循环_冰面', '02_循环_宇宙', '03_循环_海浪', '04_循环_岩石', 'X_ray']
       }
     },
     methods: {
+      turnPlay() {
+        if (this.isPlayBcg) {
+          // 关闭
+          this.closeBgm1()
+        } else {
+          // 打开
+          this.playBcg()
+        }
+      },
       getAudioPath() {
         return require('../assets/audio/' + this.audioList[this.audioIdx] + '.mp3')
       },
@@ -64,7 +79,23 @@
           this.$refs.myAudio.currentTime = 0
         }
         this.$refs.myAudio.play()
-//        console.log('设备音频属性了--开始播放 idx=', idx);
+        console.log('path idx=', this.audioList[this.audioIdx]);
+      },
+      playBcg() {
+        this.isPlayBcg = true
+        if (this.isIOS()) {
+          console.log('背景音效 ios')
+          this.$refs.bcgAudio.load()
+          this.$refs.bcgAudio.pause()
+          this.$refs.bcgAudio.currentTime = 0
+        } else {
+          console.log('浏览器播放')
+        }
+        this.$refs.bcgAudio.play()
+      },
+      closeBgm1() {
+        this.isPlayBcg = false
+        this.$refs.bcgAudio.pause()
       },
       pauseAudio() {
         this.isPlayAudio = false
@@ -76,18 +107,22 @@
 //          console.log('开始加载组件----')
 //          this.$nextTick(function () {
 //            console.log('加载完毕----')
+          // 隐藏文字
             this.showText = false
+            // 播放背景音效，开灯音效
+            this.playBcg()
+            this.playAudio(0)
             setTimeout(()=>{
+                // 显示主页
               this.showSwiper = true
-              // 播放音效
-              this.$refs.myAudio.play()
               setTimeout(()=>{
-                this.playAudio(1)
+                // 去掉默认播放第一个短视频音效
+//                this.playAudio(1)
               }, 3000)
             }, 1000)
 //          })
 //          this.$router.push({path: '/swiper-img'})
-        }, 4000)
+        }, 3000)
       },
       addText(timer=0) {
         this.loadSwiper = true
@@ -116,28 +151,24 @@
         }, false);
         let _this = this
         this.$refs.myAudio.addEventListener('canplay', function () {
-//          console.log('音频准备就绪')
-          if (_this.isPlayAudio) {
-            if (_this.isIOS()) {
-              this.pause()
-              this.currentTime = 0
-            }
-            this.play()
-          }
+          console.log('myAudio 音频准备就绪')
+//          if (_this.isPlayAudio) {
+//            if (_this.isIOS()) {
+//              this.pause()
+//              this.currentTime = 0
+//            }
+//            this.play()
+//          }
         }, false)
         this.$refs.bcgAudio.addEventListener('canplay', function () {
-//          console.log('bcgAudio 音频准备就绪')
-          if (_this.isIOS()) {
-            this.pause()
-            this.currentTime = 0
-          }
-          this.play()
-        }, false)
-        this.$refs.myAudio.addEventListener('error', function (e) {
-          console.log('音频出错了--e=')
-        }, false)
-        this.$refs.myAudio.addEventListener('onload', function (e) {
-          console.log('音频 onload --e=')
+          console.log('bcgAudio 音频准备就绪')
+//          if (_this.isPlayBcg) {
+//            if (_this.isIOS()) {
+//              this.pause()
+//              this.currentTime = 0
+//            }
+//            this.play()
+//          }
         }, false)
         document.addEventListener("WeixinJSBridgeReady", function () {
           console.log('WeixinJSBridgeReady---')
@@ -195,7 +226,7 @@
 <style lang="scss">
   @import "style/common";
   .light-leave-active {
-    transition: opacity 3s;
+    transition: opacity .5s;
   }
   .light-enter{
     opacity: 1;
@@ -204,7 +235,7 @@
     opacity: 0;
   }
   .loading {
-    background: url("../assets/ic_loading_bg.png") no-repeat center;
+    background: url("../assets/ic_loading_bg.jpg") no-repeat center;
     background-size: cover;
     width: 100vw;
     height: 100vh;
@@ -224,5 +255,26 @@
     .text{
       top: 40%;
     }
+
 	}
+  .play-contanier{
+    background: rgba(0,0,0, 0.5);
+    position: fixed;
+    bottom: 10vh;
+    top: 5vh;
+    right: 10vw;
+    width: 15vw;
+    height: 15vw;
+    border-radius: 50%;
+  }
+  .play-gif{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background: url("../assets/music_play.gif") no-repeat center;
+    background-size: 100%;
+    width: 15vw;
+    height: 4vh;
+  }
 </style>

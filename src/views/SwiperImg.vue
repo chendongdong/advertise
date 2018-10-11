@@ -1,6 +1,6 @@
 <template>
 	<div class="swiper-img">
-		<swiper-next :style="{opacity: showSwiperNext?1:0}" ref="next"></swiper-next>
+		<swiper-next :style="{opacity: showSwiperNext?1:0}" ref="next" @close-bgm1="closeBgm1"></swiper-next>
 		<div class="swiper-fixed" v-show="!showSwiperNext">
 			<div class="swiper-container" :style="swiperStyle">
 				<div class="swiper-card" v-for="(item,index) in swiperCardList"
@@ -14,11 +14,12 @@
 					<img :src="item.longPressSrc" alt="长按查看">
 				</div>
 			</div>
-			<img v-if="index !== 0" :class="['left','btn',{'isTransparent':isSwipering}]" src="../assets/left_btn.png"
+			<img v-show="(index !== 0 && !isSwipering)" :class="['left','btn']" src="../assets/left_btn.png"
 			     alt="右滑">
-			<img v-if="index !== 3" :class="['right','btn',{'isTransparent':isSwipering}]" src="../assets/right_btn.png"
+			<img v-show="(index !== 3 && !isSwipering)" :class="['right','btn']" src="../assets/right_btn.png"
 			     alt="左滑">
-			<img :class="['click','btn',{'isTransparent':isSwipering || !isSatisfied}]"
+			<img v-show="!isSwipering && isSatisfied"
+				 class="click btn"
 			     :style="{bottom:offsetY<0 ?(100/2364*pageSize.height-offsetY+'px'):(200/2364*pageSize.height+'px')}"
 			     src="../assets/click_btn.png" alt="查看详细">
 			<canvas class="longCanvas" :style="{opacity:isCanvasShow?1:0}"
@@ -29,40 +30,44 @@
 			        v-finger:long-tap="longTap"
 			        v-finger:touch-end="touchend"></canvas>
 			<img class="longVideoWordPic pic1" :src="swiperCardList[this.index].longVideoWordPicList[0]"
-			     v-show="longVideoCount >= 170/3"
+			     v-show="longVideoCount >= 88"
 			     :style="{top:offsetY<0 ? 7.25-offsetY/pageSize.width*100+'vw': 7.25+'vw'}" alt="">
 			<img class="longVideoWordPic pic2" :src="swiperCardList[this.index].longVideoWordPicList[1]"
-			     v-show="longVideoCount >= 170/3"
+			     v-show="longVideoCount >= 88"
 			     :style="{top:offsetY<0 ? 7.25-offsetY/pageSize.width*100+'vw': 7.25+'vw'}" alt="">
 			<img class="longVideoWordPic pic3" :src="swiperCardList[this.index].longVideoWordPicList[2]"
-			     v-show="longVideoCount > 200/3"
+			     v-show="longVideoCount >= 109"
 			     :style="{
-			     opacity:longVideoCount > 230/3 ? 1:(longVideoCount-200/3)/30/3,
+			     opacity:longVideoCount >= 127 ? 1:(longVideoCount-109)/18,
 				 top:offsetY<0?28.5-offsetY/pageSize.width*100+'vw':28.5+'vw',
 				 width:swiperCardList[index].thirdPicSize.width+'vw',
 				 height:swiperCardList[index].thirdPicSize.height+'vw'
 				 }" alt="">
 			<img class="longVideoWordPic pic4" :src="swiperCardList[this.index].longVideoWordPicList[3]"
-			     v-show="longVideoCount > 240/3"
+			     v-show="longVideoCount >= 129"
 			     :style="{
-			     opacity:longVideoCount > 260/3 ? 1:(longVideoCount-240/3)/20/3,
+			     opacity:longVideoCount >= 139 ? 1:(longVideoCount-129)/10,
 			     top:offsetY<0?swiperCardList[index].fourthPicSize.top-offsetY/pageSize.width*100+'vw':swiperCardList[index].fourthPicSize.top+'vw',
 			     left:swiperCardList[index].fourthPicSize.left+'vw',
 			     width:swiperCardList[index].fourthPicSize.width+'vw',
 			     height:swiperCardList[index].fourthPicSize.height+'vw',
 			     }" alt="">
 			<img class="longVideoWordPic pic5" :src="swiperCardList[this.index].longVideoWordPicList[4]"
-			     v-show="longVideoCount >= 170/3"
-			     :style="{bottom:offsetY<0?12.88-offsetY/pageSize.width*100+'vw':12.88+'vw'}" alt="">
+			     v-show="longVideoCount >= 69"
+			     :style="{
+			     opacity:longVideoCount >= 81 ? 1:(longVideoCount-69)/12,
+			     bottom:offsetY<0?12.88-offsetY/pageSize.width*100+'vw':12.88+'vw'
+			     }" alt="">
 		</div>
 	</div>
 </template>
 <script>
-	import SwiperNext from './SwiperNext.vue'
+	// import SwiperNext from './SwiperNext.vue'
 
 	export default {
 		components: {
-			SwiperNext
+			// SwiperNext: () => import('./SwiperNext.vue')
+			SwiperNext: r => require.ensure([], () => r(require('@/views/SwiperNext')), 'SwiperNext')
 		},
 		data() {
 			return {
@@ -105,8 +110,8 @@
 						videoTop: 15.3,
 						borderTop: 17.63,
 						borderHeight: 145.17,
-						bgUrl: require('../assets/bg13.png'),
-						postSrc: require('../assets/frame1.png'),
+						bgUrl: require('../assets/bg13.jpg'),
+						postSrc: require('../assets/frame1.jpg'),
 						borderImgSrc: require('../assets/frame_border1.png'),
 						longPressSrc: require('../assets/longPressBtn1.png'),
 						longVideoWordPicList: [
@@ -132,8 +137,8 @@
 						videoTop: 18.52,
 						borderTop: 20.61,
 						borderHeight: 142.27,
-						bgUrl: require('../assets/bg24.png'),
-						postSrc: require('../assets/frame2.png'),
+						bgUrl: require('../assets/bg24.jpg'),
+						postSrc: require('../assets/frame2.jpg'),
 						borderImgSrc: require('../assets/frame_border2.png'),
 						longPressSrc: require('../assets/longPressBtn2.png'),
 						longVideoWordPicList: [
@@ -159,8 +164,8 @@
 						videoTop: 16.91,
 						borderTop: 35.43,
 						borderHeight: 127.456,
-						bgUrl: require('../assets/bg13.png'),
-						postSrc: require('../assets/frame3.png'),
+						bgUrl: require('../assets/bg13.jpg'),
+						postSrc: require('../assets/frame3.jpg'),
 						borderImgSrc: require('../assets/frame_border3.png'),
 						longPressSrc: require('../assets/longPressBtn3.png'),
 						longVideoWordPicList: [
@@ -186,8 +191,8 @@
 						videoTop: 26.73,
 						borderTop: 6.68,
 						borderHeight: 156.12,
-						bgUrl: require('../assets/bg24.png'),
-						postSrc: require('../assets/frame4.png'),
+						bgUrl: require('../assets/bg24.jpg'),
+						postSrc: require('../assets/frame4.jpg'),
 						borderImgSrc: require('../assets/frame_border4.png'),
 						longPressSrc: require('../assets/longPressBtn4.png'),
 						longVideoWordPicList: [
@@ -222,29 +227,35 @@
 					yRange: [71.1, 16.75]
 				},
 				downArrowRange: {
-					xRange: [46.86, 6.28],
-					yRange: [171.18, 3.06]
+					xRange: [46.86, 16.28],
+					yRange: [171.18, 13.06]
 				},
 				swiperDownRange: {
 					xRange: [0, 100],
 					yRange: [129, 39, 60.95]
 				},
+				loadImgFlag: [true, false, false, false],
+				swiperStyle: '',
 			}
 		},
-		computed: {
-			swiperStyle() {
-				return {
-					// left: `-${this.index}00%`
-					'-webkit-transform': `translate3d(-${this.index * 25}%,0,0)`
-				}
-			}
-		},
+		// computed: {
+		// 	swiperStyle() {
+		// 		return {
+		// 			// left: `-${this.index}00%`
+		// 			'-webkit-transform': `translate3d(-${this.index * 25}%,0,0)`
+		// 		}
+		// 	}
+		// },
 		watch: {
 			index(val) {
-				this.$emit('play-audio', val + 1)
+			  // 去掉短视频音效
+//				this.$emit('play-audio', val + 1)
 			}
 		},
 		methods: {
+      closeBgm1() {
+        this.$emit('close-bgm1')
+      },
 			validate(clientX, clientY, rangeXMin, rangeXMax, rangeYMin, rangeYMax) {
 				let xRatio = clientX / this.pageSize.width * 100,
 					yRatio = (clientY - this.offsetY) / this.pageSize.width * 100;
@@ -268,7 +279,7 @@
 							break;
 						}
 					}
-//					console.log(tapIndex);
+					console.log(tapIndex);
 					switch (tapIndex) {
 						case 0: // 点击左箭头
 							if (this.index !== 0) {
@@ -305,24 +316,25 @@
 						break;
 					case 'Up':
 						if (this.isSatisfied && !this.isCanvasShow) {
-							let client = {
-								x: e.changedTouches[0].clientX,
-								y: e.changedTouches[0].clientY
-							};
-							let rangeXMin = this.swiperDownRange.xRange[0],
-								rangeXMax = this.swiperDownRange.xRange[0] + this.swiperDownRange.xRange[1],
-								rangeYMin = this.swiperDownRange.yRange[0],
-								rangeYMax = this.swiperDownRange.yRange[0] + this.swiperDownRange.yRange[1];
-							if (this.validate(client.x, client.y, rangeXMin, rangeXMax, rangeYMin, rangeYMax)) {
-								this.showNextPage()
-							}
+							// let client = {
+							// 	x: e.changedTouches[0].clientX,
+							// 	y: e.changedTouches[0].clientY
+							// };
+							// let rangeXMin = this.swiperDownRange.xRange[0],
+							// 	rangeXMax = this.swiperDownRange.xRange[0] + this.swiperDownRange.xRange[1],
+							// 	rangeYMin = this.swiperDownRange.yRange[0],
+							// 	rangeYMax = this.swiperDownRange.yRange[0] + this.swiperDownRange.yRange[1];
+							// if (this.validate(client.x, client.y, rangeXMin, rangeXMax, rangeYMin, rangeYMax)) {
+							// 	this.showNextPage()
+							// }
+							this.showNextPage()
 						}
 				}
 			},
 			shortVideoPlay(index) {
-				if (this.intervalTimer) {
-					clearInterval(this.intervalTimer);
-				}
+				// if (this.intervalTimer) {
+				// 	clearInterval(this.intervalTimer);
+				// }
 				let i = 0;
 				this.intervalTimer = setInterval(() => {
 					this.shortCtx[index].drawImage(this['shortVideoArr' + index][i], 0, 0, this.pageSize.width * .58, this.swiperCardList[index].height * .01 * this.pageSize.height);
@@ -336,6 +348,14 @@
 				this.shortCtx[index].drawImage(this['shortVideoArr' + index][0], 0, 0, this.pageSize.width * .58, this.swiperCardList[index].height * .01 * this.pageSize.height);
 			},
 			setIndex(num) {
+				if (this.intervalTimer) {
+					clearInterval(this.intervalTimer);
+				}
+				if (!this.loadImgFlag[num]) {
+					this.loadImg(num);
+					this.loadImgFlag[num] = true;
+				}
+
 				this.initCanvas(num);
 				this.index = num;
 				this.isSwipering = true;
@@ -345,12 +365,18 @@
 				this.timeoutTimer = setTimeout(() => {
 					this.isSwipering = false;
 					clearTimeout(this.timeoutTimer);
-					this.shortVideoPlay(this.index);
+					// this.shortVideoPlay(this.index);
 				}, 500)
+				this.shortVideoPlay(this.index);
+				this.$nextTick(() => {
+					this.swiperStyle = {
+						'-webkit-transform': `translate3d(-${this.index * 25}%,0,0)`
+					}
+					// this.isSwipering = false;
+				})
 			},
 			longTap(e) {
-			  // 暂停短视频的音效
-				this.$emit('pause-audio')
+//				this.$emit('pause-audio')
 				console.log('longTap');
 				let client = {
 					x: e.changedTouches[0].clientX,
@@ -367,14 +393,19 @@
 					clearInterval(this.intervalTimer);
 					this.intervalTimer = setInterval(() => {
 						this.longVideoCount++;
-						if (this.longVideoCount == 88) {
+						// 长按音效
+            if (this.longVideoCount == 79) {
               this.$emit('play-audio', -1)
             }
-						if (this.longVideoCount <= 93) {
+						if (this.longVideoCount <= 138) {
 							if (this.longVideoCount >= this.frameNum) {
 								this.isSatisfied = true;
 							}
-							this.longCtx.drawImage(this['longVideoArr' + this.index][this.longVideoCount], 0, 0, this.pageSize.width, this.pageSize.height);
+							if(this.longVideoCount >= 94){
+								this.longCtx.drawImage(this['longVideoArr' + this.index][93], 0, 0, this.pageSize.width, this.pageSize.height);
+							}else{
+								this.longCtx.drawImage(this['longVideoArr' + this.index][this.longVideoCount], 0, 0, this.pageSize.width, this.pageSize.height);
+							}
 						} else {
 							this.longVideoCount--;
 							clearInterval(this.intervalTimer);
@@ -391,7 +422,7 @@
 						this.longVideoCount = 10;
 					}
 					this.intervalTimer = setInterval(() => {
-//						console.log(this.isCanvasShow);
+						console.log(this.isCanvasShow);
 						if (this.longVideoCount >= 0) {
 							this.longCtx.drawImage(this['longVideoArr' + this.index][this.longVideoCount], 0, 0, this.pageSize.width, this.pageSize.height);
 							this.longVideoCount--;
@@ -401,50 +432,80 @@
 							clearInterval(this.intervalTimer);
 							// this.intervalTimer = null;
 							this.shortVideoPlay(this.index);
-              this.$emit('pause-audio')
-							this.$emit('play-audio', this.index + 1)
+							// 去掉短视频音效
+//							this.$emit('play-audio', this.index + 1)
 						}
 					}, 1000 / this.frameNum / this.upendSpeed);
 				}
 			},
-		},
-		created() {
-			//提前加载4个短视频和一个长视屏
-			for (let i = 0, len = 4; i < len; i++) {
+			loadImg(i) {
 				for (let j = 0; j <= this.shortVideoNumList[i]; j++) {
 					this['shortVideoArr' + i][j] = new Image();
 					this['shortVideoArr' + i][j].src = require(`../assets/shortVideo/0${i + 1}/0${i + 1}_微动${j.toString().padStart(2, '0')}.jpg`)
 
 				}
-//				console.log(this['shortVideoArr' + i]);
 				for (let j = 0; j <= 93; j++) {
 					this['longVideoArr' + i][j] = new Image();
 					this['longVideoArr' + i][j].src = require(`../assets/longVideo/0${i + 1}/0${i + 1}_${this.picWordList[i] + j.toString().padStart(3, '0')}.jpg`);
 				}
-//				console.log(this['longVideoArr' + i]);
+				console.log(this['longVideoArr' + i])
 			}
 		},
+		created() {
+			//提前加载4个短视频和一个长视屏
+			// for (let i = 0, len = 4; i < len; i++) {
+			// 	for (let j = 0; j <= this.shortVideoNumList[i]; j++) {
+			// 		this['shortVideoArr' + i][j] = new Image();
+			// 		this['shortVideoArr' + i][j].src = require(`../assets/shortVideo/0${i + 1}/0${i + 1}_微动${j.toString().padStart(2, '0')}.jpg`)
+
+			// 	}
+			// 	console.log(this['shortVideoArr' + i]);
+			// 	for (let j = 0; j <= 93; j++) {
+			// 		this['longVideoArr' + i][j] = new Image();
+			// 		this['longVideoArr' + i][j].src = require(`../assets/longVideo/0${i + 1}/0${i + 1}_${this.picWordList[i] + j.toString().padStart(3, '0')}.jpg`);
+			// 	}
+			// 	console.log(this['longVideoArr' + i]);
+			// }
+			// 先加载第一屏	个短视频和一个长视屏
+			// for (let j = 0; j <= this.shortVideoNumList[0]; j++) {
+			// 	this['shortVideoArr0'][j] = new Image();
+			// 	this['shortVideoArr0'][j].src = require(`../assets/shortVideo/01/01_微动${j.toString().padStart(2, '0')}.jpg`)
+
+			// }
+			// // console.log(this['shortVideoArr' + i]);
+			// for (let j = 0; j <= 93; j++) {
+			// 	this['longVideoArr0'][j] = new Image();
+			// 	this['longVideoArr0'][j].src = require(`../assets/longVideo/01/01_${this.picWordList[0] + j.toString().padStart(3, '0')}.jpg`);
+			// }
+			// // console.log(this['longVideoArr' + i]);
+			this.loadImg(0)
+		},
 		mounted() {
-			this.shortCanvasDOM = document.getElementsByClassName('shortCanvas');
-			this.longCanvasDOM = document.getElementsByClassName('longCanvas')[0];
-			let swiperDOM = document.getElementsByClassName('swiper-img')[0];
-			this.pageSize.width = swiperDOM.getBoundingClientRect().width;
-			this.pageSize.height = swiperDOM.getBoundingClientRect().height;
-			this.offsetY = (this.pageSize.height - this.pageSize.width * 1.9034) / 2;
-			this.downArrowRange.yRange[0] = this.offsetY < 0 ? (this.downArrowRange.yRange[0] + this.offsetY / this.pageSize.width * 100) : (this.downArrowRange.yRange[0]);
-			this.longCtx = this.longCanvasDOM.getContext('2d');
-			for (let i = 0; i < 4; i++) {
-				this.shortCtx[i] = this.shortCanvasDOM[i].getContext('2d');
-			}
-			//第一个短视频播放
-			this.shortVideoPlay(this.index);
-			//阻止微信端的长按触发'选择浏览器打开'....
-			document.oncontextmenu = function (e) {
-				e.preventDefault();
-			};
-			document.addEventListener('touchmove', function (e) {
-				e.preventDefault();
-			}, false);
+			this.$nextTick(() => {
+				this.shortCanvasDOM = document.getElementsByClassName('shortCanvas');
+				this.longCanvasDOM = document.getElementsByClassName('longCanvas')[0];
+				let swiperDOM = document.getElementsByClassName('swiper-img')[0];
+				this.pageSize.width = swiperDOM.getBoundingClientRect().width;
+				this.pageSize.height = swiperDOM.getBoundingClientRect().height;
+				this.offsetY = (this.pageSize.height - this.pageSize.width * 1.9034) / 2;
+				this.downArrowRange.yRange[0] =this.offsetY<0
+					?(2226/2364*this.pageSize.height-this.offsetY)/this.pageSize.width*100
+					:(2126/2364*this.pageSize.width*1.9)/this.pageSize.width*100;
+				console.log('this.downArrowRange.yRange[0]',this.downArrowRange.yRange[0]);
+				this.longCtx = this.longCanvasDOM.getContext('2d');
+				for (let i = 0; i < 4; i++) {
+					this.shortCtx[i] = this.shortCanvasDOM[i].getContext('2d');
+				}
+				//第一个短视频播放
+				this.shortVideoPlay(this.index);
+				//阻止微信端的长按触发'选择浏览器打开'....
+				document.oncontextmenu = function (e) {
+					e.preventDefault();
+				};
+				document.addEventListener('touchmove', function (e) {
+					e.preventDefault();
+				}, false);
+			})
 		}
 	}
 </script>
@@ -474,7 +535,7 @@
 				z-index: 11;
 				top: 0;
 				left: 0;
-				transition: transform .3s linear;
+				transition: transform .3s cubic-bezier(0.4, 0, 0.2, 1);
 				.swiper-card {
 					width: 100vw;
 					height: 190.338vw;
@@ -549,13 +610,13 @@
 				width: 25.28vw;
 				height: 6.76vw;
 				left: 5.64vw;
-				opacity: .8;
+				opacity: .6;
 			}
 			.pic2 {
 				width: 19.4vw;
 				height: 10.71vw;
 				left: 70.96vw;
-				opacity: .8;
+				opacity: .6;
 			}
 			.pic3 {
 				left: 5.64vw;

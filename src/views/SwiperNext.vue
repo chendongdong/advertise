@@ -1,11 +1,11 @@
 <template>
   <div>
-    <popular-science :style="{opacity: showNextPage?1:0}"></popular-science>
+    <popular-science v-if="showNextPage"></popular-science>
     <div class="swiper-next" v-show="!showNextPage">
       <div class="text">
-        <transition-group name="fade" class="group-text">
-          <div class="line" v-show="showIndex > -1" :key="0"></div>
-          <p v-for="(item, index) in text" :key="index+1" v-show="showIndex > index" :style="{'margin-top': index==0?'3vh':'0'}">{{item}}</p >
+        <transition-group name="fade-slow" class="group-text">
+          <!-- <div class="line" v-show="showIndex > -1" :key="0"></div> -->
+          <p class="text-lh" v-for="(item, index) in text" :key="index+1" v-show="showIndex > index">{{item}}</p >
           <div  :key="text.length+1" v-show="showIndex > text.length" class="btn-more" @click="jump2Next">了解乳腺癌</div>
         </transition-group>
       </div>
@@ -13,10 +13,11 @@
   </div>
 </template>
 <script>
-  import PopularScience from './PopularScience.vue'
+  // import PopularScience from './PopularScience.vue'
   export default {
     components: {
-      PopularScience
+      // PopularScience: () => import('./PopularScience.vue')
+      PopularScience: r => require.ensure([], () => r(require('@/views/PopularScience')), 'PopularScience')
     },
     data() {
       return {
@@ -24,11 +25,12 @@
         showIndex: -1,
         text: ['看似美好的事物背后都隐藏着风险', '我国是乳腺癌发病率',
           '增长最快的国家之一', '每10000人里面', '就有4人确诊患乳腺癌',
-          '危险逼近', '但你也许还对乳腺癌一无所知', '…']
+          '危险逼近', '但你也许还对乳腺癌一无所知']
       }
     },
     methods: {
       jump2Next() {
+        this.$emit('close-bgm1')
 //        this.$router.push({path: '/popular-science'})
         this.showNextPage = true
       },
@@ -72,7 +74,7 @@
       /*border-radius: 50%;*/
       font-size: 2vh;
       text-align: center;
-      margin-top: 1vh;
+      margin-top: 5vh;
       width: 36.6vw;
       height: 6.5vh;
       line-height: 6.5vh;
@@ -81,6 +83,9 @@
     .text{
       line-height: 1.5;
       height: calc(12em + 10.5vh);
+    }
+    .text-lh{
+      line-height: 2.3;
     }
     .line{
       margin: 0 auto;

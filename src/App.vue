@@ -1,12 +1,20 @@
 <template>
   <div id="app">
-    <router-view></router-view>
+     <!--<router-view></router-view> -->
+    <loading/>
+    <!-- <SwiperImg/> -->
+    <!-- <popular-science/> -->
   </div>
 </template>
 
 <script>
   export default {
     name: 'App',
+    components: {
+      loading: () => import('@/views/Loading.vue'),
+      // SwiperImg: () => import('@/views/SwiperImg.vue')
+      // popularScience: () => import('@/views/PopularScience.vue')
+    },
     methods: {
       overscroll(el) {
         el.addEventListener('touchstart', function () {

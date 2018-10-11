@@ -8,11 +8,11 @@ import '@/styles/fonts/font.scss'
 import * as filters from './filters' // global filters
 
 import App from './App'
-import router from './router'
+// import router from './router'
 
 import VueVideoPlayer from 'vue-video-player'
-import VueAwesomeSwiper from 'vue-awesome-swiper'
-Vue.use(VueAwesomeSwiper)
+// import VueAwesomeSwiper from 'vue-awesome-swiper'
+// Vue.use(VueAwesomeSwiper)
 
 import AlloyFinger from 'alloyfinger/alloy_finger' // 手势库
 import AlloyFingerVue from 'alloyfinger/vue/alloy_finger.vue'
@@ -38,7 +38,7 @@ eruda.init()
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
-  router,
+  // router,
   components: { App },
   template: '<App/>'
 })
