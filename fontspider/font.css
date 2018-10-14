@@ -1,0 +1,16 @@
+@charset 'utf-8';
+@font-face {
+    font-family: 'SourceHanSansCN-Medium';
+    src: url('./SourceHanSansCN-Medium.ttf');
+}
+
+@font-face {
+    font-family: 'SourceHanSansCN-Normal';
+    src: url('./SourceHanSansCN-Normal.ttf');
+}
+#Medium {
+  font-family: 'SourceHanSansCN-Medium';
+}
+#Normal {
+  font-family: 'SourceHanSansCN-Normal';
+}

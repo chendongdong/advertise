@@ -1,6 +1,6 @@
 <template>
   <div>
-    <audio controls ref="bcgAudio" hidden loop>
+    <audio controls ref="bcgAudio" hidden loop id="loading-audio">
       <source src="../assets/audio/BGM_1.mp3" type="audio/mpeg">
       您的浏览器不支持
     </audio>
@@ -21,13 +21,13 @@
         <div class="gif-img" v-show="showText"></div>
       </div>
     </transition>
-    <div class="play-contanier" @click="turnPlay" v-show="showSwiper">
+    <div class="play-contanier" @click="turnPlay" v-show="showSwiper" id="loading-control">
       <div  class="play-gif"></div>
     </div>
   </div>
 </template>
 <script>
-  // import SwiperImg from './SwiperImg.vue'
+    // import SwiperImg from './SwiperImg.vue'
   export default {
     components: {
       // SwiperImg: () => import('./SwiperImg.vue')

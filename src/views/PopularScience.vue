@@ -134,6 +134,9 @@
     },
     mounted() {
       this.$nextTick(function () {
+        console.log('bcgAudio=' +
+          '===', document.getElementById('loading-audio'))
+        console.log('control====', document.getElementById('loading-control'))
         let height = document.body.clientHeight
         let width = document.body.clientWidth
         let ele = document.getElementById('content')
