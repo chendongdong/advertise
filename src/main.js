@@ -5,12 +5,13 @@ import 'normalize.css/normalize.css'
 
 import '@/styles/index.scss' // global css
 import '@/styles/fonts/font.scss'
-import * as filters from './filters' // global filters
+// import * as filters from './filters' // global filters
 
 import App from './App'
 // import router from './router'
 
-import VueVideoPlayer from 'vue-video-player'
+// import VueVideoPlayer from 'vue-video-player'
+
 // import VueAwesomeSwiper from 'vue-awesome-swiper'
 // Vue.use(VueAwesomeSwiper)
 
@@ -20,12 +21,12 @@ Vue.use(AlloyFingerVue, {
   AlloyFinger
 });
 Vue.use(AlloyFingerVue);
-Vue.use(VueVideoPlayer)
+// Vue.use(VueVideoPlayer)
 
 // register global utility filters.
-Object.keys(filters).forEach(key => {
-  Vue.filter(key, filters[key])
-})
+// Object.keys(filters).forEach(key => {
+//   Vue.filter(key, filters[key])
+// })
 
 const FastClick = require('fastclick')
 FastClick.attach(document.body)
@@ -35,10 +36,20 @@ Vue.config.productionTip = false
 import eruda from 'eruda'
 eruda.init()
 
+// 调试工具
+// import Vconsole from 'vconsole';
+// const vConsole = new Vconsole();
+
 /* eslint-disable no-new */
+
+const Bus = new Vue();
+
 new Vue({
   el: '#app',
   // router,
   components: { App },
+  data: {
+    Bus
+  },
   template: '<App/>'
 })

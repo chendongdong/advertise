@@ -118,6 +118,9 @@ const webpackConfig = {
     net: 'empty',
     tls: 'empty',
     child_process: 'empty'
-  }
+  },
+  // externals: {
+  //   'tvp': 'tvp'
+  // }
 }
 module.exports = webpackConfig

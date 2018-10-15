@@ -1,9 +1,10 @@
 <template>
   <div id="app">
-     <!--<router-view></router-view> -->
     <loading/>
     <!-- <SwiperImg/> -->
     <!-- <popular-science/> -->
+    <!-- <ending/> -->
+    <!-- <SwiperNext/> -->
   </div>
 </template>
 
@@ -14,6 +15,8 @@
       loading: () => import('@/views/Loading.vue'),
       // SwiperImg: () => import('@/views/SwiperImg.vue')
       // popularScience: () => import('@/views/PopularScience.vue')
+      // ending: () => import('@/views/Ending.vue')
+      // SwiperNext: () => import('@/views/SwiperNext.vue')
     },
     methods: {
       overscroll(el) {
@@ -86,5 +89,35 @@
     user-select:none;
     margin: 0;
     padding: 0;
+  }
+  .slide-enter-active, .slide-leave-active {
+    transform: translate3d(0, 0, 0);
+    transition: all 0.5s;
+  }
+  .slide-enter, .slide-leave-to {
+    transform: translate3d(0, 100%, 0);
+  }
+  .reslide-enter-active, .reslide-leave-active {
+    transform: translate3d(0, 0, 0);
+    transition: all 0.5s;
+  }
+  .reslide-enter, .reslide-leave-to {
+    transform: translate3d(0, -100%, 0);
+  }
+  .fade-enter-active, .fade-leave-active {
+    transition: opacity 1.5s;
+  }
+
+  .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */
+  {
+    opacity: 0;
+  }
+  .fadefast-enter-active, .fadefast-leave-active {
+    transition: opacity .5s;
+  }
+
+  .fadefast-enter, .fadefast-leave-to /* .fade-leave-active below version 2.1.8 */
+  {
+    opacity: 0;
   }
 </style>

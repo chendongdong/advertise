@@ -57,7 +57,7 @@ const devWebpackConfig = merge(baseWebpackConfig, {
       template: 'index.html',
       inject: true,
       favicon: path.resolve(__dirname, '../favicon.ico'),
-      title: '关爱乳腺',
+      title: '一场特殊的摄影展',
       path: config.dev.assetsPublicPath + config.dev.assetsSubDirectory
     }),
     // copy custom static assets

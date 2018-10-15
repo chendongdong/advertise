@@ -8345,6 +8345,11 @@ vary@~1.1.1, vary@~1.1.2:
   resolved "http://registry.npm.taobao.org/vary/download/vary-1.1.2.tgz#2299f02c6ded30d4a5961b0b9f74524a18f634fc"
   integrity sha1-IpnwLG3tMNSllhsLn3RSShj2NPw=
 
+vconsole@^3.2.0:
+  version "3.2.0"
+  resolved "http://registry.npm.taobao.org/vconsole/download/vconsole-3.2.0.tgz#960e2877d685a9543f5f30ec055a66a96ac15bb5"
+  integrity sha1-lg4od9aFqVQ/XzDsBVpmqWrBW7U=
+
 vendors@^1.0.0:
   version "1.0.2"
   resolved "http://registry.npm.taobao.org/vendors/download/vendors-1.0.2.tgz#7fcb5eef9f5623b156bcea89ec37d63676f21801"
@@ -8442,7 +8447,7 @@ vm-browserify@0.0.4:
   dependencies:
     indexof "0.0.1"
 
-vue-awesome-swiper@^3.1.3:
+vue-awesome-swiper@^3.0.2:
   version "3.1.3"
   resolved "http://registry.npm.taobao.org/vue-awesome-swiper/download/vue-awesome-swiper-3.1.3.tgz#05500b501ffb3fec9bf7eb9985bcf4ae8360ed9e"
   integrity sha1-BVALUB/7P+yb9+uZhbz0roNg7Z4=
