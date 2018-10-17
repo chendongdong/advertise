@@ -59,9 +59,9 @@
     mounted() {
       this.overscroll(document.getElementById('app'));
       document.body.addEventListener('touchmove', function (evt) {
-        if (!evt._isScroller) {
+        // if (!evt._isScroller) {
           evt.preventDefault()
-        }
+        // }
       });
       document.addEventListener('WeixinJSBridgeReady', function onBridgeReady() {
         WeixinJSBridge.call('hideToolbar');
@@ -92,14 +92,14 @@
   }
   .slide-enter-active, .slide-leave-active {
     transform: translate3d(0, 0, 0);
-    transition: all 0.5s;
+    transition: all 0.8s ease;
   }
   .slide-enter, .slide-leave-to {
     transform: translate3d(0, 100%, 0);
   }
   .reslide-enter-active, .reslide-leave-active {
     transform: translate3d(0, 0, 0);
-    transition: all 0.5s;
+    transition: all 0.8s ease;
   }
   .reslide-enter, .reslide-leave-to {
     transform: translate3d(0, -100%, 0);

@@ -20,7 +20,7 @@ import AlloyFingerVue from 'alloyfinger/vue/alloy_finger.vue'
 Vue.use(AlloyFingerVue, {
   AlloyFinger
 });
-Vue.use(AlloyFingerVue);
+// Vue.use(AlloyFingerVue);
 // Vue.use(VueVideoPlayer)
 
 // register global utility filters.
@@ -33,8 +33,8 @@ FastClick.attach(document.body)
 
 Vue.config.productionTip = false
 
-import eruda from 'eruda'
-eruda.init()
+// import eruda from 'eruda'
+// eruda.init()
 
 // 调试工具
 // import Vconsole from 'vconsole';

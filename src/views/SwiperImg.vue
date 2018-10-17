@@ -44,8 +44,8 @@
 					width:swiperCardList[index].longVideoWordPicPositionList[2].width/designWidthRatio+'vw',height:swiperCardList[index].longVideoWordPicPositionList[2].height/designWidthRatio+'vw',
 					backgroundPosition:`-${swiperCardList[index].longVideoWordPicPositionList[2].left/designWidthRatio}vw -${swiperCardList[index].longVideoWordPicPositionList[2].top/designWidthRatio}vw`,
 					opacity:longVideoCount >= 127 ? 1:(longVideoCount-109)/18,}" v-finger:tap='stopLongVideo'></div>
-				<div v-show="longVideoCount >= 12" class="pic4 xray-sprite" :style="{
-					opacity:longVideoCount >= 24 ? 1:(longVideoCount-12)/12,
+				<div v-show="longVideoCount >= 109" class="pic4 xray-sprite" :style="{
+					opacity:longVideoCount >= 127 ? 1:(longVideoCount-109)/18,
 					backgroundPosition:`-${80/designWidthRatio}vw -${2025/designWidthRatio}vw`,
 					bottom:offsetY<0?280/designWidthRatio-offsetY/pageSize.width*100+'vw':12.88+'vw'
 					}" v-finger:tap='stopLongVideo'></div>
@@ -277,9 +277,11 @@
 								this.setIndex(this.index + 1);
 							}
 							break;
-						// case 2: // 点击下箭头
-						// 	this.showNextPage()
-						// 	break;
+						case 2: // 点击下箭头
+							if (this.isSatisfied) {
+								this.showNextPage()
+							}
+							break;
 					}
 				} else {
 					this.stopLongVideo();

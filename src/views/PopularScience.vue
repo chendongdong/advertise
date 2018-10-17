@@ -145,8 +145,11 @@
           },
         })
         document.oncontextmenu = function (e) {
-          e.preventDefault();
-        };
+					e.preventDefault();
+				};
+				document.addEventListener('touchmove', function (e) {
+					e.preventDefault();
+				}, false);
       // })
     },
   }
@@ -222,7 +225,7 @@
       right: 0;
       width: 100vw;
       height: 100vh;
-      z-index: 10;
+      z-index: 1000;
       opacity: 0;
     }
     .btn-save {

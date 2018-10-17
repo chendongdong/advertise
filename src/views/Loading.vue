@@ -173,26 +173,26 @@
 					e.preventDefault();
 				}, false);
 				let _this = this
-				this.$refs.myAudio.addEventListener('canplay', function () {
-          console.log('音频准备就绪')
-					if (_this.isPlayAudio) {
-						if (_this.isIOS()) {
-							this.pause()
-							this.currentTime = 0
-						}
-						this.play()
-					}
-				}, false)
-				 this.$refs.bcgAudio.addEventListener('canplay', function () {
-				   console.log('背景音效准备就绪')
-           if (_this.isPlayBcg){
-             if (_this.isIOS()) {
-               this.pause()
-               this.currentTime = 0
-             }
-             this.play()
-           }
-				 }, false)
+		// 		this.$refs.myAudio.addEventListener('canplay', function () {
+        //   console.log('音频准备就绪')
+		// 			if (_this.isPlayAudio) {
+		// 				if (_this.isIOS()) {
+		// 					this.pause()
+		// 					this.currentTime = 0
+		// 				}
+		// 				this.play()
+		// 			}
+		// 		}, false)
+		// 		 this.$refs.bcgAudio.addEventListener('canplay', function () {
+		// 		   console.log('背景音效准备就绪')
+        //    if (_this.isPlayBcg){
+        //      if (_this.isIOS()) {
+        //        this.pause()
+        //        this.currentTime = 0
+        //      }
+        //      this.play()
+        //    }
+		// 		 }, false)
 				this.$refs.myAudio.addEventListener('error', function (e) {
 					console.log('音频出错了--e=')
 				}, false)
