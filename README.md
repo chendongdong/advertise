@@ -31,4 +31,5 @@ For a detailed explanation on how things work, check out the [guide](http://vuej
 
 How about today? dongdong 
 
-https://github.com/chendongdong/advertise/blob/master/src/assets/music_play.gif
+![image](https://github.com/chendongdong/advertise/blob/master/src/assets/music_play.gif)
+
