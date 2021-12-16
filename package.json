@@ -21,7 +21,7 @@
     "mockjs": "^1.0.1-beta3",
     "normalize.css": "^8.0.0",
     "nprogress": "^0.2.0",
-    "plupload": "^2.3.6",
+    "plupload": "^2.3.9",
     "swiper": "^4.4.1",
     "vconsole": "^3.2.0",
     "vue": "^2.5.2",
